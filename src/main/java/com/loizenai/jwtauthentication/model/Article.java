@@ -2,6 +2,10 @@ package com.loizenai.jwtauthentication.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.springframework.data.annotation.LastModifiedDate;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -10,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "article", schema = "testbd")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Article implements Serializable{
 
     @Id    
@@ -17,6 +22,10 @@ public class Article implements Serializable{
     private String codArt;
 
     //FK_KEYS***********************
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<Gallery> galleries;
+    
     @ManyToMany(mappedBy = "articles", fetch = FetchType.LAZY)
     private List<Achats> achatss;
 
@@ -33,6 +42,15 @@ public class Article implements Serializable{
     @JoinColumn(name = "id_emba", nullable = true)
     private DetEmba detembas_articles;
 
+
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "marque_id", nullable = true)
+    private Marque marque;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "id_model", nullable = true)
+    private Model model;
 /*
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_rectif", nullable = true)
@@ -56,7 +74,6 @@ public class Article implements Serializable{
     private String refRem;
     private String codNgp;
     private long codFrs;
-    private String marque;
     private String numCas;
     private Integer qutStk;
     private Integer qutStk2;
@@ -73,13 +90,18 @@ public class Article implements Serializable{
     private BigDecimal derPAch;
     private Float prixAch;
     private Float prixVen;
-    private Byte remise;
+    private BigDecimal remise;
     private Float prixArem;
-    private Byte tva;
+    private BigDecimal tva;
     private Long cumulVen;
     private Long cumulAch;
     private Timestamp derAch;
+
+    @LastModifiedDate
     private Timestamp derMvt;
+    
+    @Column(name = "file_name")
+    private String fileName;
     private BigDecimal pValu;
     private Long unitInv;
     private Integer qutV1;
@@ -144,7 +166,6 @@ public class Article implements Serializable{
     private Timestamp datPAch;
     private String codBar;
     private String controle;
-    private String modele;
     private String energie;
     private BigDecimal poids;
     private String versions;
@@ -208,10 +229,10 @@ public class Article implements Serializable{
     }
 
     public Article(String codArt,String desArt, String refOrg, String refRem, String codNgp,
-            long codFrs, String marque, String numCas, Integer qutStk, Integer qutStk2, Short unitVen, Integer stkGar,
+            long codFrs, Marque marque, String numCas, Integer qutStk, Integer qutStk2, Short unitVen, Integer stkGar,
             Integer stkIni, Integer qutMax, Integer qutMin, Integer qutDep, BigDecimal prixMin, Float prixDev,
-            BigDecimal cours, Short coef, BigDecimal derPAch, Float prixAch, Float prixVen, Byte remise,
-            Float prixArem, Byte tva, Long cumulVen, Long cumulAch, Timestamp derAch, Timestamp derMvt,
+            BigDecimal cours, Short coef, BigDecimal derPAch, Float prixAch, Float prixVen, BigDecimal remise,
+            Float prixArem, BigDecimal tva, Long cumulVen, Long cumulAch, Timestamp derAch, Timestamp derMvt, String fileName,
             BigDecimal pValu, Long unitInv, Integer qutV1, Integer qutV2, Integer qutV3, BigDecimal vente1,
             BigDecimal vente2, BigDecimal vente3, Integer qutA1, Integer mois1, Integer mois2, Integer mois3,
             Integer mois4, Integer mois5, Integer mois6, Integer mois7, Integer mois8, Integer mois9, Integer mois10,
@@ -222,7 +243,7 @@ public class Article implements Serializable{
             Float prixConf, Integer qutSup, BigDecimal venPer, BigDecimal tarifFrs, String confr,
             Float prixAM, String typeV, Float xprixAch, String t, Integer reliq, BigDecimal derPDev,
             Float prixEuro, Integer cumulRes, Timestamp datRup, Timestamp datPAch, String codBar, String controle,
-            String modele, String energie, BigDecimal poids, String versions, Boolean special1, Boolean special2,
+            Model model, String energie, BigDecimal poids, String versions, Boolean special1, Boolean special2,
             Boolean special3, Boolean special4, Boolean special5, Boolean special6, Boolean special7, Boolean special8,
             Boolean special9, Boolean special10, Boolean special11, Boolean special12, Boolean special13,
             String observatio, Timestamp datCreat, Short nbjRup, Short nbjRup1, Integer m1, Integer m2, Integer m3,
@@ -261,6 +282,7 @@ public class Article implements Serializable{
         this.cumulAch = cumulAch;
         this.derAch = derAch;
         this.derMvt = derMvt;
+        this.fileName = fileName;
         this.pValu = pValu;
         this.unitInv = unitInv;
         this.qutV1 = qutV1;
@@ -321,7 +343,7 @@ public class Article implements Serializable{
         this.datPAch = datPAch;
         this.codBar = codBar;
         this.controle = controle;
-        this.modele = modele;
+        this.model = model;
         this.energie = energie;
         this.poids = poids;
         this.versions = versions;
@@ -435,16 +457,6 @@ public class Article implements Serializable{
 
     public void setCodFrs(long codFrs) {
         this.codFrs = codFrs;
-    }
-
-    @Basic
-    @Column(name = "MARQUE")
-    public String getMarque() {
-        return marque;
-    }
-
-    public void setMarque(String marque) {
-        this.marque = marque;
     }
 
     @Basic
@@ -609,11 +621,11 @@ public class Article implements Serializable{
 
     @Basic
     @Column(name = "REMISE")
-    public Byte getRemise() {
+    public BigDecimal getRemise() {
         return remise;
     }
 
-    public void setRemise(Byte remise) {
+    public void setRemise(BigDecimal remise) {
         this.remise = remise;
     }
 
@@ -629,11 +641,11 @@ public class Article implements Serializable{
 
     @Basic
     @Column(name = "TVA")
-    public Byte getTva() {
+    public BigDecimal getTva() {
         return tva;
     }
 
-    public void setTva(Byte tva) {
+    public void setTva(BigDecimal tva) {
         this.tva = tva;
     }
 
@@ -675,6 +687,14 @@ public class Article implements Serializable{
 
     public void setDerMvt(Timestamp derMvt) {
         this.derMvt = derMvt;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @Basic
@@ -1286,14 +1306,21 @@ public class Article implements Serializable{
         this.controle = controle;
     }
 
-    @Basic
-    @Column(name = "MODELE")
-    public String getModele() {
-        return modele;
+
+    public Marque getMarque() {
+        return marque;
     }
 
-    public void setModele(String modele) {
-        this.modele = modele;
+    public void setMarque(Marque marque) {
+        this.marque = marque;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     @Basic
@@ -1863,6 +1890,14 @@ public class Article implements Serializable{
         this.bonsorts = bonsorts;
     }
 
+    public List<Gallery> getGalleries() {
+        return galleries;
+    }
+
+    public void setGalleries(List<Gallery> galleries) {
+        this.galleries = galleries;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -1920,8 +1955,6 @@ public class Article implements Serializable{
         result = prime * result + ((m7 == null) ? 0 : m7.hashCode());
         result = prime * result + ((m8 == null) ? 0 : m8.hashCode());
         result = prime * result + ((m9 == null) ? 0 : m9.hashCode());
-        result = prime * result + ((marque == null) ? 0 : marque.hashCode());
-        result = prime * result + ((modele == null) ? 0 : modele.hashCode());
         result = prime * result + ((mois1 == null) ? 0 : mois1.hashCode());
         result = prime * result + ((mois10 == null) ? 0 : mois10.hashCode());
         result = prime * result + ((mois11 == null) ? 0 : mois11.hashCode());
@@ -2290,16 +2323,6 @@ public class Article implements Serializable{
             if (other.m9 != null)
                 return false;
         } else if (!m9.equals(other.m9))
-            return false;
-        if (marque == null) {
-            if (other.marque != null)
-                return false;
-        } else if (!marque.equals(other.marque))
-            return false;
-        if (modele == null) {
-            if (other.modele != null)
-                return false;
-        } else if (!modele.equals(other.modele))
             return false;
         if (mois1 == null) {
             if (other.mois1 != null)
@@ -2793,7 +2816,7 @@ public class Article implements Serializable{
                 + ", energie=" + energie + ", etage2=" + etage2 + ", famille=" + famille + ", flag1=" + flag1
                 + ", flag2=" + flag2 + ", galery=" + galery + ", m1=" + m1 + ", m10=" + m10 + ", m11=" + m11 + ", m12="
                 + m12 + ", m2=" + m2 + ", m3=" + m3 + ", m4=" + m4 + ", m5=" + m5 + ", m6=" + m6 + ", m7=" + m7
-                + ", m8=" + m8 + ", m9=" + m9 + ", marque=" + marque + ", modele=" + modele + ", mois1=" + mois1
+                + ", m8=" + m8 + ", m9=" + m9 + ", marque=" + marque + ", model=" + model + ", mois1=" + mois1
                 + ", mois10=" + mois10 + ", mois11=" + mois11 + ", mois12=" + mois12 + ", mois2=" + mois2 + ", mois3="
                 + mois3 + ", mois4=" + mois4 + ", mois5=" + mois5 + ", mois6=" + mois6 + ", mois7=" + mois7 + ", mois8="
                 + mois8 + ", mois9=" + mois9 + ", nbjCom=" + nbjCom + ", nbjRup=" + nbjRup + ", nbjRup1=" + nbjRup1

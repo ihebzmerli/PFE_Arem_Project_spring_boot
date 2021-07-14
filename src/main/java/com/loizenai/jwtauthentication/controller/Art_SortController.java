@@ -111,6 +111,8 @@ public ResponseEntity<List<ArtSort>> getArtSortForBonSort(@PathVariable String n
                 _artSort.setTotHt(artsort.getTotHt());
                 _artSort.setCumulRet(artsort.getCumulRet());
                 _artSort.setCentre(artsort.getCentre());
+                _artSort.setPreparateur(artsort.getPreparateur());
+                _artSort.setChariot(artsort.getChariot());
                 _artSort.setPoitageChariot(artsort.getPoitageChariot());
                 return new ResponseEntity<>(service.updateArtSort(_artSort), HttpStatus.OK);
             } else {
@@ -126,7 +128,7 @@ public ResponseEntity<List<ArtSort>> getArtSortForBonSort(@PathVariable String n
                 ArtSort _artSort = artSortData.get();
                 
                     _artSort.setPreparateur(artsort.getPreparateur());
-                    _artSort.setChariot_artsort(artsort.getChariot_artsort());
+                    _artSort.setChariot(artsort.getChariot());
                     _artSort.setPoitageChariot(artsort.getPoitageChariot());
                     
                     return new ResponseEntity<>(service.updateArtSort(_artSort), HttpStatus.OK);
@@ -134,5 +136,40 @@ public ResponseEntity<List<ArtSort>> getArtSortForBonSort(@PathVariable String n
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
             } 
+
+
+
+
+
+
+
+
+
+            @GetMapping("/artSorts/SumQutSortHt/{num_bon_sort}")
+            public ResponseEntity<Optional<Integer>> getSumQutByBSht(@PathVariable String num_bon_sort) {
+                try {
+                    Optional<Integer> SumQutSort = service.getSumQutByBSht(num_bon_sort);  /** pour get Sum Quantité de Sort*/
+        
+                    if (SumQutSort.isEmpty()) {
+                        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                    }
+                    return new ResponseEntity<>(SumQutSort, HttpStatus.OK);
+                } catch (Exception e) {
+                    return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+                }
+            }
+            @GetMapping("/artSorts/SumQutSortAREM/{num_bon_sort}")
+            public ResponseEntity<Optional<Integer>> getSumQutByBSAREM(@PathVariable String num_bon_sort) {
+                try {
+                    Optional<Integer> SumQutSort = service.getSumQutByBSAREM(num_bon_sort);  /** pour get Sum Quantité de Sort*/
+        
+                    if (SumQutSort.isEmpty()) {
+                        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                    }
+                    return new ResponseEntity<>(SumQutSort, HttpStatus.OK);
+                } catch (Exception e) {
+                    return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+                }
+            }
 }
 

@@ -3,15 +3,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletContext;
+
+import org.springframework.transaction.annotation.Transactional;
 import com.loizenai.jwtauthentication.model.Role;
 import com.loizenai.jwtauthentication.model.User;
 import com.loizenai.jwtauthentication.repository.UserRepository;
 import com.loizenai.jwtauthentication.services.UserService;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.util.Date;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.boot.json.JsonParseException;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -23,8 +49,12 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+	@Autowired
+	PasswordEncoder encoder;
 
-
+    @Autowired
+    ServletContext context;
+    
     @GetMapping("/utilisateurs")
     public ResponseEntity<List<User>> getAllUtilisateurs() {
       List<User> users = new ArrayList<>();
@@ -61,7 +91,49 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
       }
     }
-   
+
+        /*****************post User upload image */
+
+@PostMapping(value = "/utilisateursTest")
+public ResponseEntity<User> postUtilisateurTest(@RequestParam("file") MultipartFile file,@RequestParam("user") String user)
+throws JsonParseException , JsonMappingException , Exception
+{
+    System.out.println("OK............");
+    User use =  new ObjectMapper().readValue(user,User.class);
+    boolean isExist = new File(context.getRealPath("/imgUsers/Images/")+use.getCodUser()+"/").exists();
+    if(!isExist){
+        new File (context.getRealPath("/imgUsers/Images/")+use.getCodUser()+"/").mkdir();
+        System.out.println("mk dir............");
+    }
+
+    String filename = file.getOriginalFilename();
+    String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+    File serverFile = new File (context.getRealPath("/imgUsers/Images/"+use.getCodUser()+"/"+File.separator+newFileName));
+    try {
+        System.out.println("Image"); 
+        org.apache.commons.io.FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+    use.setFileName(newFileName);
+
+    try {
+        service.addUser(use);
+        return new ResponseEntity<>(use, HttpStatus.CREATED);
+    } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+    }
+}
+
+@GetMapping(path="/Imgusers/{id}")
+public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
+    User User = userRepository.findById(id).get();
+    return Files.readAllBytes(Paths.get(context.getRealPath("/imgUsers/Images/")+User.getCodUser()+"/"+User.getFileName()));
+
+}
+/*****************post article upload image */
+
+
     @DeleteMapping("/utilisateurs/{id}")
     public ResponseEntity<HttpStatus> deleteUtilisateur(@PathVariable("id") long id) {
       try {
@@ -80,7 +152,7 @@ public class UserController {
       if (userData.isPresent()) {
         User _user = userData.get();
         _user.setUsername(user.getUsername());
-        _user.setPassword(user.getPassword());
+        _user.setPassword(encoder.encode(user.getPassword()));
         _user.setLastname(user.getLastname());
         _user.setFirstname(user.getFirstname());
         _user.setEmail(user.getEmail());
@@ -251,13 +323,109 @@ public class UserController {
         _user.setSansRet(user.getSansRet());
         _user.setCliGroup(user.getCliGroup());
         _user.setTauxMarge(user.getTauxMarge());
+
+        _user.setRoles(user.getRoles());
         return new ResponseEntity<>(service.updateUser(_user), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
-
-
+/**update the roles */
+@Transactional
+@GetMapping("/utilisateurs/RoleToUSER/{id}")
+public void ChangeRoleToUSER(@PathVariable("id") Long id) {
+    service.ChangeRoleToUSER(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToADMIN/{id}")
+public void ChangeRoleToADMIN(@PathVariable("id") Long id) {
+    service.ChangeRoleToADMIN(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToACHETEUR/{id}")
+public void ChangeRoleToACHETEUR(@PathVariable("id") Long id) {
+    service.ChangeRoleToACHETEUR(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToTRANSITAIRE/{id}")
+public void ChangeRoleToTRANSITAIRE(@PathVariable("id") Long id) {
+    service.ChangeRoleToTRANSITAIRE(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToCLIENT/{id}")
+public void ChangeRoleToCLIENT(@PathVariable("id") Long id) {
+    service.ChangeRoleToCLIENT(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToVENDEUR/{id}")
+public void ChangeRoleToVENDEUR(@PathVariable("id") Long id) {
+    service.ChangeRoleToVENDEUR(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToDECIDEUR_BP/{id}")
+public void ChangeRoleToDECIDEUR_BP(@PathVariable("id") Long id) {
+    service.ChangeRoleToDECIDEUR_BP(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToAGENT_CAB/{id}")
+public void ChangeRoleToAGENT_CAB(@PathVariable("id") Long id) {
+    service.ChangeRoleToAGENT_CAB(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToPREPARATEUR_BR/{id}")
+public void ChangeRoleToPREPARATEUR_BR(@PathVariable("id") Long id) {
+    service.ChangeRoleToPREPARATEUR_BR(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToRESPONSABLE_DISPATCHING_BP/{id}")
+public void ChangeRoleToRESPONSABLE_DISPATCHING_BP(@PathVariable("id") Long id) {
+    service.ChangeRoleToRESPONSABLE_DISPATCHING_BP(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToPREPARATEUR/{id}")
+public void ChangeRoleToPREPARATEUR(@PathVariable("id") Long id) {
+    service.ChangeRoleToPREPARATEUR(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToVALIDATEUR_DE_CHARIOT/{id}")
+public void ChangeRoleToVALIDATEUR_DE_CHARIOT(@PathVariable("id") Long id) {
+    service.ChangeRoleToVALIDATEUR_DE_CHARIOT(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToRESPONSABLE_POINTAGE/{id}")
+public void ChangeRoleToRESPONSABLE_POINTAGE(@PathVariable("id") Long id) {
+    service.ChangeRoleToRESPONSABLE_POINTAGE(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToEMBALLEUR/{id}")
+public void ChangeRoleToEMBALLEUR(@PathVariable("id") Long id) {
+    service.ChangeRoleToEMBALLEUR(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToEXPEDITEUR/{id}")
+public void ChangeRoleToEXPEDITEUR(@PathVariable("id") Long id) {
+    service.ChangeRoleToEXPEDITEUR(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToAGENT_SAISIE_REG/{id}")
+public void ChangeRoleToAGENT_SAISIE_REG(@PathVariable("id") Long id) {
+    service.ChangeRoleToAGENT_SAISIE_REG(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToCAISSIER/{id}")
+public void ChangeRoleToCAISSIER(@PathVariable("id") Long id) {
+    service.ChangeRoleToCAISSIER(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToRESPONSABLE_SERVICE_FRS_ETRANGER/{id}")
+public void ChangeRoleToRESPONSABLE_SERVICE_FRS_ETRANGER(@PathVariable("id") Long id) {
+    service.ChangeRoleToRESPONSABLE_SERVICE_FRS_ETRANGER(id); 
+}
+@Transactional
+@GetMapping("/utilisateurs/RoleToRESPONSABLE_SERVICE_FRS_LOCAL/{id}")
+public void ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(@PathVariable("id") Long id) {
+    service.ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(id); 
+}
 
 
 

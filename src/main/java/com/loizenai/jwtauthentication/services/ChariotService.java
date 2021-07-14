@@ -61,6 +61,7 @@ public List<Chariot> getChariotOfAddForBonPrep(){
         return repository.getLastIdChariot();
     }
 
+
 /**searsh global for chariot */   
 
 

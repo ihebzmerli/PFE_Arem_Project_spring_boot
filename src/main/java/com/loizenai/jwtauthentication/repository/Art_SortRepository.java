@@ -25,4 +25,11 @@ public interface Art_SortRepository extends JpaRepository<ArtSort, Long> {
 
     @Query(value = "SELECT * FROM `bon_sorts_articles` WHERE num_bon_sort LIKE %:num_bon_sort% AND cod_art LIKE %:cod_art%", nativeQuery = true)
     public Optional<ArtSort> getArtSortBS_CA(@Param("num_bon_sort") String num_bon_sort,@Param("cod_art") String cod_art);
+
+
+
+@Query(value = "SELECT SUM(`prix_ht`) FROM `bon_sorts_articles` WHERE `num_bon_sort` LIKE %:num_bon_sort%", nativeQuery = true)
+public Optional<Integer> getSumQutByBSht(@Param("num_bon_sort") String num_bon_sort);
+@Query(value = "SELECT SUM(`PRIX_AREM`) FROM `bon_sorts_articles` WHERE `num_bon_sort` LIKE %:num_bon_sort%", nativeQuery = true)
+public Optional<Integer> getSumQutByBSAREM(@Param("num_bon_sort") String num_bon_sort);
 }

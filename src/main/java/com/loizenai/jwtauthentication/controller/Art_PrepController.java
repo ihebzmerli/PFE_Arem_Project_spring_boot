@@ -132,6 +132,8 @@ public class Art_PrepController {
             _artPrep.setTotHt(artprep.getTotHt());
             _artPrep.setCumulRet(artprep.getCumulRet());
             _artPrep.setCentre(artprep.getCentre());
+            _artPrep.setArtprep_chariot(artprep.getArtprep_chariot());
+            _artPrep.setPrepara(artprep.getPrepara());
             _artPrep.setPoitageChariot(artprep.getPoitageChariot());
             _artPrep.setTypArt(artprep.getTypArt());
             //_artPrep.setBonPrep(artprep.getBonPrep());
@@ -158,7 +160,7 @@ public class Art_PrepController {
                 }
             } 
 
-            @GetMapping("/artPreps/SumQutPrepAch/{num_bon_prep}")
+            @GetMapping("/artPreps/SumQutPrepach/{num_bon_prep}")
             public ResponseEntity<Optional<Integer>> getSumQutByBPach(@PathVariable String num_bon_prep) {
                 try {
                     Optional<Integer> SumQutPrep = service.getSumQutByBPach(num_bon_prep);  /** pour get Sum Quantité de Preparation*/

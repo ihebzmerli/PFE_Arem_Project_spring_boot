@@ -24,7 +24,16 @@ public class Achats implements Serializable{
     private BigDecimal tva;
     private BigDecimal solde;
     private long numCom;
-    private String typReg;
+
+    @Enumerated(EnumType.STRING)
+    private TYPREG typReg;
+    public enum TYPREG{
+        Payer_via_carte_bancaire,
+        Commande_Paypal,
+        Paiment_en_cheque_et_virement_bancaire,
+        Acheter_en_mensualite
+    }
+
     private BigDecimal montReg;
     private String docReg;
     
@@ -67,7 +76,7 @@ public class Achats implements Serializable{
     private User user;
 /**FK end */
 
-    public Achats(String typDoc, Timestamp date, long codFrs, BigDecimal montant, BigDecimal montHt, BigDecimal tva, BigDecimal solde, long numCom, String typReg, BigDecimal montReg, String docReg, PRET pret) {
+    public Achats(String typDoc, Timestamp date, long codFrs, BigDecimal montant, BigDecimal montHt, BigDecimal tva, BigDecimal solde, long numCom, TYPREG typReg, BigDecimal montReg, String docReg, PRET pret) {
         this.typDoc = typDoc;
         this.date = date;
         this.codFrs = codFrs;
@@ -83,7 +92,7 @@ public class Achats implements Serializable{
     }
 
     public Achats(long numDocAchat, String typDoc, Timestamp date, long codFrs, BigDecimal montant, BigDecimal montHt,
-        BigDecimal tva, BigDecimal solde, long numCom, String typReg, BigDecimal montReg, String docReg, PRET pret,
+        BigDecimal tva, BigDecimal solde, long numCom, TYPREG typReg, BigDecimal montReg, String docReg, PRET pret,
         VALIDATION validation, Affaire affaire, Rectif rectif, List<Article> articles, User user) {
     this.numDocAchat = numDocAchat;
     this.typDoc = typDoc;
@@ -200,11 +209,11 @@ public class Achats implements Serializable{
 
     @Basic
     @Column(name = "TYP_REG")
-    public String getTypReg() {
+    public TYPREG getTypReg() {
         return typReg;
     }
 
-    public void setTypReg(String typReg) {
+    public void setTypReg(TYPREG typReg) {
         this.typReg = typReg;
     }
 

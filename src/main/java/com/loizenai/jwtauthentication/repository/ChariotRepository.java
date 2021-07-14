@@ -21,9 +21,7 @@ public interface ChariotRepository extends JpaRepository<Chariot, Long> {
 
     /**drop down list dor add */
 
-
-
-
+    
 //    List<Chariot> findByNumBon(BonPrep numBon);
 
     @Query(value = "SELECT * FROM `chariot` WHERE id_artprep LIKE %:IdArtPrep%", nativeQuery = true)

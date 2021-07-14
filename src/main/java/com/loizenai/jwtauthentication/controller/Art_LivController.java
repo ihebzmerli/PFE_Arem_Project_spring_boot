@@ -129,7 +129,7 @@ public ResponseEntity<List<ArtLiv>> getArtLivForBonLiv(@PathVariable String num_
         }
     } 
     
-    @GetMapping("/artLivs/SumQutLivAch/{num_bon_liv}")
+    @GetMapping("/artLivs/SumQutByBLach/{num_bon_liv}")
     public ResponseEntity<Optional<Integer>> getSumQutByBLach(@PathVariable String num_bon_liv) {
         try {
             Optional<Integer> SumQutLivAch = service.getSumQutByBLach(num_bon_liv);  /** pour get Sum Quantité de Preparation*/
@@ -155,7 +155,7 @@ public ResponseEntity<List<ArtLiv>> getArtLivForBonLiv(@PathVariable String num_
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
-    @GetMapping("/artLivs/SumQutLivach/{num_bon_liv}")
+    @GetMapping("/artLivs/SumQutByBLAREM/{num_bon_liv}")
     public ResponseEntity<Optional<Integer>> getSumQutByBLAREM(@PathVariable String num_bon_liv) {
         try {
             Optional<Integer> SumQutLivArem = service.getSumQutByBLAREM(num_bon_liv);  /** pour get Sum Quantité de AremPrix*/

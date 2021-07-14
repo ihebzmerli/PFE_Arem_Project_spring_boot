@@ -27,6 +27,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -39,6 +41,7 @@ import org.springframework.format.annotation.DateTimeFormat;
             "email"
         })
 })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +77,8 @@ public class User{
 
 
 
+    @Column(name = "file_name")
+    private String fileName;
 
     private Timestamp dateDeNaissance;
     private int cin;
@@ -91,12 +96,10 @@ public class User{
     @Column(name = "type_Contrat")
     private TypeContrat typeContrat;
     public enum TypeContrat{
-        maternite,
-        maladie,
-        reduire,
-        sans_solde,
-        deces,
-        annuel;
+        CDI,
+        CDD,
+        CTT,
+        C_en_Alternance;
     }
 
     @Basic
@@ -139,9 +142,9 @@ public class User{
     private Float primeDeRendement;
 
     @Basic
-    @DateTimeFormat(pattern = "HH:mm:ss")
+    @DateTimeFormat(pattern = "HH:mm")
     @Column(name = "Heures_De_Travail")
-    private Time heuresDeTravail;
+    private Timestamp heuresDeTravail;
 
     @Basic
     @Column(name = "Vente_Par_Heure")
@@ -192,6 +195,7 @@ public class User{
     private Float primeStock;
     private String postV;
 
+    @Column(unique=true)
     private long codUser;
     private String raison;
     private String rc;
@@ -355,6 +359,9 @@ public class User{
     private String cliGroup;
     private BigDecimal tauxMarge;
 
+    
+    @Column(name = "show_password")
+    private String ShowPassword;
     //FK_KEYS***********************
     @ManyToMany(mappedBy = "Users", fetch = FetchType.LAZY)
     private List<Chariot> chariots;
@@ -383,6 +390,11 @@ public class User{
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
         cascade = CascadeType.ALL)
     private List<Achats> achats;
+
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<Gallery> galleries;
     //END FK_KEYS************************
     
     public User() {}
@@ -402,8 +414,8 @@ public class User{
     public User(@NotBlank @Size(min = 3, max = 50) String firstname, @NotBlank @Size(min = 3, max = 50) String lastname,
             @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(max = 50) @Email String email,
             @NotBlank @Size(min = 6, max = 100) String password, Set<Role> roles, Timestamp dateDeNaissance, int cin,
-            String address, int cps, int telephone, String pseudo, Timestamp dateRec, TypeContrat typeContrat,
-            Timestamp dateContrat, String famille, Float salaire, Float primeDeRendement, Time heuresDeTravail,
+            String address, int cps, int telephone, String pseudo, String fileName , Timestamp dateRec, TypeContrat typeContrat,
+            Timestamp dateContrat, String famille, Float salaire, Float primeDeRendement, Timestamp heuresDeTravail,
             int venteParHeure, Float objectifParJour, Float objectifParMois, Timestamp dateDebutConge,
             Timestamp dateFinConge, TypeConge typeConge, Float primeDev, Float primeGlobal, Float primeParClient,
             Float primeStock, String postV, long codUser, String raison, String rc, String respon1, String fonction1,
@@ -434,7 +446,7 @@ public class User{
             BigDecimal credinstec, String observatio, String observ, String gouv1, String gouv2, String natcaution,
             Boolean cheque, Boolean espece, Boolean traite, BigDecimal crRef, BigDecimal soldTerm, BigDecimal chqImp,
             BigDecimal criRef, String remFam, Boolean reglement, Short delai, Byte nbTranche, String codSteq,
-            BigDecimal reference, String sansRet, String cliGroup, BigDecimal tauxMarge) {
+            BigDecimal reference, String sansRet, String cliGroup, BigDecimal tauxMarge, String ShowPassword) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
@@ -447,6 +459,7 @@ public class User{
         this.cps = cps;
         this.telephone = telephone;
         this.pseudo = pseudo;
+        this.fileName = fileName;
         this.dateRec = dateRec;
         this.typeContrat = typeContrat;
         this.dateContrat = dateContrat;
@@ -624,6 +637,7 @@ public class User{
         this.sansRet = sansRet;
         this.cliGroup = cliGroup;
         this.tauxMarge = tauxMarge;
+        this.ShowPassword = ShowPassword;
     }
 
     public Long getId() {
@@ -730,6 +744,14 @@ public class User{
         this.pseudo = pseudo;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public Timestamp getDateRec() {
         return dateRec;
     }
@@ -778,11 +800,11 @@ public class User{
         this.primeDeRendement = primeDeRendement;
     }
 
-    public Time getHeuresDeTravail() {
+    public Timestamp getHeuresDeTravail() {
         return heuresDeTravail;
     }
 
-    public void setHeuresDeTravail(Time heuresDeTravail) {
+    public void setHeuresDeTravail(Timestamp heuresDeTravail) {
         this.heuresDeTravail = heuresDeTravail;
     }
 
@@ -2144,6 +2166,22 @@ public class User{
 
     public void setTauxMarge(BigDecimal tauxMarge) {
         this.tauxMarge = tauxMarge;
+    }
+
+    public List<Gallery> getGalleries() {
+        return galleries;
+    }
+
+    public void setGalleries(List<Gallery> galleries) {
+        this.galleries = galleries;
+    }
+
+    public String getShowPassword() {
+        return ShowPassword;
+    }
+
+    public void setShowPassword(String showPassword) {
+        ShowPassword = showPassword;
     }
 
     @Override

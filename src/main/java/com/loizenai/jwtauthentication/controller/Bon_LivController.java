@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,7 +69,10 @@ public class Bon_LivController {
                 bonliv.setNomprenomCli("");
                 bonliv.setAdresseCli("");
             }
-            
+            Date date1 = new Date();
+            Timestamp timestamp2 = new Timestamp(date1.getTime()+ (1*60*60*1000));
+            bonliv.setDatBon(timestamp2);
+            System.out.println(timestamp2);
 
 
             service.addBonLiv(bonliv);

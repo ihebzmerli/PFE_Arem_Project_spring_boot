@@ -1,6 +1,7 @@
 package com.loizenai.jwtauthentication.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.loizenai.jwtauthentication.model.ArtSort;
 import com.loizenai.jwtauthentication.repository.Art_SortRepository;
@@ -33,4 +34,15 @@ public class Art_SortService {
     public List<ArtSort> getArtSortForBonSort(String num_bon_sort){
         return repository.getArtSortForBonSort(num_bon_sort);
     }   
+
+
+
+
+    
+    public Optional<Integer> getSumQutByBSht(String num_bon_sort){
+        return repository.getSumQutByBSht(num_bon_sort);
+    }
+    public Optional<Integer> getSumQutByBSAREM(String num_bon_sort){
+        return repository.getSumQutByBSAREM(num_bon_sort);
+    }
 }

@@ -3,7 +3,9 @@ package com.loizenai.jwtauthentication.controller;
 import com.loizenai.jwtauthentication.model.BonSort;
 import com.loizenai.jwtauthentication.repository.Bon_SortRepository;
 import com.loizenai.jwtauthentication.services.Bon_SortService;
-
+import java.util.Date;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +56,10 @@ public class Bon_SortController{
     @PostMapping(value = "/bonSorts")
     public ResponseEntity<BonSort> postBonSort(@RequestBody BonSort bonSort) {
         try {
+            Date date1 = new Date();
+            Timestamp timestamp2 = new Timestamp(date1.getTime()+ (1*60*60*1000));
+            bonSort.setDatBon(timestamp2);
+            System.out.println(timestamp2);
             service.addBonSort(bonSort);
             return new ResponseEntity<>(bonSort, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -210,17 +216,17 @@ public ResponseEntity<List<BonSort>> getAllBonSortByUser(@PathVariable long user
         }
     }
 
-    @PutMapping("/bonSorts/Prix/{NUM_BON}")
-    public ResponseEntity<BonSort> updateBonSortPrix(@PathVariable("NUM_BON") String numBon, @RequestBody BonSort bonSort) {
+    @PutMapping("/bonSorts/Prix/{numBon}")
+    public ResponseEntity<BonSort> updateBonSortPrix(@PathVariable("numBon") String numBon, @RequestBody BonSort bonSort) {
         Optional<BonSort> bonSortData = repository.findById(numBon);
 
         if (bonSortData.isPresent()) {
             BonSort _bonSort = bonSortData.get();
-            
+            System.out.println(bonSort.getBrutHt());
+            System.out.println(_bonSort.getTotTtc());
             _bonSort.setBrutHt(bonSort.getBrutHt());
-            _bonSort.setNetHt(bonSort.getNetHt());
             _bonSort.setTotTtc(bonSort.getTotTtc());
-            
+
             return new ResponseEntity<>(service.updateBonSort(_bonSort), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

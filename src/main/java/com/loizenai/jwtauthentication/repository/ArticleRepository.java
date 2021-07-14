@@ -35,8 +35,8 @@ public interface ArticleRepository extends JpaRepository<Article, String> {
 /**drop down list for bon Prep */
     @Query(value = "SELECT DISTINCT MARQUE FROM `article`", nativeQuery = true)
     public List<String> getArticleMarqueAddForBonLiv();
-    @Query(value = "SELECT * FROM `article` WHERE MARQUE LIKE %:marque% AND (QUT_STK >= 0 OR QUT_STK2 >= 0 OR STK_GAR >= 0 OR STK_INI >= 0 OR ANAL_STK >= 0 OR NBJ_STK >= 0 OR V_SSTK >= 0 OR COM_STK >= 0 OR XANAL_STK >= 0 OR STK_ATRSF >= 0 OR STK_TRSF >= 0 OR STK_REEL >= 0 OR STK_RES >= 0 OR STK_NP >= 0)", nativeQuery = true)
-    public List<Article> getArticleOfFromMarqueAddForBonLiv(@Param("marque") String marque);
+    @Query(value = "SELECT * FROM `article` WHERE id_model = (:id_model)", nativeQuery = true)
+    public List<Article> getArticleOfFromMarqueAddForBonLiv(@Param("id_model") long id_model);
 /**drop down list for bon Liv */
 
 
@@ -58,8 +58,8 @@ public interface ArticleRepository extends JpaRepository<Article, String> {
     @Query(value = "SELECT PRIX_ACH FROM `article` WHERE COD_ART LIKE %:codArticle%", nativeQuery = true)
     public long getArticlePrixAch(@Param("codArticle") String codArticle);
 
-    @Query(value = "SELECT ZONE FROM `article` WHERE COD_ART LIKE %:codArticle%", nativeQuery = true)
-    public String getZoneArticle(@Param("codArticle") String codArticle);
+    @Query(value = "SELECT DISTINCT ZONE FROM `article` WHERE CENTRE LIKE %:centre% AND COD_ART LIKE %:codArticle%", nativeQuery = true)
+    public List<String> getZoneArticle(@Param("centre") String centre,@Param("codArticle") String codArticle);
 /**drop down list for bon Liv */
     @Query(value = "SELECT * FROM `article` WHERE COD_ART LIKE %:codArticle%", nativeQuery = true)
     public Article getArticleOrUpdate(@Param("codArticle") String codArticle);

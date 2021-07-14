@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringBootJwtAuthenticationExamplesApplication<SpringBootJwtAuthenticationExamples>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.loizenai.jwtauthentication.SpringBootJwtAuthenticationExamplesApplication",
+            "projectName": "SpringBootJwtAuthenticationExamples",
+            "args": ""
+        }
+    ]
+}

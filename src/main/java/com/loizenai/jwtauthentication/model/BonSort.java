@@ -40,7 +40,9 @@ public class BonSort implements Serializable{
     @JoinColumn(name = "id", nullable = true)
     private User user;
 
-
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "matricule", nullable = true)
+    private Vehicule vehicule;
     
     //END FK_KEYS************************
     private String raison;
@@ -62,9 +64,8 @@ public class BonSort implements Serializable{
     private BigDecimal xtva4;
     private String centre;
     private String observ;
-    private String vehicule;
 
-    public BonSort(Timestamp datBon, String raison, BigDecimal brutHt, BigDecimal tauxRem, BigDecimal montRem, BigDecimal netHt, BigDecimal montTva, BigDecimal totTtc, BigDecimal xbase1, BigDecimal xbase2, BigDecimal xbase3, BigDecimal xbase4, BigDecimal xbase5, BigDecimal xtva1, BigDecimal xtva2, BigDecimal xtva3, BigDecimal xtva4, String centre, String observ, String vehicule) {
+    public BonSort(Timestamp datBon, String raison, BigDecimal brutHt, BigDecimal tauxRem, BigDecimal montRem, BigDecimal netHt, BigDecimal montTva, BigDecimal totTtc, BigDecimal xbase1, BigDecimal xbase2, BigDecimal xbase3, BigDecimal xbase4, BigDecimal xbase5, BigDecimal xtva1, BigDecimal xtva2, BigDecimal xtva3, BigDecimal xtva4, String centre, String observ, Vehicule vehicule) {
         this.datBon = datBon;
         this.raison = raison;
         this.brutHt = brutHt;
@@ -91,7 +92,7 @@ public class BonSort implements Serializable{
             BigDecimal brutHt, BigDecimal tauxRem, BigDecimal montRem, BigDecimal netHt, BigDecimal montTva,
             BigDecimal totTtc, String poste, BigDecimal xbase1, BigDecimal xbase2, BigDecimal xbase3, BigDecimal xbase4,
             BigDecimal xbase5, BigDecimal xtva1, BigDecimal xtva2, BigDecimal xtva3, BigDecimal xtva4, String centre,
-            String observ, String vehicule) {
+            String observ, Vehicule vehicule) {
         this.numBon = numBon;
         this.datBon = datBon;
         this.articles = articles;
@@ -337,13 +338,11 @@ public class BonSort implements Serializable{
         this.observ = observ;
     }
 
-    @Basic
-    @Column(name = "VEHICULE")
-    public String getVehicule() {
+    public Vehicule getVehicule() {
         return vehicule;
     }
 
-    public void setVehicule(String vehicule) {
+    public void setVehicule(Vehicule vehicule) {
         this.vehicule = vehicule;
     }
 

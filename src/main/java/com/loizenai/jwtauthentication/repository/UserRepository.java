@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -55,4 +56,84 @@ public Optional<Integer> getSumROLE_CAISSIER();
 public Optional<Integer> getSumROLE_RESPONSABLE_SERVICE_FRS_ETRANGER();
 @Query(value = "SELECT COUNT(*) FROM `user_roles` WHERE `role_id` like 19", nativeQuery = true)
 public Optional<Integer> getSumROLE_RESPONSABLE_SERVICE_FRS_LOCAL();
+
+
+/**roles modification for update user */
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=1 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToUSER(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=2 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToADMIN(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=3 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToACHETEUR(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=4 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToTRANSITAIRE(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=5 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToCLIENT(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=6 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToVENDEUR(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=7 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToDECIDEUR_BP(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=8 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToAGENT_CAB(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=9 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToPREPARATEUR_BR(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=10 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToRESPONSABLE_DISPATCHING_BP(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=11 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToPREPARATEUR(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=12 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToVALIDATEUR_DE_CHARIOT(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=13 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToRESPONSABLE_POINTAGE(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=14 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToEMBALLEUR(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=15 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToEXPEDITEUR(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=16 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToAGENT_SAISIE_REG(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=17 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToCAISSIER(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=18 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToRESPONSABLE_SERVICE_FRS_ETRANGER(long id);
+
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=19 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(long id);
+
 }

@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,9 +55,21 @@ public class Bon_PrepController {
     @PostMapping(value = "/bonPreps")
     public ResponseEntity<BonPrep> postBonprep(@RequestBody BonPrep bonPrep) {
         try {
-            String NewNomprenomCli = bonPrep.getNomprenomCli();
-            String last_concat = NewNomprenomCli.concat(" : ").concat(Long.toString(RandomTest1()));
-            bonPrep.setNomprenomCli(last_concat);
+            if(!bonPrep.getNomprenomCli().isEmpty()){
+                String NewNomprenomCli = bonPrep.getNomprenomCli();
+                String last_concat = NewNomprenomCli.concat(" : ").concat(Long.toString(RandomTest1()));
+                bonPrep.setNomprenomCli(last_concat);
+                
+            }else if (bonPrep.getNomprenomCli().isEmpty()){
+                bonPrep.setNomprenomCli("");
+            }
+            System.out.println("test codfrs: " + bonPrep.getCodFrs());
+
+            Date date1 = new Date();
+            Timestamp timestamp2 = new Timestamp(date1.getTime()+ (1*60*60*1000));
+            bonPrep.setDatBon(timestamp2);
+            System.out.println(timestamp2);
+            
             service.addBonPrep(bonPrep);
             return new ResponseEntity<>(bonPrep, HttpStatus.CREATED);
 

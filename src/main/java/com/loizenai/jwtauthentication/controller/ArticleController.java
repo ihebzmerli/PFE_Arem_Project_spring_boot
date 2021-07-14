@@ -1,13 +1,23 @@
 package com.loizenai.jwtauthentication.controller;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loizenai.jwtauthentication.model.Article;
 import com.loizenai.jwtauthentication.repository.ArticleRepository;
 import com.loizenai.jwtauthentication.services.ArticleService;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,8 +27,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Optional;
+
+import javax.servlet.ServletContext;
 
 
 @RestController
@@ -32,6 +47,8 @@ public class ArticleController {
     @Autowired
     ArticleRepository repository;
 
+    @Autowired
+    ServletContext context;
 
     @GetMapping("/articles")
     public ResponseEntity<List<Article>> getAllBonlivs() {
@@ -57,7 +74,46 @@ public class ArticleController {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
+/*****************post article upload image */
 
+    @PostMapping(value = "/articlesTest")
+    public ResponseEntity<Article> postArticleTest(@RequestParam("file") MultipartFile file,@RequestParam("article") String article)
+    throws JsonParseException , JsonMappingException , Exception
+    {
+        System.out.println("OK............");
+        Article arti =  new ObjectMapper().readValue(article,Article.class);
+        boolean isExist = new File(context.getRealPath("/imgArticles/Images/")+arti.getCodArt()+"/").exists();
+        if(!isExist){
+            new File (context.getRealPath("/imgArticles/Images/")+arti.getCodArt()+"/").mkdir();
+            System.out.println("mk dir............");
+        }
+
+        String filename = file.getOriginalFilename();
+        String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+        File serverFile = new File (context.getRealPath("/imgArticles/Images/"+arti.getCodArt()+"/"+File.separator+newFileName));
+        try {
+            System.out.println("Image"); 
+            org.apache.commons.io.FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        arti.setFileName(newFileName);
+
+        try {
+            service.addArticle(arti);
+            return new ResponseEntity<>(arti, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(path="/Imgarticles/{codArt}")
+    public byte[] getPhoto(@PathVariable("codArt") String codArt) throws Exception {
+        Article Article = repository.findById(codArt).get();
+        return Files.readAllBytes(Paths.get(context.getRealPath("/imgArticles/Images/")+Article.getCodArt()+"/"+Article.getFileName()));
+
+    }
+/*****************post article upload image */
     @GetMapping("/articles/{COD_ART}")
     public ResponseEntity<Article> getArticleById(@PathVariable("COD_ART") String codArt) {
         Optional<Article> articleData = repository.findById(codArt);
@@ -97,13 +153,13 @@ public class ArticleController {
         }
     }
     
-    @GetMapping(value = "/bonLivs/AllListArticleByMarque/{marque}")
-    public ResponseEntity<List<Article>> getArticleOfFromMarqueAddForBonLiv(@PathVariable String marque) {
+    @GetMapping(value = "/bonLivs/AllListArticleByMarque/{id_model}")
+    public ResponseEntity<List<Article>> getArticleOfFromMarqueAddForBonLiv(@PathVariable("id_model") long id_model) {
         try {
-            List<Article> ArticleOwned = service.getArticleOfFromMarqueAddForBonLiv(marque);
+            List<Article> ArticleOwned = service.getArticleOfFromMarqueAddForBonLiv(id_model);
 
             if (ArticleOwned.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les article from the marque */
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les article from the model */
             }
             return new ResponseEntity<>(ArticleOwned, HttpStatus.OK);
         } catch (Exception e) {
@@ -295,14 +351,20 @@ public class ArticleController {
 
     }
 
-    @GetMapping(value = "/articles/ZONE/{codArticle}")
-    public String getZoneArticle(@PathVariable("codArticle") String codArticle) {
 
-        String zoneArticle = service.getZoneArticle(codArticle);            
-        return zoneArticle;
+@GetMapping(value = "/articles/ZONE/{centre}and{codArticle}")
+public ResponseEntity<List<String>> getZoneArticle(@PathVariable("centre") String centre,@PathVariable("codArticle") String codArticle) {
+    try {
+        List<String> ZoneOwned = service.getZoneArticle(centre,codArticle);
 
+        if (ZoneOwned.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les ZoneOwned */
+        }
+        return new ResponseEntity<>(ZoneOwned, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
 }
-
     
     @PutMapping("/articles/{COD_ART}")
     public ResponseEntity<Article> UpdateStkArticle(@PathVariable("COD_ART") String codArt, @RequestBody Article article) {
@@ -543,8 +605,10 @@ public class ArticleController {
 
 
                 /** MODIFICATION */
-                
-                _article.setDerMvt(article.getDerMvt());
+                Date date1 = new Date();
+                Timestamp timestamp2 = new Timestamp(date1.getTime());
+                _article.setDerMvt(timestamp2);
+                System.out.println(timestamp2);
                 _article.setQutStk(OldArticle.getQutStk()-article.getQutStk());
                 _article.setQutStk2(OldArticle.getQutStk2()-article.getQutStk2());
                 _article.setStkGar(OldArticle.getStkGar()-article.getStkGar());
@@ -657,6 +721,7 @@ public class ArticleController {
                         _article.setPrixDev(article.getPrixDev());
                         _article.setCodFrs(article.getCodFrs());
                         _article.setDatPAch(article.getDatPAch());
+                        _article.setDerPAch(article.getDerPAch());
                         _article.setRemise(article.getRemise());
                         _article.setPrixVen(article.getPrixVen());
                         _article.setPrixArem(article.getPrixArem());
@@ -665,7 +730,7 @@ public class ArticleController {
                         _article.setCumulAch(article.getCumulAch());
                         _article.setUnitInv(article.getUnitInv());
                         _article.setControle(article.getControle());
-                        _article.setModele(article.getModele());
+                        _article.setModel(article.getModel());
                         _article.setEnergie(article.getEnergie());
                         _article.setPoids(article.getPoids());
                         _article.setDerAch(article.getDerAch());

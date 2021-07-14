@@ -29,11 +29,11 @@ public class AchatsService {
     }
 
 
-    void ChangeAchatToValidate(long numDocAchat){
+    public void ChangeAchatToValidate(long numDocAchat){
         repository.ChangeAchatToValidate(numDocAchat);
     }
 
-    void ChangeAchatToNotValidate(long numDocAchat){
+    public void ChangeAchatToNotValidate(long numDocAchat){
         repository.ChangeAchatToNotValidate(numDocAchat);
     }
 

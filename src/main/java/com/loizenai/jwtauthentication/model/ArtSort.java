@@ -47,7 +47,7 @@ public class ArtSort implements Serializable{
     //FK_KEYS***********************
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "numChar", nullable = true)
-    private Chariot chariot_artsort;
+    private Chariot chariot;
     
     //END FK_KEYS************************ 
     @Column(name = "PREPARATEUR")
@@ -112,7 +112,7 @@ public class ArtSort implements Serializable{
    
     public ArtSort(long id, String codArt, String num_bon_sort, Integer qutSortie, BigDecimal remise, BigDecimal prixHt,
             BigDecimal prixArem, BigDecimal tva, BigDecimal totHt, BigDecimal cumulRet, String centre,
-            Timestamp poitageChariot, Chariot chariot_artsort, String preparateur, Integer qutStk, Integer qutStk2,
+            Timestamp poitageChariot, Chariot chariot, String preparateur, Integer qutStk, Integer qutStk2,
             Integer stkGar, Integer stkIni, Integer analStk, Integer nbjStk, Integer vSstk, Integer comStk,
             Integer xanalStk, Integer stkAtrsf, Integer stkTrsf, Integer stkReel, Integer stkRes, Integer stkNp) {
         this.id = id;
@@ -127,7 +127,7 @@ public class ArtSort implements Serializable{
         this.cumulRet = cumulRet;
         this.centre = centre;
         this.poitageChariot = poitageChariot;
-        this.chariot_artsort = chariot_artsort;
+        this.chariot = chariot;
         this.preparateur = preparateur;
         this.qutStk = qutStk;
         this.qutStk2 = qutStk2;
@@ -230,12 +230,12 @@ public class ArtSort implements Serializable{
     public void setCentre(String centre) {
         this.centre = centre;
     }
-    public Chariot getChariot_artsort() {
-        return chariot_artsort;
+    public Chariot getChariot() {
+        return chariot;
     }
 
-    public void setChariot_artsort(Chariot chariot_artsort) {
-        this.chariot_artsort = chariot_artsort;
+    public void setChariot(Chariot chariot) {
+        this.chariot = chariot;
     }
 
     public Timestamp getPoitageChariot() {
@@ -385,7 +385,7 @@ public class ArtSort implements Serializable{
         final int prime = 31;
         int result = 1;
         result = prime * result + ((centre == null) ? 0 : centre.hashCode());
-        result = prime * result + ((chariot_artsort == null) ? 0 : chariot_artsort.hashCode());
+        result = prime * result + ((chariot == null) ? 0 : chariot.hashCode());
         result = prime * result + ((codArt == null) ? 0 : codArt.hashCode());
         result = prime * result + ((cumulRet == null) ? 0 : cumulRet.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
@@ -412,10 +412,10 @@ public class ArtSort implements Serializable{
                 return false;
         } else if (!centre.equals(other.centre))
             return false;
-        if (chariot_artsort == null) {
-            if (other.chariot_artsort != null)
+        if (chariot == null) {
+            if (other.chariot != null)
                 return false;
-        } else if (!chariot_artsort.equals(other.chariot_artsort))
+        } else if (!chariot.equals(other.chariot))
             return false;
         if (codArt == null) {
             if (other.codArt != null)
@@ -464,7 +464,7 @@ public class ArtSort implements Serializable{
 
     @Override
     public String toString() {
-        return "ArtSort [centre=" + centre + ", chariot_artsort=" + chariot_artsort + ", codArt=" + codArt
+        return "ArtSort [centre=" + centre + ", chariot=" + chariot + ", codArt=" + codArt
                 + ", cumulRet=" + cumulRet + ", id=" + id + ", poitageChariot=" + poitageChariot + ", prixHt=" + prixHt
                 + ", qutSortie=" + qutSortie + ", remise=" + remise + ", totHt=" + totHt + ", tva=" + tva + "]";
     }

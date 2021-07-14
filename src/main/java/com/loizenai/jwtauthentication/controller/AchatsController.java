@@ -100,12 +100,12 @@ public class AchatsController {
 @Transactional
 @GetMapping("/achatss/NotValider/{numDocAchat}")
 public void ChangeAchatToNotValidate(@PathVariable("numDocAchat") Long numDocAchat) {
-    repository.ChangeAchatToNotValidate(numDocAchat); 
+    service.ChangeAchatToNotValidate(numDocAchat); 
 }
 @Transactional
 @GetMapping("/achatss/Valider/{numDocAchat}")
 public void ChangeAchatToValidate(@PathVariable("numDocAchat") Long numDocAchat) {
-    repository.ChangeAchatToValidate(numDocAchat); 
+    service.ChangeAchatToValidate(numDocAchat); 
 }
 /**select list add */
 

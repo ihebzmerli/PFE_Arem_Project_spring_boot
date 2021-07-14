@@ -19,8 +19,7 @@ public class Vehicule {
 
     private Long matAgent;
 
-    private String marque;
-    private String modele;
+
     private String couleur;
     private Timestamp dt1Mc;
     private Timestamp dtAcq;
@@ -37,7 +36,20 @@ public class Vehicule {
     private Timestamp dt1Mc2;
 
     //FK_KEYS***********************
- 
+
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "marque_id", nullable = true)
+    private Marque marque;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "id_model", nullable = true)
+    private Model model;
+
+    @OneToMany(mappedBy = "vehicule", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<BonSort> bonSorts;
+
 
     //END FK_KEYS************************
 
@@ -45,13 +57,13 @@ public class Vehicule {
     public Vehicule() {
     }
     
-    public Vehicule(String matricule, Long matAgent, String marque, String modele, String couleur, Timestamp dt1Mc,
+    public Vehicule(String matricule, Long matAgent, Marque marque, Model model, String couleur, Timestamp dt1Mc,
             Timestamp dtAcq, BigDecimal pattc, String ess, Timestamp dtFAss, Timestamp dtFVisit, BigDecimal kmCour,
             BigDecimal drKmVida, BigDecimal drKmCh, String observation, BigDecimal tonnage, Timestamp dt1Mc2) {
         this.matricule = matricule;
         this.matAgent = matAgent;
         this.marque = marque;
-        this.modele = modele;
+        this.model = model;
         this.couleur = couleur;
         this.dt1Mc = dt1Mc;
         this.dtAcq = dtAcq;
@@ -65,6 +77,30 @@ public class Vehicule {
         this.observation = observation;
         this.tonnage = tonnage;
         this.dt1Mc2 = dt1Mc2;
+    }
+
+    public Vehicule(String matricule, Long matAgent, Marque marque, Model model, String couleur, Timestamp dt1Mc,
+            Timestamp dtAcq, BigDecimal pattc, String ess, Timestamp dtFAss, Timestamp dtFVisit, BigDecimal kmCour,
+            BigDecimal drKmVida, BigDecimal drKmCh, String observation, BigDecimal tonnage, Timestamp dt1Mc2,
+            List<BonSort> bonSorts) {
+        this.matricule = matricule;
+        this.matAgent = matAgent;
+        this.marque = marque;
+        this.model = model;
+        this.couleur = couleur;
+        this.dt1Mc = dt1Mc;
+        this.dtAcq = dtAcq;
+        this.pattc = pattc;
+        this.ess = ess;
+        this.dtFAss = dtFAss;
+        this.dtFVisit = dtFVisit;
+        this.kmCour = kmCour;
+        this.drKmVida = drKmVida;
+        this.drKmCh = drKmCh;
+        this.observation = observation;
+        this.tonnage = tonnage;
+        this.dt1Mc2 = dt1Mc2;
+        this.bonSorts = bonSorts;
     }
 
     public String getMatricule() {
@@ -87,22 +123,22 @@ public class Vehicule {
 
     @Basic
     @Column(name = "MARQUE")
-    public String getMarque() {
+    public Marque getMarque() {
         return marque;
     }
 
-    public void setMarque(String marque) {
+    public void setMarque(Marque marque) {
         this.marque = marque;
     }
 
     @Basic
     @Column(name = "MODELE")
-    public String getModele() {
-        return modele;
+    public Model getModel() {
+        return model;
     }
 
-    public void setModele(String modele) {
-        this.modele = modele;
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     @Basic
@@ -235,6 +271,9 @@ public class Vehicule {
         this.dt1Mc2 = dt1Mc2;
     }
 
+    public void setBonSorts(List<BonSort> bonSorts) {
+        this.bonSorts = bonSorts;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -243,8 +282,6 @@ public class Vehicule {
         Vehicule vehicule = (Vehicule) o;
         return  Objects.equals(matricule, vehicule.matricule) &&
                 Objects.equals(matAgent, vehicule.matAgent) &&
-                Objects.equals(marque, vehicule.marque) &&
-                Objects.equals(modele, vehicule.modele) &&
                 Objects.equals(couleur, vehicule.couleur) &&
                 Objects.equals(dt1Mc, vehicule.dt1Mc) &&
                 Objects.equals(dtAcq, vehicule.dtAcq) &&
@@ -262,6 +299,6 @@ public class Vehicule {
 
     @Override
     public int hashCode() {
-        return Objects.hash(matricule, matAgent, marque, modele, couleur, dt1Mc, dtAcq, pattc, ess, dtFAss, dtFVisit, kmCour, drKmVida, drKmCh, observation, tonnage, dt1Mc2);
+        return Objects.hash(matricule, matAgent, marque, model, couleur, dt1Mc, dtAcq, pattc, ess, dtFAss, dtFVisit, kmCour, drKmVida, drKmCh, observation, tonnage, dt1Mc2);
     }
 }

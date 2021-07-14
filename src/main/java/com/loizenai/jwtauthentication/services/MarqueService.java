@@ -20,12 +20,12 @@ public class MarqueService {
         return repository.findAll();
     }
 
-    public void addMarque(Marque prime){
-        repository.save(prime);
+    public void addMarque(Marque marque){
+        repository.save(marque);
     }
 
-    public Marque updateMarque(Marque prime){
-       return repository.save(prime);
+    public Marque updateMarque(Marque marque){
+       return repository.save(marque);
     }
 
     public void deleteMarque(Long id){

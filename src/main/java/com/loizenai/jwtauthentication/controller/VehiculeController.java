@@ -96,7 +96,7 @@ public class VehiculeController {
             
             _vehicule.setMatAgent(vehicule.getMatAgent());
             _vehicule.setMarque(vehicule.getMarque());
-            _vehicule.setModele(vehicule.getModele());
+            _vehicule.setModel(vehicule.getModel());
             _vehicule.setCouleur(vehicule.getCouleur());
             _vehicule.setDt1Mc(vehicule.getDt1Mc());
             _vehicule.setDtAcq(vehicule.getDtAcq());

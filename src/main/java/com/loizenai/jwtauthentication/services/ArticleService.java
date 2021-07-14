@@ -53,8 +53,8 @@ public List<Article> getArticleFromStock(String codArticle){
     return repository.getArticleFromStock(codArticle);
 }
 
-public List<Article> getArticleOfFromMarqueAddForBonLiv(String marque){
-    return repository.getArticleOfFromMarqueAddForBonLiv(marque);
+public List<Article> getArticleOfFromMarqueAddForBonLiv(Long id_model){
+    return repository.getArticleOfFromMarqueAddForBonLiv(id_model);
 }
 
 public List<String> getArticleMarqueAddForBonLiv(){
@@ -98,8 +98,8 @@ public Article getArticleOrUpdate(String codArt){
     return repository.getArticleOrUpdate(codArt);
 }
 
-public String getZoneArticle(String codArt){
-    return repository.getZoneArticle(codArt);
+public List<String> getZoneArticle(String centre,String codArt){
+    return repository.getZoneArticle(centre,codArt);
 }
 
 public List<String> getMarquesList(){

@@ -46,7 +46,7 @@ public class Chariot implements Serializable{
     cascade = CascadeType.ALL)
     private List<ArtPrep> artPreps;
 
-    @OneToMany(mappedBy = "chariot_artsort", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "chariot", fetch = FetchType.LAZY,
     cascade = CascadeType.ALL)
     private List<ArtSort> artSorts;
 /*

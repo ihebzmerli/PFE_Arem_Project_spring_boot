@@ -144,6 +144,7 @@ public ResponseEntity<List<Chariot>> getAllChariotByArticle(@PathVariable String
         }
     }
 
+
 /**select list add */
 @GetMapping(value = "/bonPreps/allListChar")
 public ResponseEntity<List<Chariot>> getChariotOfAddForBonPrep() {
