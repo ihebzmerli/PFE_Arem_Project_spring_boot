@@ -203,6 +203,18 @@ public ResponseEntity<List<Date>> getExpideOfAddForBonPrep() {
 
 
 
+    @GetMapping("/expides/LastId")
+    public ResponseEntity<Optional<Integer>> getLastId() {
+        try {
+            Optional<Integer> lastId = service.getLastId();  
+            if (lastId.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(lastId, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 
 
     

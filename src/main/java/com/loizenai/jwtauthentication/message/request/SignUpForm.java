@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 public class SignUpForm {
     @NotBlank
@@ -54,6 +55,7 @@ public class SignUpForm {
     @Enumerated(EnumType.STRING)
     private TypeContrat typeContrat;
     public enum TypeContrat{
+        indefini,
         CDI,
         CDD,
         CTT,
@@ -94,6 +96,7 @@ public class SignUpForm {
     @Enumerated(EnumType.STRING)
     private TypeConge typeConge;
     public enum TypeConge{
+        indefini,
         maternite,
         maladie,
         reduire,
@@ -277,6 +280,18 @@ public class SignUpForm {
     private String cliGroup;
     private BigDecimal tauxMarge;
     
+    @Enumerated(EnumType.STRING)
+    private Authorisation authorisation;
+    public enum Authorisation{
+        Allow,
+        Block;
+    }
+
+    @Nullable
+    private Timestamp dateLastForgot;
+
+    private String ShowPassword;
+
     public String getFirstname() {
         return firstname;
     }
@@ -1787,6 +1802,30 @@ public class SignUpForm {
 
     public void setTauxMarge(BigDecimal tauxMarge) {
         this.tauxMarge = tauxMarge;
+    }
+
+    public Authorisation getAuthorisation() {
+        return authorisation;
+    }
+
+    public void setAuthorisation(Authorisation authorisation) {
+        this.authorisation = authorisation;
+    }
+
+    public Timestamp getDateLastForgot() {
+        return dateLastForgot;
+    }
+
+    public void setDateLastForgot(Timestamp dateLastForgot) {
+        this.dateLastForgot = dateLastForgot;
+    }
+
+    public String getShowPassword() {
+        return ShowPassword;
+    }
+
+    public void setShowPassword(String showPassword) {
+        ShowPassword = showPassword;
     }
 
 

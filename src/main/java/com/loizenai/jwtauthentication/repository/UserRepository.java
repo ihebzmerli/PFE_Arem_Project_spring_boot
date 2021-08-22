@@ -16,6 +16,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
 
+    @Query(value = "SELECT * FROM `users` WHERE `username` LIKE %:username%", nativeQuery = true)
+    public User getUserNameForAuthorisation(String username);
+
+    @Query(value = "SELECT * FROM `users` WHERE `email` LIKE %:email%", nativeQuery = true)
+    public User getRequestPassword(String email);
+
+    @Query(value = "SELECT id FROM `users` WHERE `username` LIKE %:username%", nativeQuery = true)
+    public Integer getUserByUsername(String username);
 
     /**statistique pie */
 @Query(value = "SELECT COUNT(*) FROM `user_roles` WHERE `role_id` like 1", nativeQuery = true)
@@ -56,7 +64,8 @@ public Optional<Integer> getSumROLE_CAISSIER();
 public Optional<Integer> getSumROLE_RESPONSABLE_SERVICE_FRS_ETRANGER();
 @Query(value = "SELECT COUNT(*) FROM `user_roles` WHERE `role_id` like 19", nativeQuery = true)
 public Optional<Integer> getSumROLE_RESPONSABLE_SERVICE_FRS_LOCAL();
-
+@Query(value = "SELECT COUNT(*) FROM `user_roles` WHERE `role_id` like 20", nativeQuery = true)
+public Optional<Integer> getSumROLE_LIVREUR();
 
 /**roles modification for update user */
 
@@ -136,4 +145,7 @@ public void ChangeRoleToRESPONSABLE_SERVICE_FRS_ETRANGER(long id);
 @Query(value = "UPDATE `user_roles` SET `role_id`=19 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
 public void ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(long id);
 
+@Modifying
+@Query(value = "UPDATE `user_roles` SET `role_id`=20 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
+public void ChangeRoleToLIVREUR(long id);
 }

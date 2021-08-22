@@ -24,6 +24,8 @@ public interface ExpideRepository extends JpaRepository<Expide, Long> {
     @Query(value = "SELECT DATE_EXPEDITION FROM `expide`", nativeQuery = true)
     public List<Date> getExpideOfAdd();
     
+    @Query(value = "SELECT * FROM expide WHERE `id_expide` = ( SELECT MAX(`id_expide`) FROM expide)", nativeQuery = true)
+    public Optional<Integer> getLastId();
 
     /**drop down list dor add */
 

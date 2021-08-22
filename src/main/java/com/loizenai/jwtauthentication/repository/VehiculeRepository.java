@@ -16,5 +16,7 @@ public interface VehiculeRepository extends JpaRepository<Vehicule, String> {
     @Query(value = "SELECT * FROM `vehicule`", nativeQuery = true)
     public List<Vehicule> getVehiculeOfAdd();
 
+    @Query(value = "SELECT DISTINCT couleur FROM `vehicule`", nativeQuery = true)
+    public List<String> getCouleurVehicule();
     /**drop down list dor add */
 }

@@ -109,7 +109,20 @@ public void ChangeAchatToValidate(@PathVariable("numDocAchat") Long numDocAchat)
 }
 /**select list add */
 
+/**select list add */
+@GetMapping(value = "/achatss/dateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Achats>> getAllAchatsBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Achats> AchatsByDateBetween= service.getAllAchatsBydateBetween(startDate,endDate);
 
+        if (AchatsByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(AchatsByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
 
 
 

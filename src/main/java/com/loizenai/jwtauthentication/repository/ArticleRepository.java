@@ -61,13 +61,30 @@ public interface ArticleRepository extends JpaRepository<Article, String> {
     @Query(value = "SELECT DISTINCT ZONE FROM `article` WHERE CENTRE LIKE %:centre% AND COD_ART LIKE %:codArticle%", nativeQuery = true)
     public List<String> getZoneArticle(@Param("centre") String centre,@Param("codArticle") String codArticle);
 /**drop down list for bon Liv */
+
     @Query(value = "SELECT * FROM `article` WHERE COD_ART LIKE %:codArticle%", nativeQuery = true)
     public Article getArticleOrUpdate(@Param("codArticle") String codArticle);
     @Query(value = "SELECT DISTINCT marque FROM `marque`", nativeQuery = true)
     public List<String> getMarquesList();
+
 /**drop down list for bon Liv */
 
 
+    @Query(value = "SELECT * FROM `article` WHERE DAT_CREAT BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Article> getAllArticleBydateBetweenDAT_CREAT(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Query(value = "SELECT * FROM `article` WHERE DER_ACH BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Article> getAllArticleBydateBetweenDER_ACH(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Query(value = "SELECT * FROM `article` WHERE DER_MVT BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Article> getAllArticleBydateBetweenDER_MVT(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Query(value = "SELECT * FROM `article` WHERE DAT_RUP BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Article> getAllArticleBydateBetweenDAT_RUP(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
+    @Query(value = "SELECT * FROM `article` WHERE DAT_PACH BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Article> getAllArticleBydateBetweenDAT_PACH(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
 
 
 /**statistique Article stk */

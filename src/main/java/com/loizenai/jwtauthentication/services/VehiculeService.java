@@ -37,5 +37,8 @@ public class VehiculeService {
         return repository.getVehiculeOfAdd();
     }
 
+    public List<String> getCouleurVehicule(){
+        return repository.getCouleurVehicule();
+    }
 /** end drop down list */
 }

@@ -83,8 +83,19 @@ public class VehiculeController {
     }
 //searsh with FK_keys******************
 
+@GetMapping(value = "/vehicules/couleursV")
+public ResponseEntity<List<String>> getCouleurVehicule() {
+    try {
+        List<String> CouleurV = service.getCouleurVehicule();
 
-
+        if (CouleurV.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** get couleur*/
+        }
+        return new ResponseEntity<>(CouleurV, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
 // end for the searsh of FK_Keys*******************
 
     @PutMapping("/vehicules/{matricule}")

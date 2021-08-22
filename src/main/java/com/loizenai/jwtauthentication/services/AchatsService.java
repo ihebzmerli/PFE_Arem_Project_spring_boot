@@ -27,7 +27,10 @@ public class AchatsService {
     public Achats updateAchats(Achats achats){
         return repository.save(achats);
     }
-
+    
+    public List<Achats> getAllAchatsBydateBetween(String startDate,String endDate){
+        return repository.getAllAchatsBydateBetween(startDate,endDate);
+    }
 
     public void ChangeAchatToValidate(long numDocAchat){
         repository.ChangeAchatToValidate(numDocAchat);

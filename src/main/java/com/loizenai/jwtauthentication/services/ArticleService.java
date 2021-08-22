@@ -48,6 +48,22 @@ public class ArticleService {
     public List<String> getArticleMarqueAddForBonPrep(){
         return repository.getArticleMarqueAddForBonPrep();
     }
+
+    public List<Article> getAllArticleBydateBetweenDAT_CREAT(String startDate,String endDate){
+        return repository.getAllArticleBydateBetweenDAT_CREAT(startDate,endDate);
+    }
+    public List<Article> getAllArticleBydateBetweenDER_ACH(String startDate,String endDate){
+        return repository.getAllArticleBydateBetweenDER_ACH(startDate,endDate);
+    }
+    public List<Article> getAllArticleBydateBetweenDER_MVT(String startDate,String endDate){
+        return repository.getAllArticleBydateBetweenDER_MVT(startDate,endDate);
+    }
+    public List<Article> getAllArticleBydateBetweenDAT_RUP(String startDate,String endDate){
+        return repository.getAllArticleBydateBetweenDAT_RUP(startDate,endDate);
+    }
+    public List<Article> getAllArticleBydateBetweenDAT_PACH(String startDate,String endDate){
+        return repository.getAllArticleBydateBetweenDAT_PACH(startDate,endDate);
+    }
 /** end drop down list */
 public List<Article> getArticleFromStock(String codArticle){
     return repository.getArticleFromStock(codArticle);

@@ -54,7 +54,13 @@ public class Bon_LivService {
         return sb.toString();
     }
 
+    public List<String> getNumDocFactureForBonLiv(){
+        return repository.getNumDocFactureForBonLiv();
+    }
 
+    public List<BonLiv> getBLEnvoyer(){
+        return repository.getBLEnvoyer();
+    }
 /** end drop down list */
 
     public List<BonLiv> getBonLivOfAdd(){

@@ -41,7 +41,6 @@ public class Livreur_ExpideController {
         }
     }
 
-
     @GetMapping("/Livreur_Expides/{id_livreur_expide}")
     public ResponseEntity<Livreur_Expide> getLivreur_ExpideById(@PathVariable("id_livreur_expide") long id_livreur_expide) {
         Optional<Livreur_Expide> Livreur_ExpideData = repository.findById(id_livreur_expide);
@@ -92,9 +91,9 @@ public ResponseEntity<List<Livreur_Expide>> getAllLivreursAndBonliv(@PathVariabl
 
 // end for the searsh of FK_Keys*******************
 
-@PutMapping("/Livreur_Expides/{id_livreur_expide}")
-public ResponseEntity<Livreur_Expide> updateLivreurs_Expides(@PathVariable("id_livreur_expide") long id_livreur_expide, @RequestBody Livreur_Expide livreur_expide) {
-    Optional<Livreur_Expide> Livreur_ExpideData = repository.findById(id_livreur_expide);
+@PutMapping("/Livreur_Expides/{id_expide}")
+public ResponseEntity<Livreur_Expide> getAllLivreursAndBonliv2(@PathVariable("id_expide") String id_expide, @RequestBody Livreur_Expide livreur_expide) {
+    Optional<Livreur_Expide> Livreur_ExpideData = service.getAllLivreursAndBonliv2(id_expide);
 
     if (Livreur_ExpideData.isPresent()) {
         Livreur_Expide _Livreur_Expide = Livreur_ExpideData.get();
@@ -102,6 +101,7 @@ public ResponseEntity<Livreur_Expide> updateLivreurs_Expides(@PathVariable("id_l
         _Livreur_Expide.setId_expide(livreur_expide.getId_expide());
         _Livreur_Expide.setId_livreur(livreur_expide.getId_livreur());
         _Livreur_Expide.setBonLiv(livreur_expide.getBonLiv());
+        _Livreur_Expide.setMatricule(livreur_expide.getMatricule());
 
         return new ResponseEntity<>(service.updateLivreur_Expide(_Livreur_Expide), HttpStatus.OK);
     } else {

@@ -68,7 +68,19 @@ public class AffaireController {
         }
     }
 /**select list add */
+@GetMapping(value = "/affaires/dateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Affaire>> getAllAffaireBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Affaire> AffaireByDateBetween= service.getAllAffaireBydateBetween(startDate,endDate);
 
+        if (AffaireByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(AffaireByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
 
 
 

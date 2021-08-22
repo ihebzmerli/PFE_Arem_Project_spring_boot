@@ -40,7 +40,10 @@ public class UserService {
     }
     
 
-
+    public Integer getUserByUsername(String username){
+        return repository.getUserByUsername(username);
+    }
+    
     
     /**statistique Pie Bon Liv  */
 
@@ -101,7 +104,9 @@ public class UserService {
     public Optional<Integer> getSumROLE_RESPONSABLE_SERVICE_FRS_LOCAL(){
         return repository.getSumROLE_RESPONSABLE_SERVICE_FRS_LOCAL();
     }
-
+    public Optional<Integer> getSumROLE_LIVREUR(){
+        return repository.getSumROLE_LIVREUR();
+    }
 
     /**roles modification for update user */
 
@@ -162,5 +167,8 @@ public class UserService {
     }
     public void ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(long id){
         repository.ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(id);
+    }
+    public void ChangeRoleToLIVREUR(long id){
+        repository.ChangeRoleToLIVREUR(id);
     }
 }

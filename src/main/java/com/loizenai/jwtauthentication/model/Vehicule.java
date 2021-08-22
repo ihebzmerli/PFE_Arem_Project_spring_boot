@@ -30,7 +30,15 @@ public class Vehicule {
     private BigDecimal kmCour;
     private BigDecimal drKmVida;
     private BigDecimal drKmCh;
-    private String observation;
+
+    @Enumerated(EnumType.STRING)
+    private OBSERVATION observation;
+    public enum OBSERVATION{
+        au_stock,
+        pris_par_livreur,
+        en_panne;
+    }
+    
     private BigDecimal tonnage;
     
     private Timestamp dt1Mc2;
@@ -59,7 +67,7 @@ public class Vehicule {
     
     public Vehicule(String matricule, Long matAgent, Marque marque, Model model, String couleur, Timestamp dt1Mc,
             Timestamp dtAcq, BigDecimal pattc, String ess, Timestamp dtFAss, Timestamp dtFVisit, BigDecimal kmCour,
-            BigDecimal drKmVida, BigDecimal drKmCh, String observation, BigDecimal tonnage, Timestamp dt1Mc2) {
+            BigDecimal drKmVida, BigDecimal drKmCh, OBSERVATION observation, BigDecimal tonnage, Timestamp dt1Mc2) {
         this.matricule = matricule;
         this.matAgent = matAgent;
         this.marque = marque;
@@ -81,7 +89,7 @@ public class Vehicule {
 
     public Vehicule(String matricule, Long matAgent, Marque marque, Model model, String couleur, Timestamp dt1Mc,
             Timestamp dtAcq, BigDecimal pattc, String ess, Timestamp dtFAss, Timestamp dtFVisit, BigDecimal kmCour,
-            BigDecimal drKmVida, BigDecimal drKmCh, String observation, BigDecimal tonnage, Timestamp dt1Mc2,
+            BigDecimal drKmVida, BigDecimal drKmCh, OBSERVATION observation, BigDecimal tonnage, Timestamp dt1Mc2,
             List<BonSort> bonSorts) {
         this.matricule = matricule;
         this.matAgent = matAgent;
@@ -122,7 +130,6 @@ public class Vehicule {
     }
 
     @Basic
-    @Column(name = "MARQUE")
     public Marque getMarque() {
         return marque;
     }
@@ -132,7 +139,6 @@ public class Vehicule {
     }
 
     @Basic
-    @Column(name = "MODELE")
     public Model getModel() {
         return model;
     }
@@ -243,11 +249,11 @@ public class Vehicule {
 
     @Basic
     @Column(name = "OBSERVATION")
-    public String getObservation() {
+    public OBSERVATION getObservation() {
         return observation;
     }
 
-    public void setObservation(String observation) {
+    public void setObservation(OBSERVATION observation) {
         this.observation = observation;
     }
 

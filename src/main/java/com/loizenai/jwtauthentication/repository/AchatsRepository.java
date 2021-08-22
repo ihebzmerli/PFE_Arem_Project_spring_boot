@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.loizenai.jwtauthentication.model.Achats;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -27,6 +28,10 @@ public interface AchatsRepository extends JpaRepository<Achats, Long> {
     /**drop down list end add */
 
 
+
+
+    @Query(value = "SELECT * FROM `achats` WHERE date  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Achats> getAllAchatsBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
 
 

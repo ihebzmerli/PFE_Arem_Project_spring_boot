@@ -8,6 +8,7 @@ import com.loizenai.jwtauthentication.model.Affaire;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,6 +21,8 @@ public interface AffaireRepository extends JpaRepository<Affaire, Long> {
     
     /**drop down list dor add */
 
+    @Query(value = "SELECT * FROM `affaire` WHERE DAT_AFF  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Affaire> getAllAffaireBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
 
 

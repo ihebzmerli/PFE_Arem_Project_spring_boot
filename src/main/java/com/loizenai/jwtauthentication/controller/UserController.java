@@ -153,11 +153,13 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
         User _user = userData.get();
         _user.setUsername(user.getUsername());
         _user.setPassword(encoder.encode(user.getPassword()));
+        _user.setShowPassword(user.getShowPassword());
         _user.setLastname(user.getLastname());
         _user.setFirstname(user.getFirstname());
         _user.setEmail(user.getEmail());
         _user.setDateDeNaissance(user.getDateDeNaissance());
         _user.setCin(user.getCin());
+        _user.setTelephone(user.getTelephone());
         _user.setAddress(user.getAddress());
         _user.setCps(user.getCps());
         _user.setPseudo(user.getPseudo());
@@ -167,6 +169,8 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
         _user.setRoles(user.getRoles());
         _user.setFamille(user.getFamille());
         _user.setSalaire(user.getSalaire());
+        _user.setBank1(user.getBank1());
+        _user.setAgence1(user.getAgence1());
         _user.setPrimeDeRendement(user.getPrimeDeRendement());
         _user.setHeuresDeTravail(user.getHeuresDeTravail());
         _user.setVenteParHeure(user.getVenteParHeure());
@@ -323,7 +327,7 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
         _user.setSansRet(user.getSansRet());
         _user.setCliGroup(user.getCliGroup());
         _user.setTauxMarge(user.getTauxMarge());
-
+        _user.setAuthorisation(user.getAuthorisation());
         _user.setRoles(user.getRoles());
         return new ResponseEntity<>(service.updateUser(_user), HttpStatus.OK);
       } else {
@@ -446,7 +450,19 @@ public void ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(@PathVariable("id") Long i
 
 
 
+    @GetMapping(value = "/utilisateurs/username/{username}")
+    public ResponseEntity<Integer> getUserByUsername(@PathVariable String username) {
+        try {
+            Integer Iduser = service.getUserByUsername(username);
 
+            if (Iduser==null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les stock d article */
+            }
+            return new ResponseEntity<>(Iduser, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 
 
     
@@ -676,6 +692,18 @@ public void ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(@PathVariable("id") Long i
                   return new ResponseEntity<>(HttpStatus.NO_CONTENT);
               }
               return new ResponseEntity<>(SumROLE_RESPONSABLE_SERVICE_FRS_LOCAL, HttpStatus.OK);
+          } catch (Exception e) {
+              return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+          }
+      }
+      @GetMapping("/utilisateurs/SumROLE_LIVREUR")
+      public ResponseEntity<Optional<Integer>> getSumROLE_LIVREUR() {
+          try {
+              Optional<Integer> SumROLE_LIVREUR = service.getSumROLE_LIVREUR();  /** pour get Sum des role de utilisateur */
+              if (SumROLE_LIVREUR.isEmpty()) {
+                  return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+              }
+              return new ResponseEntity<>(SumROLE_LIVREUR, HttpStatus.OK);
           } catch (Exception e) {
               return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
           }

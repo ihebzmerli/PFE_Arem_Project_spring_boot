@@ -1,13 +1,16 @@
 package com.loizenai.jwtauthentication.controller;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
-
+import java.util.concurrent.TimeUnit;
+import java.sql.Timestamp;
 import javax.validation.Valid;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.loizenai.jwtauthentication.message.request.LoginForm;
+import com.loizenai.jwtauthentication.message.request.RequestPasswordForm;
 import com.loizenai.jwtauthentication.message.request.SignUpForm;
 import com.loizenai.jwtauthentication.message.request.SignUpForm.TypeConge;
 import com.loizenai.jwtauthentication.message.request.SignUpForm.TypeContrat;
@@ -32,12 +36,20 @@ import com.loizenai.jwtauthentication.model.User;
 import com.loizenai.jwtauthentication.repository.RoleRepository;
 import com.loizenai.jwtauthentication.repository.UserRepository;
 import com.loizenai.jwtauthentication.security.jwt.JwtProvider;
+import com.loizenai.jwtauthentication.security.MailConfig;
+import com.loizenai.jwtauthentication.services.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestAPIs {
-
+ 
+	@Autowired
+    private UserService service;
+	
+    @Autowired
+    public MailConfig emailSender;
+	
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -59,12 +71,17 @@ public class AuthRestAPIs {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		if(userRepository.getUserNameForAuthorisation(loginRequest.getUsername()).getAuthorisation()==User.Authorisation.Allow){
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		String jwt = jwtProvider.generateJwtToken(authentication);
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			String jwt = jwtProvider.generateJwtToken(authentication);
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+			return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
+		}else{
+			return new ResponseEntity<>(new ResponseMessage("Fail -> Pour des raisons de protection des service et de sécurité, vous étes bloqués, pour prendre l\'authorisation vous pouvez demande au centre informatique de centre AREM GROUP!\n\n "+"ExampleMail@gamil.com"),
+			HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@PostMapping("/signup")
@@ -198,6 +215,12 @@ public class AuthRestAPIs {
 					roles.add(responsable_service_frs_localRole);
 
 				break;
+				case "livreur":
+				Role livreur = roleRepository.findByName(RoleName.ROLE_LIVREUR)
+						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+				roles.add(livreur);
+
+				break;
 				default:
 					Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
 							.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
@@ -231,7 +254,7 @@ public class AuthRestAPIs {
 		}else if(signUpRequest.getTypeContrat().toString().equals("C_en_Alternance")){
 			user.setTypeContrat(User.TypeContrat.C_en_Alternance);
 		}else{
-			user.setTypeContrat(null);
+			user.setTypeContrat(User.TypeContrat.indefini);
 		}
 		
 		user.setDateContrat(signUpRequest.getDateContrat());
@@ -258,7 +281,7 @@ public class AuthRestAPIs {
 		}else if(signUpRequest.getTypeConge().toString().equals("annuel")){
 			user.setTypeConge(User.TypeConge.annuel);
 		}else{
-			user.setTypeConge(null);
+			user.setTypeConge(User.TypeConge.indefini);
 		}
 		user.setPrimeDev(signUpRequest.getPrimeDev());
 		user.setPrimeGlobal(signUpRequest.getPrimeGlobal());
@@ -425,6 +448,8 @@ public class AuthRestAPIs {
 		user.setSansRet(signUpRequest.getSansRet());
 		user.setCliGroup(signUpRequest.getCliGroup());
 		user.setTauxMarge(signUpRequest.getTauxMarge());
+		user.setAuthorisation(User.Authorisation.Allow);
+		user.setDateLastForgot(null);
 		/**test end */
 		userRepository.save(user);
 
@@ -432,8 +457,59 @@ public class AuthRestAPIs {
 	}
 
 
+	@ResponseBody
+	@PostMapping("/requestpassword")
+	public ResponseEntity<?> requestpasswordUser(@Valid @RequestBody RequestPasswordForm requestpasswordRequest) throws InterruptedException{
 
+		if (userRepository.existsByEmail(requestpasswordRequest.getEmail())) {
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			timestamp=new Timestamp(timestamp.getTime()+ (1000 * 60 * 60 * 1));
+			System.out.println("let me see1: " +TimeUnit.MILLISECONDS.toMinutes(timestamp.getTime()));
+			if(userRepository.getRequestPassword(requestpasswordRequest.getEmail()).getDateLastForgot()!=null){
+				System.out.println("let me see2: " +userRepository.getRequestPassword(requestpasswordRequest.getEmail()).getDateLastForgot().getTime());
+			}
+			System.out.println("let me see3: " + userRepository.getRequestPassword(requestpasswordRequest.getEmail()).getAuthorisation()+"la resultat"+User.Authorisation.Allow);
+			
+			if(userRepository.getRequestPassword(requestpasswordRequest.getEmail()).getAuthorisation()==User.Authorisation.Allow){
+				if(userRepository.getRequestPassword(requestpasswordRequest.getEmail()).getDateLastForgot()==null || TimeUnit.MILLISECONDS.toMinutes(timestamp.getTime())-TimeUnit.MILLISECONDS.toMinutes(userRepository.getRequestPassword(requestpasswordRequest.getEmail()).getDateLastForgot().getTime()) > 10){
+						// Create a Simple MailMessage.
+						Optional<User> userData = userRepository.findById(userRepository.getRequestPassword(requestpasswordRequest.getEmail()).getId());
+						if (userData.isPresent()) {
+							User _user = userData.get();
+							_user.setDateLastForgot(timestamp);
+							service.updateUser(_user);
+							SimpleMailMessage message = new SimpleMailMessage();
+			
+							message.setTo(requestpasswordRequest.getEmail());
+							
+		
+							message.setSubject("Mot de passe oublié");
+							message.setText("nous vous avons envoyé cet e-mail en réponse à votre demande d'obtention de votre mot de passe sur le serveur d\'AREAM GROUP.\n"+
+							"Votre mot de passe est:\n\n"+userRepository.getRequestPassword(requestpasswordRequest.getEmail()).getShowPassword()+".\n\n"+
+							"Nous vous recommandons de garder votre mot de passe en sécurité et de ne le partager avec personne."+" si vous pensez que votre mot de passe a été compromis, vous pouvez le changer en vous rendant sur votre profil sur le serveur d\'AREM GROUP et essayer de le changer à partir de là.\n"+
+							"Si vous avez besoin d\'aide, ou si vous avez d\'autres questions, n\'hésitez pas à envoyer un mail au centre Informatique de l\'association ExampleMail@gamil.com, ou à les appeler \n au numéro 216-53853155 .\n\n"+"Pas besoin de répondre à ce mail");
+					
+							// Send Message!
+							this.emailSender.getJavaMailSender().send(message);
+							return new ResponseEntity<>(new ResponseMessage("password sended to the adresse "+ requestpasswordRequest.getEmail() + " was successful!"), HttpStatus.OK);	
 
+						} else {
+							return new ResponseEntity<>(HttpStatus.CHECKPOINT);
+						}
+		
+					}else{
+						return new ResponseEntity<>(new ResponseMessage("Fail -> Pour des raisons de protection des service et de sécurité, vous étes bloqués, vous pouvez réessayer après 10 minutes!"),
+						HttpStatus.TOO_MANY_REQUESTS);
+					}
+				}else{
+					return new ResponseEntity<>(new ResponseMessage("Fail -> Pour des raisons de protection des service et de sécurité, vous étes bloqués, pour prendre l\'authorisation vous pouvez demande au centre informatique de centre AREM GROUP!\n\n "+"ExampleMail@gamil.com"),
+					HttpStatus.BAD_REQUEST);
+				}
+		}else{
+			return new ResponseEntity<>(new ResponseMessage("Fail -> Email wrong!"),
+			HttpStatus.NOT_FOUND);
+		}
+	}
 
 	        // Simple test which prints random number between min and max number (Number Range Example)
 			public long RandomTest1() throws InterruptedException {

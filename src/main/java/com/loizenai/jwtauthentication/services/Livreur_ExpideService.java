@@ -1,6 +1,7 @@
 package com.loizenai.jwtauthentication.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.loizenai.jwtauthentication.model.Livreur_Expide;
 import com.loizenai.jwtauthentication.repository.Livreur_ExpideRepository;
@@ -32,5 +33,8 @@ public class Livreur_ExpideService {
 
     public List<Livreur_Expide>getAllLivreursAndBonliv(String id_expide){
         return repository.getAllLivreursAndBonliv(id_expide);
+    }
+    public Optional<Livreur_Expide> getAllLivreursAndBonliv2(String id_expide){
+        return repository.getAllLivreursAndBonliv2(id_expide);
     }
 }

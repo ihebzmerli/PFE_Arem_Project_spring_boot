@@ -18,7 +18,8 @@ public interface Livreur_ExpideRepository extends JpaRepository<Livreur_Expide, 
     @Query(value = "SELECT * FROM `livreurs_expides` WHERE id_expide LIKE :id_expide", nativeQuery = true)
     public List<Livreur_Expide> getAllLivreursAndBonliv(@Param("id_expide") String id_expide);
 
-
+    @Query(value = "SELECT * FROM `livreurs_expides` WHERE id_expide LIKE :id_expide", nativeQuery = true)
+    public Optional<Livreur_Expide> getAllLivreursAndBonliv2(@Param("id_expide") String id_expide);
 
 
 

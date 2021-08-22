@@ -21,5 +21,9 @@ public class FournisService {
     public List<Long> getFournisOfAdd(){
         return repository.getFournisOfAdd();
     }
-    
+
+    public Fournis updateGoogleMap(Fournis fournis){
+        return repository.save(fournis);
+    }
+
 }

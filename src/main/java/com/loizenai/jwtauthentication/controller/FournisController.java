@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -71,6 +73,39 @@ public class FournisController {
         }
     }
 
+    @PutMapping("/fournis/{codFrs}")
+    public ResponseEntity<Fournis> updateGoogleMap(@PathVariable("codFrs") long codFrs, @RequestBody Fournis fournis) {
+        Optional<Fournis> fournisData = repository.findById(codFrs);
+
+        if (fournisData.isPresent()) {
+            Fournis _fournis = fournisData.get();
+            if(_fournis.getLatGoogleMap()!=null){
+            String removedRepeated = _fournis.getLatGoogleMap().replace(String.valueOf(','),"");
+            int count = _fournis.getLatGoogleMap().length() - removedRepeated.length();
+            System.out.println(count+" test1"); 
+                if(count<6){
+                    _fournis.setLatGoogleMap(_fournis.getLatGoogleMap()+fournis.getLatGoogleMap()+',');
+                    _fournis.setLngGoogleMap(_fournis.getLngGoogleMap()+fournis.getLngGoogleMap()+',');
+                    _fournis.setLabelGoogleMap(_fournis.getLabelGoogleMap()+fournis.getLabelGoogleMap()+',');
+                }else if(count>=6){
+                   System.out.println("sry i can t more !"); 
+                }
+            }else{
+                if(_fournis.getLatGoogleMap()==null){
+                    _fournis.setLatGoogleMap(fournis.getLatGoogleMap()+',');
+                }
+                if(_fournis.getLngGoogleMap()==null){
+                    _fournis.setLngGoogleMap(fournis.getLngGoogleMap()+',');
+                }
+                if(_fournis.getLabelGoogleMap()==null){
+                    _fournis.setLabelGoogleMap(fournis.getLabelGoogleMap()+',');
+                }
+            }
+            return new ResponseEntity<>(service.updateGoogleMap(_fournis), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 /**select list add */
 
 //searsh with FK_keys******************

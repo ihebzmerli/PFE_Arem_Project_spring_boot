@@ -255,7 +255,71 @@ public class ArticleController {
         }
     }
 
+    @GetMapping(value = "/articles/dateBetweenDAT_CREAT/{startDate}to{endDate}")
+    public ResponseEntity<List<Article>> getAllArticleBydateBetweenDAT_CREAT(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<Article> ArticleByDateBetween= service.getAllArticleBydateBetweenDAT_CREAT(startDate,endDate);
+    
+            if (ArticleByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+            }
+            return new ResponseEntity<>(ArticleByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+    @GetMapping(value = "/articles/dateBetweenDER_ACH/{startDate}to{endDate}")
+public ResponseEntity<List<Article>> getAllArticleBydateBetweenDER_ACH(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Article> ArticleByDateBetween= service.getAllArticleBydateBetweenDER_ACH(startDate,endDate);
 
+        if (ArticleByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(ArticleByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
+@GetMapping(value = "/articles/dateBetweenDER_MVT/{startDate}to{endDate}")
+public ResponseEntity<List<Article>> getAllArticleBydateBetweenDER_MVT(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Article> ArticleByDateBetween= service.getAllArticleBydateBetweenDER_MVT(startDate,endDate);
+
+        if (ArticleByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(ArticleByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
+@GetMapping(value = "/articles/dateBetweenDAT_RUP/{startDate}to{endDate}")
+public ResponseEntity<List<Article>> getAllArticleBydateBetweenDAT_RUP(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Article> ArticleByDateBetween= service.getAllArticleBydateBetweenDAT_RUP(startDate,endDate);
+
+        if (ArticleByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(ArticleByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
+@GetMapping(value = "/articles/dateBetweenDAT_PACH/{startDate}to{endDate}")
+public ResponseEntity<List<Article>> getAllArticleBydateBetweenDAT_PACH(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Article> ArticleByDateBetween= service.getAllArticleBydateBetweenDAT_PACH(startDate,endDate);
+
+        if (ArticleByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(ArticleByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
 
 
     /** for seelect list */

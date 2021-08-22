@@ -321,83 +321,120 @@ public ResponseEntity<List<BonLiv>> getAllBonLivByCommand(@PathVariable String c
         }
     }
 
+    @GetMapping(value = "/bonLivs/AllListNumDocNoDuplication")
+    public ResponseEntity<List<String>> getNumDocFactureForBonLiv() {
+        try {
+            List<String> FactureOwned = service.getNumDocFactureForBonLiv();
+
+            if (FactureOwned.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les numdoc without duplicate d Facture */
+            }
+            return new ResponseEntity<>(FactureOwned, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(value = "/bonLivs/AllListEvoyer")
+    public ResponseEntity<List<BonLiv>> getBLEnvoyer() {
+        try {
+            List<BonLiv> BLListEvoyer = service.getBLEnvoyer();
+
+            if (BLListEvoyer.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les BL envoyer */
+            }
+            return new ResponseEntity<>(BLListEvoyer, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 // end for the searsh of FK_Keys*******************
 
     @PutMapping("/bonLivs/{NUM_BON}")
     public ResponseEntity<BonLiv> updateBonLiv(@PathVariable("NUM_BON") String numBon, @RequestBody BonLiv bonliv) throws InterruptedException {
         Optional<BonLiv> bonLivData = repository.findById(numBon);
+        System.out.println(bonliv.getLivreur());
+        if(bonliv.getLivreur()!=null){
+            if (bonLivData.isPresent()) {
+                BonLiv _bonLiv = bonLivData.get();
 
-        if(!bonliv.getNomprenomCli().isEmpty()){
-            String NewNomprenomCli = bonliv.getNomprenomCli();
-            String last_concat = NewNomprenomCli.concat(" : ").concat(Long.toString(RandomTest1()));
-            bonliv.setNomprenomCli(last_concat);
-        }else{
-            bonliv.setNomprenomCli("");
-            bonliv.setAdresseCli("");
-        }
-        
-        if (bonLivData.isPresent()) {
-            BonLiv _bonLiv = bonLivData.get();
-            
-                _bonLiv.setNumBon(bonliv.getNumBon());
-                _bonLiv.setDatBon(bonliv.getDatBon());
-                _bonLiv.setTrans_action(bonliv.getTrans_action());
-                _bonLiv.setCronoTime(bonliv.getCronoTime());
-                _bonLiv.setNumBonFrs(bonliv.getNumBonFrs());
-                _bonLiv.setNomprenomCli(bonliv.getNomprenomCli());
-                _bonLiv.setAdresseCli(bonliv.getAdresseCli());
-                _bonLiv.setRaison(bonliv.getRaison());
-                _bonLiv.setBrutHt(bonliv.getBrutHt());
-                _bonLiv.setTauxRem(bonliv.getTauxRem());
-                _bonLiv.setMontRem(bonliv.getMontRem());
-                _bonLiv.setNetHt(bonliv.getNetHt());
-                _bonLiv.setMontTva(bonliv.getMontTva());
-                _bonLiv.setTotTtc(bonliv.getTotTtc());
-                _bonLiv.setNumFac(bonliv.getNumFac());
-                _bonLiv.setXbase0(bonliv.getXbase0());
-                _bonLiv.setXbase6(bonliv.getXbase6());
-                _bonLiv.setXbase10(bonliv.getXbase10());
-                _bonLiv.setXbase17(bonliv.getXbase17());
-                _bonLiv.setXbase29(bonliv.getXbase29());
-                _bonLiv.setXbase7(bonliv.getXbase7());
-                _bonLiv.setXbase12(bonliv.getXbase12());
-                _bonLiv.setXbase21(bonliv.getXbase21());
-                _bonLiv.setXbase36(bonliv.getXbase36());
-                _bonLiv.setXtva6(bonliv.getXtva6());
-                _bonLiv.setXtva10(bonliv.getXtva10());
-                _bonLiv.setXtva17(bonliv.getXtva17());
-                _bonLiv.setXtva29(bonliv.getXtva29());
-                _bonLiv.setXtva7(bonliv.getXtva7());
-                _bonLiv.setXtva12(bonliv.getXtva12());
-                _bonLiv.setXtva21(bonliv.getXtva21());
-                _bonLiv.setXtva36(bonliv.getXtva36());
-                _bonLiv.setPlusV(bonliv.getPlusV());
-                _bonLiv.setTauxRes(bonliv.getTauxRes());
-                _bonLiv.setMontTrs(bonliv.getMontTrs());
-                _bonLiv.setLiv(bonliv.getLiv());
-                _bonLiv.setCommand(bonliv.getCommand());
-                _bonLiv.setPointage(bonliv.getPointage());
-                _bonLiv.setMontIrpp(bonliv.getMontIrpp());
-                _bonLiv.setPoste(bonliv.getPoste());
-                _bonLiv.setCentre(bonliv.getCentre());
-                _bonLiv.setXbase19(bonliv.getXbase19());
-                _bonLiv.setXtva19(bonliv.getXtva19());
-                _bonLiv.setXbase13(bonliv.getXbase13());
-                _bonLiv.setXtva13(bonliv.getXtva13());
-                _bonLiv.setXbase7A(bonliv.getXbase7A());
-                _bonLiv.setXtva7A(bonliv.getXtva7A());
-                _bonLiv.setCodeTva(bonliv.getCodeTva());
-                
-                //_bonLiv.setExpide(bonliv.getExpide());
-                _bonLiv.setUser(bonliv.getUser());
-                
-                
+                _bonLiv.setLivreur(bonliv.getLivreur());
                 return new ResponseEntity<>(service.updateBonLiv(_bonLiv), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }
+            } 
+        }else{
 
+            if(!bonliv.getNomprenomCli().isEmpty()){
+                String NewNomprenomCli = bonliv.getNomprenomCli();
+                String last_concat = NewNomprenomCli.concat(" : ").concat(Long.toString(RandomTest1()));
+                bonliv.setNomprenomCli(last_concat);
+            }else{
+                bonliv.setNomprenomCli("");
+                bonliv.setAdresseCli("");
+            }
+            
+            if (bonLivData.isPresent()) {
+                BonLiv _bonLiv = bonLivData.get();
+                
+                    _bonLiv.setNumBon(bonliv.getNumBon());
+                    _bonLiv.setDatBon(bonliv.getDatBon());
+                    _bonLiv.setTrans_action(bonliv.getTrans_action());
+                    _bonLiv.setCronoTime(bonliv.getCronoTime());
+                    _bonLiv.setNumBonFrs(bonliv.getNumBonFrs());
+                    _bonLiv.setNomprenomCli(bonliv.getNomprenomCli());
+                    _bonLiv.setAdresseCli(bonliv.getAdresseCli());
+                    _bonLiv.setRaison(bonliv.getRaison());
+                    _bonLiv.setBrutHt(bonliv.getBrutHt());
+                    _bonLiv.setTauxRem(bonliv.getTauxRem());
+                    _bonLiv.setMontRem(bonliv.getMontRem());
+                    _bonLiv.setNetHt(bonliv.getNetHt());
+                    _bonLiv.setMontTva(bonliv.getMontTva());
+                    _bonLiv.setTotTtc(bonliv.getTotTtc());
+                    _bonLiv.setNumFac(bonliv.getNumFac());
+                    _bonLiv.setXbase0(bonliv.getXbase0());
+                    _bonLiv.setXbase6(bonliv.getXbase6());
+                    _bonLiv.setXbase10(bonliv.getXbase10());
+                    _bonLiv.setXbase17(bonliv.getXbase17());
+                    _bonLiv.setXbase29(bonliv.getXbase29());
+                    _bonLiv.setXbase7(bonliv.getXbase7());
+                    _bonLiv.setXbase12(bonliv.getXbase12());
+                    _bonLiv.setXbase21(bonliv.getXbase21());
+                    _bonLiv.setXbase36(bonliv.getXbase36());
+                    _bonLiv.setXtva6(bonliv.getXtva6());
+                    _bonLiv.setXtva10(bonliv.getXtva10());
+                    _bonLiv.setXtva17(bonliv.getXtva17());
+                    _bonLiv.setXtva29(bonliv.getXtva29());
+                    _bonLiv.setXtva7(bonliv.getXtva7());
+                    _bonLiv.setXtva12(bonliv.getXtva12());
+                    _bonLiv.setXtva21(bonliv.getXtva21());
+                    _bonLiv.setXtva36(bonliv.getXtva36());
+                    _bonLiv.setPlusV(bonliv.getPlusV());
+                    _bonLiv.setTauxRes(bonliv.getTauxRes());
+                    _bonLiv.setMontTrs(bonliv.getMontTrs());
+                    _bonLiv.setLiv(bonliv.getLiv());
+                    _bonLiv.setCommand(bonliv.getCommand());
+                    _bonLiv.setPointage(bonliv.getPointage());
+                    _bonLiv.setMontIrpp(bonliv.getMontIrpp());
+                    _bonLiv.setPoste(bonliv.getPoste());
+                    _bonLiv.setCentre(bonliv.getCentre());
+                    _bonLiv.setXbase19(bonliv.getXbase19());
+                    _bonLiv.setXtva19(bonliv.getXtva19());
+                    _bonLiv.setXbase13(bonliv.getXbase13());
+                    _bonLiv.setXtva13(bonliv.getXtva13());
+                    _bonLiv.setXbase7A(bonliv.getXbase7A());
+                    _bonLiv.setXtva7A(bonliv.getXtva7A());
+                    _bonLiv.setCodeTva(bonliv.getCodeTva());
+                    //_bonLiv.setExpide(bonliv.getExpide());
+                    _bonLiv.setUser(bonliv.getUser());
+                    
+                    
+                    return new ResponseEntity<>(service.updateBonLiv(_bonLiv), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+        }
+    }
 
 
 

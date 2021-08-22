@@ -50,10 +50,15 @@ public interface Bon_LivRepository extends JpaRepository<BonLiv, String> {
     @Query(value = "SELECT * FROM `bon_liv` WHERE COMMAND LIKE %:command%", nativeQuery = true)
     public List<BonLiv> getAllBonLivByCommand(@Param("command") String command);
 
+
+    @Query(value = "SELECT DISTINCT NUM_DOC FROM `facture`", nativeQuery = true)
+    public List<String> getNumDocFactureForBonLiv();
     /** end searsh */
     List<BonLiv> findByNumCom(Xcommand numCom);
     List<BonLiv> findByNumFac(long numFac);
 
+    @Query(value = "SELECT * FROM `bon_liv` WHERE (`trans_action` LIKE 'envoyer' AND `id_livreur` is NULL)", nativeQuery = true)
+    public List<BonLiv> getBLEnvoyer();
 
 
 

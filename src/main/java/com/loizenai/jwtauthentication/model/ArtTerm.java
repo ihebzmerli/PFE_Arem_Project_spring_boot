@@ -16,7 +16,6 @@ public class ArtTerm implements Serializable{
     @Id
     @Column(name = "NUM_ART_TERM")
     private String numBonFac;
-    private String numFac;
     private String numDoc;
     private Timestamp date;
     private BigDecimal netHt;
@@ -39,8 +38,7 @@ public class ArtTerm implements Serializable{
 
     //END FK_KEYS************************
 
-    public ArtTerm(String numFac, String numDoc, Timestamp date, BigDecimal netHt, BigDecimal tva, BigDecimal totTtc, BigDecimal montTrs) {
-        this.numFac = numFac;
+    public ArtTerm(String numDoc, Timestamp date, BigDecimal netHt, BigDecimal tva, BigDecimal totTtc, BigDecimal montTrs) {
         this.numDoc = numDoc;
         this.date = date;
         this.netHt = netHt;
@@ -49,10 +47,9 @@ public class ArtTerm implements Serializable{
         this.montTrs = montTrs;
     }
 
-    public ArtTerm(String numBonFac, String numFac, String numDoc, Timestamp date, BigDecimal netHt, BigDecimal tva,
+    public ArtTerm(String numBonFac, String numDoc, Timestamp date, BigDecimal netHt, BigDecimal tva,
             BigDecimal totTtc, BigDecimal montTrs, Facture facture, List<ArtPrep> artPreps, BonLiv bonLiv) {
         this.numBonFac = numBonFac;
-        this.numFac = numFac;
         this.numDoc = numDoc;
         this.date = date;
         this.netHt = netHt;
@@ -75,16 +72,6 @@ public class ArtTerm implements Serializable{
 
     public void setNumBonFac(String numBonFac) {
         this.numBonFac = numBonFac;
-    }
-
-    @Basic
-    @Column(name = "NUM_FAC")
-    public String getNumFac() {
-        return numFac;
-    }
-
-    public void setNumFac(String numFac) {
-        this.numFac = numFac;
     }
 
     @Basic
@@ -172,7 +159,6 @@ public class ArtTerm implements Serializable{
         if (o == null || getClass() != o.getClass()) return false;
         ArtTerm artTerm = (ArtTerm) o;
         return Objects.equals(numBonFac, artTerm.numBonFac) &&
-                Objects.equals(numFac, artTerm.numFac) &&
                 Objects.equals(date, artTerm.date) &&
                 Objects.equals(netHt, artTerm.netHt) &&
                 Objects.equals(tva, artTerm.tva) &&
@@ -182,14 +168,13 @@ public class ArtTerm implements Serializable{
 
     @Override
     public int hashCode() {
-        return Objects.hash(numBonFac, numFac, numDoc, date, netHt, tva, totTtc, montTrs);
+        return Objects.hash(numBonFac, numDoc, date, netHt, tva, totTtc, montTrs);
     }
 
     @Override
     public String toString() {
         return "ArtTerm{" +
                 "numBonFac='" + numBonFac + '\'' +
-                ", numFac='" + numFac + '\'' +
                 ", numDoc='" + numDoc + '\'' +
                 ", date=" + date +
                 ", netHt=" + netHt +

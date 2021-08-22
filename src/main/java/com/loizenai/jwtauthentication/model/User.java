@@ -25,12 +25,14 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -96,6 +98,7 @@ public class User{
     @Column(name = "type_Contrat")
     private TypeContrat typeContrat;
     public enum TypeContrat{
+        indefini,
         CDI,
         CDD,
         CTT,
@@ -172,6 +175,7 @@ public class User{
     @Column(name = "Type_Conge")
     private TypeConge typeConge;
     public enum TypeConge{
+        indefini,
         maternite,
         maladie,
         reduire,
@@ -359,7 +363,18 @@ public class User{
     private String cliGroup;
     private BigDecimal tauxMarge;
 
-    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Authorisation")
+    private Authorisation authorisation;
+    public enum Authorisation{
+        Allow,
+        Block;
+    }
+
+    @Nullable
+    @Column(name = "DateLastForgot")
+    private Timestamp dateLastForgot;
+
     @Column(name = "show_password")
     private String ShowPassword;
     //FK_KEYS***********************
@@ -414,7 +429,7 @@ public class User{
     public User(@NotBlank @Size(min = 3, max = 50) String firstname, @NotBlank @Size(min = 3, max = 50) String lastname,
             @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(max = 50) @Email String email,
             @NotBlank @Size(min = 6, max = 100) String password, Set<Role> roles, Timestamp dateDeNaissance, int cin,
-            String address, int cps, int telephone, String pseudo, String fileName , Timestamp dateRec, TypeContrat typeContrat,
+            String address, int cps, int telephone, String pseudo, String fileName , Timestamp dateRec, Authorisation authorisation, TypeContrat typeContrat,
             Timestamp dateContrat, String famille, Float salaire, Float primeDeRendement, Timestamp heuresDeTravail,
             int venteParHeure, Float objectifParJour, Float objectifParMois, Timestamp dateDebutConge,
             Timestamp dateFinConge, TypeConge typeConge, Float primeDev, Float primeGlobal, Float primeParClient,
@@ -472,6 +487,7 @@ public class User{
         this.objectifParMois = objectifParMois;
         this.dateDebutConge = dateDebutConge;
         this.dateFinConge = dateFinConge;
+        this.authorisation = authorisation;
         this.typeConge = typeConge;
         this.primeDev = primeDev;
         this.primeGlobal = primeGlobal;
@@ -2182,6 +2198,22 @@ public class User{
 
     public void setShowPassword(String showPassword) {
         ShowPassword = showPassword;
+    }
+
+    public Authorisation getAuthorisation() {
+        return authorisation;
+    }
+
+    public void setAuthorisation(Authorisation authorisation) {
+        this.authorisation = authorisation;
+    }
+
+    public Timestamp getDateLastForgot() {
+        return dateLastForgot;
+    }
+
+    public void setDateLastForgot(Timestamp dateLastForgot) {
+        this.dateLastForgot = dateLastForgot;
     }
 
     @Override

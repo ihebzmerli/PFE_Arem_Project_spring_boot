@@ -59,6 +59,13 @@ public class Fournis implements Serializable{
     private Byte posit;
     private BigDecimal totRegl;
     private String retenue;
+
+    @Column(name = "LatGoogleMap")
+    private String LatGoogleMap;
+    @Column(name = "LngGoogleMap")
+    private String LngGoogleMap;
+    @Column(name = "LabelGoogleMap")
+    private String LabelGoogleMap;
     //FK_KEYS***********************
 
     @OneToMany(mappedBy = "fournis", fetch = FetchType.LAZY,
@@ -77,7 +84,11 @@ public class Fournis implements Serializable{
     private List<Article> articles;
 */
     //END FK_KEYS************************
-    public Fournis(String raison, String respon1, String respon2, String adresse, String tel, String fax, String paye, String modReg, BigDecimal creance, BigDecimal cumulAch, BigDecimal affCours, BigDecimal ristourne, BigDecimal cumulRis, BigDecimal cumulVen, Byte marge, BigDecimal remise, BigDecimal fodec, BigDecimal remTarif, Short delLiv, BigDecimal avoir, BigDecimal cumTva, BigDecimal cumulBl, BigDecimal echeance, BigDecimal chifAff, BigDecimal facInst, BigDecimal effNrec, BigDecimal obligation, BigDecimal regEsp, BigDecimal regChq, BigDecimal regEff, BigDecimal effNech, BigDecimal chqCir, BigDecimal credDoc, BigDecimal contAcc, BigDecimal virement, BigDecimal contDoc, BigDecimal soldeDep, BigDecimal payement, BigDecimal escompte, BigDecimal espece, BigDecimal solde, BigDecimal effEch, Boolean echEff, Byte posit, BigDecimal totRegl, String retenue) {
+    public Fournis(String raison, String respon1, String respon2, String adresse, String tel, String fax, String paye, String modReg, BigDecimal creance, BigDecimal cumulAch, BigDecimal affCours, BigDecimal ristourne, BigDecimal cumulRis, BigDecimal cumulVen, Byte marge, BigDecimal remise, BigDecimal fodec, BigDecimal remTarif,
+     Short delLiv, BigDecimal avoir, BigDecimal cumTva, BigDecimal cumulBl, BigDecimal echeance, BigDecimal chifAff, BigDecimal facInst, BigDecimal effNrec, 
+     BigDecimal obligation, BigDecimal regEsp, BigDecimal regChq, BigDecimal regEff, BigDecimal effNech, BigDecimal chqCir, BigDecimal credDoc, BigDecimal contAcc, 
+     BigDecimal virement, BigDecimal contDoc, BigDecimal soldeDep, BigDecimal payement, BigDecimal escompte, BigDecimal espece, BigDecimal solde, BigDecimal effEch, 
+     Boolean echEff, Byte posit, BigDecimal totRegl, String retenue, String LatGoogleMap, String LngGoogleMap, String LabelGoogleMap) {
         this.raison = raison;
         this.respon1 = respon1;
         this.respon2 = respon2;
@@ -124,6 +135,8 @@ public class Fournis implements Serializable{
         this.posit = posit;
         this.totRegl = totRegl;
         this.retenue = retenue;
+        this.LatGoogleMap = LatGoogleMap;
+        this.LngGoogleMap = LngGoogleMap;
     }
 
     public Fournis() {
@@ -605,6 +618,31 @@ public class Fournis implements Serializable{
     public void setBonPreps(List<BonPrep> bonPreps) {
         this.bonPreps = bonPreps;
     }
+
+    public String getLatGoogleMap() {
+        return LatGoogleMap;
+    }
+
+    public void setLatGoogleMap(String latGoogleMap) {
+        LatGoogleMap = latGoogleMap;
+    }
+
+    public String getLngGoogleMap() {
+        return LngGoogleMap;
+    }
+
+    public void setLngGoogleMap(String lngGoogleMap) {
+        LngGoogleMap = lngGoogleMap;
+    }
+
+    public String getLabelGoogleMap() {
+        return LabelGoogleMap;
+    }
+
+    public void setLabelGoogleMap(String labelGoogleMap) {
+        LabelGoogleMap = labelGoogleMap;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -714,6 +752,9 @@ public class Fournis implements Serializable{
                 ", posit=" + posit +
                 ", totRegl=" + totRegl +
                 ", retenue='" + retenue + '\'' +
+                ", LatGoogleMap='" + LatGoogleMap + '\'' +
+                ", totRegl=" + LngGoogleMap +
+                ", LabelGoogleMap=" + LabelGoogleMap +
                 '}';
     }
 

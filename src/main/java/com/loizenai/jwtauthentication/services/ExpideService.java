@@ -36,6 +36,9 @@ public class ExpideService {
         repository.deleteById(id);
     }
 /** add  drop down list */
+public Optional<Integer> getLastId(){
+    return repository.getLastId();
+}
 
 public List<Date> getExpideOfAdd(){
     return repository.getExpideOfAdd();
