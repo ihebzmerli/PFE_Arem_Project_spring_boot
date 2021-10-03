@@ -98,9 +98,9 @@ throws JsonParseException , JsonMappingException , Exception
         new File (context.getRealPath("/imgMarques/Images/")+marqu.getCode()+"/").mkdir();
         System.out.println("mk dir............");
     }
-
+    Integer i=0;
     String filename = file.getOriginalFilename();
-    String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+    String newFileName = FilenameUtils.getBaseName(marqu.getCode()+'_'+i)+"."+FilenameUtils.getExtension(filename);
     File serverFile = new File (context.getRealPath("/imgMarques/Images/"+marqu.getCode()+"/"+File.separator+newFileName));
     try {
         System.out.println("Image"); 
@@ -120,19 +120,47 @@ throws JsonParseException , JsonMappingException , Exception
 
 @GetMapping(path="/Imgmarques/{id}")
 public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
-    Marque Marque = repository.findById(id).get();
-    return Files.readAllBytes(Paths.get(context.getRealPath("/imgMarques/Images/")+Marque.getCode()+"/"+Marque.getFileName()));
+    Marque marque = repository.findById(id).get();
+    return Files.readAllBytes(Paths.get(context.getRealPath("/imgMarques/Images/")+marque.getCode()+"/"+marque.getFileName()));
 
 }
 /*****************post article upload image */
 
     @DeleteMapping("/marques/{id}")
-    public ResponseEntity<HttpStatus> deleteMarque(@PathVariable("id") Long id) {
-        try {
-            service.deleteMarque(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<HttpStatus> deleteMarque(@PathVariable("id") Long id) throws JsonParseException , JsonMappingException , Exception
+    { 
+        try {    
+            System.out.println("OK............"+id);    
+            Optional<String> use = service.getTestMarque(id);
+            System.out.println("OK............"+use.get());
+            if (use.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+                File folder = new File(context.getRealPath("/imgMarques/Images/")+use.get().toString()+"/");
+                boolean isExist = new File(context.getRealPath("/imgMarques/Images/")+use.get().toString()+"/").exists();
+                boolean isDirectory= new File(context.getRealPath("/imgMarques/Images/")+use.get().toString()+"/").isDirectory();
+                System.out.println("after............"+isExist+"and"+isDirectory);
+                if(isExist && isDirectory){
+                    for (File f : folder.listFiles()) {
+                        if(f.delete()){
+                            System.out.println("'"+f.getName()+"' deleted successfully");
+                        }else{
+                            System.out.println("Fail to delete '"+f.getName()+"'");
+                        }
+                    }
+                    if(folder.delete()){
+                        service.getAllModelByMarque(id);
+                        service.deleteMarque(id);
+                        System.out.println("Folder deleted successfully");
+                        return new ResponseEntity<>(HttpStatus.OK);
+                    }else{
+                        System.out.println("Fail to delete folder");
+                        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                    }                      
+                }
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
 
@@ -153,18 +181,40 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
             boolean isExist = new File(context.getRealPath("/imgMarques/Images/")+marqu.getCode()+"/").exists();
             if(!isExist){
 
-                //deleteDirectory(new File (context.getRealPath("/imgMarques/Images/")+_marque.getCode()+"/"));
+                File folder =new File (context.getRealPath("/imgMarques/Images/")+_marque.getCode()+"/");
 
+                for (File f : folder.listFiles()) {
+                    if(f.delete()){
+                        System.out.println("'"+f.getName()+"' deleted successfully");
+                    }else{
+                        System.out.println("Fail to delete '"+f.getName()+"'");
+                    }
+                }
+                if(folder.delete()){
+                    System.out.println("Folder deleted successfully");
+                }else{
+                    System.out.println("Fail to delete folder");
+                }
                 new File (context.getRealPath("/imgMarques/Images/")+marqu.getCode()+"/").mkdir();
                 System.out.println("mk dir............");
+            }else{        
+
+                File folder = new File(context.getRealPath("/imgMarques/Images/")+marqu.getCode()+"/");
+                boolean isExist2 = new File(context.getRealPath("/imgMarques/Images/")+marqu.getCode()+"/").exists();
+                boolean isDirectory= new File(context.getRealPath("/imgMarques/Images/")+marqu.getCode()+"/").isDirectory();
+                if(isExist2 && isDirectory){
+                    for (File f : folder.listFiles()) {
+                        if(f.delete()){
+                            System.out.println("'"+f.getName()+"' deleted successfully");
+                        }else{
+                            System.out.println("Fail to delete '"+f.getName()+"'");
+                        }
+                    }
+                }else{
+                    System.out.println("something wrong with the folder");
+                }
             }
-        
-/*            if(!(marqu.getFileName().equals(_marque.getFileName()))){
-                
-                File filedeleted = new File (context.getRealPath("/imgMarques/Images/"+_marque.getCode()+"/"+_marque.getFileName()));
-                filedeleted.delete();
-            }
-            */
+
             String filename = file.getOriginalFilename();
             String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
             File serverFile = new File (context.getRealPath("/imgMarques/Images/"+marqu.getCode()+"/"+File.separator+newFileName));
@@ -174,7 +224,17 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
             }catch(Exception e){
                 e.printStackTrace();
             }
-            _marque.setFileName(newFileName);
+            Integer i =0;
+            String mimeType= newFileName.substring(newFileName.indexOf('.'), newFileName.length());
+            boolean hasRename = serverFile.renameTo(new File(context.getRealPath("/imgMarques/Images/"+marqu.getCode()+"/"+marqu.getCode()+'_'+i+mimeType)));
+            if (hasRename) {
+                System.out.println("File rename successful");
+            } else {
+                System.out.println("File reanme failed");
+            }
+
+            
+            _marque.setFileName(marqu.getCode()+'_'+i+mimeType);
 
             _marque.setCode(marqu.getCode());
             _marque.setTitle(marqu.getTitle());

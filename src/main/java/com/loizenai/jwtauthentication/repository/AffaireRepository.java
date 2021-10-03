@@ -22,10 +22,23 @@ public interface AffaireRepository extends JpaRepository<Affaire, Long> {
     /**drop down list dor add */
 
     @Query(value = "SELECT * FROM `affaire` WHERE DAT_AFF  BETWEEN :startDate AND :endDate", nativeQuery = true)
-    public List<Affaire> getAllAffaireBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    public List<Affaire> getAllAffaireDAT_AFFBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
+    @Query(value = "SELECT * FROM `affaire` WHERE DAT_PROF  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Affaire> getAllAffaireDAT_PROFBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
+    @Query(value = "SELECT * FROM `affaire` WHERE DAT_CONF  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Affaire> getAllAffaireDAT_CONFBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
-
+    @Query(value = "SELECT * FROM `affaire` WHERE DAT_TRANSF  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Affaire> getAllAffaireDAT_TRANSFBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
+    @Query(value = "SELECT * FROM `affaire` WHERE DAT_ANAL  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Affaire> getAllAffaireDAT_ANALBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+   
+    @Query(value = "SELECT * FROM `affaire` WHERE DAT_FAC  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Affaire> getAllAffaireDAT_FACBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
 
     
     /**statistique Article stk */

@@ -28,6 +28,10 @@ public class Bon_LivService {
         repository.save(bonLiv);
     }
 
+    public Optional<BonLiv> getBonLiv(String numBon){
+        return repository.findById(numBon);
+    }
+
     public BonLiv updateBonLiv(BonLiv bonLiv){
         return repository.save(bonLiv);
     }

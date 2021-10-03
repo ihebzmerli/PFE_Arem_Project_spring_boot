@@ -31,6 +31,19 @@ public class LivreurService {
         repository.deleteById(id);
     }
 
+
+    public List<Livreur> getAllEtatLivdat_reclamBydateBetween(String startDate, String endDate){
+        return repository.getAllEtatLivdat_reclamBydateBetween(startDate,endDate);
+    }
+
+    public List<Livreur> getAllEtatLivdat_reponBydateBetween(String startDate, String endDate){
+        return repository.getAllEtatLivdat_reponBydateBetween(startDate,endDate);
+    }
+
+    public List<Livreur> getAllEtatLivdateBydateBetween(String startDate, String endDate){
+        return repository.getAllEtatLivdateBydateBetween(startDate,endDate);
+    }
+
     /** add  drop down list */
 
     public List<Livreur> getLivreurOfAdd(){

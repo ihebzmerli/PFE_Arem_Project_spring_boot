@@ -18,12 +18,16 @@ public class ChariotService {
         return repository.findAll();
     }
 
-    public void addChariot(Chariot chariot){
-        repository.save(chariot);
+    public Chariot addChariot(Chariot chariot){
+        return repository.save(chariot);
     }
 
     public Chariot updateChariot(Chariot chariot){
         return repository.save(chariot);
+    }
+
+    public Optional<Chariot> getChariot(long numChar){
+        return repository.findById(numChar);
     }
 
     public void deleteChariot(long numChar){
@@ -31,8 +35,8 @@ public class ChariotService {
     }
 
 
-    public void ChangeChariotEtat(long numChar){
-        repository.ChangeChariotEtat(numChar);
+    public void ChangeChariotEtatOccuper(long numChar){
+        repository.ChangeChariotEtatOccuper(numChar);
     }
 
     public void ChangeChariotEtatEnAttent(long numChar){

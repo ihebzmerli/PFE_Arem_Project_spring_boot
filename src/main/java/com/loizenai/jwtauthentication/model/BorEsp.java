@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "bor_esp", schema = "seratest")
+@Table(name = "bor_esp", schema = "testbd")
 public class BorEsp {
     private long id;
     private String numBor;

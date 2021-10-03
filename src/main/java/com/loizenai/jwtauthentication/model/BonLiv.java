@@ -54,8 +54,8 @@ public class BonLiv implements Serializable{
     private List<Article> articles; 
 
 
-    @OneToOne(mappedBy = "bonliv_xcommand", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "num_XCommand", nullable = true)
     private Xcommand numCom;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
@@ -123,7 +123,6 @@ public class BonLiv implements Serializable{
     private BigDecimal tauxRes;
     private BigDecimal montTrs;
     private String liv;
-    private String command;
     private String pointage;
     private BigDecimal montIrpp;
     private String poste;
@@ -141,7 +140,7 @@ public class BonLiv implements Serializable{
 
     }
 
-    public BonLiv(String numBon, Timestamp datBon, String trans_ction,String nomprenomCli, String numBonFrs, String raison, BigDecimal brutHt, BigDecimal tauxRem, BigDecimal montRem, BigDecimal netHt, BigDecimal montTva, BigDecimal totTtc, long numFac, BigDecimal xbase0, BigDecimal xbase6, BigDecimal xbase10, BigDecimal xbase17, BigDecimal xbase29, BigDecimal xbase7, BigDecimal xbase12, BigDecimal xbase21, BigDecimal xbase36, BigDecimal xtva6, BigDecimal xtva10, BigDecimal xtva17, BigDecimal xtva29, BigDecimal xtva7, BigDecimal xtva12, BigDecimal xtva21, BigDecimal xtva36, BigDecimal plusV, BigDecimal tauxRes, BigDecimal montTrs, String liv, String command, String pointage, BigDecimal montIrpp, String poste, String centre, BigDecimal xbase19, BigDecimal xtva19, BigDecimal xbase13, BigDecimal xtva13, BigDecimal xbase7A, BigDecimal xtva7A, String codeTva) {
+    public BonLiv(String numBon, Timestamp datBon, String trans_ction,String nomprenomCli, String numBonFrs, String raison, BigDecimal brutHt, BigDecimal tauxRem, BigDecimal montRem, BigDecimal netHt, BigDecimal montTva, BigDecimal totTtc, long numFac, BigDecimal xbase0, BigDecimal xbase6, BigDecimal xbase10, BigDecimal xbase17, BigDecimal xbase29, BigDecimal xbase7, BigDecimal xbase12, BigDecimal xbase21, BigDecimal xbase36, BigDecimal xtva6, BigDecimal xtva10, BigDecimal xtva17, BigDecimal xtva29, BigDecimal xtva7, BigDecimal xtva12, BigDecimal xtva21, BigDecimal xtva36, BigDecimal plusV, BigDecimal tauxRes, BigDecimal montTrs, String liv, String pointage, BigDecimal montIrpp, String poste, String centre, BigDecimal xbase19, BigDecimal xtva19, BigDecimal xbase13, BigDecimal xtva13, BigDecimal xbase7A, BigDecimal xtva7A, String codeTva) {
         this.numBon = numBon;
         this.datBon = datBon;
         this.nomprenomCli = nomprenomCli;
@@ -175,7 +174,6 @@ public class BonLiv implements Serializable{
         this.tauxRes = tauxRes;
         this.montTrs = montTrs;
         this.liv = liv;
-        this.command = command;
         this.pointage = pointage;
         this.montIrpp = montIrpp;
         this.poste = poste;
@@ -199,7 +197,7 @@ public class BonLiv implements Serializable{
             BigDecimal xbase6, BigDecimal xbase10, BigDecimal xbase17, BigDecimal xbase29, BigDecimal xbase7,
             BigDecimal xbase12, BigDecimal xbase21, BigDecimal xbase36, BigDecimal xtva6, BigDecimal xtva10,
             BigDecimal xtva17, BigDecimal xtva29, BigDecimal xtva7, BigDecimal xtva12, BigDecimal xtva21,
-            BigDecimal xtva36, BigDecimal plusV, BigDecimal tauxRes, BigDecimal montTrs, String liv, String command,
+            BigDecimal xtva36, BigDecimal plusV, BigDecimal tauxRes, BigDecimal montTrs, String liv,
             String pointage, BigDecimal montIrpp, String poste, String centre, BigDecimal xbase19, BigDecimal xtva19,
             BigDecimal xbase13, BigDecimal xtva13, BigDecimal xbase7a, BigDecimal xtva7a, String codeTva) {
         this.numBon = numBon;
@@ -246,7 +244,6 @@ public class BonLiv implements Serializable{
         this.tauxRes = tauxRes;
         this.montTrs = montTrs;
         this.liv = liv;
-        this.command = command;
         this.pointage = pointage;
         this.montIrpp = montIrpp;
         this.poste = poste;
@@ -595,17 +592,6 @@ public class BonLiv implements Serializable{
 
     public void setLiv(String liv) {
         this.liv = liv;
-    }
-
-
-    @Basic
-    @Column(name = "COMMAND")
-    public String getCommand() {
-        return command;
-    }
-
-    public void setCommand(String command) {
-        this.command = command;
     }
 
     @Basic

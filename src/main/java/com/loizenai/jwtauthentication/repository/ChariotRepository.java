@@ -35,7 +35,7 @@ public interface ChariotRepository extends JpaRepository<Chariot, Long> {
 
     @Modifying
     @Query(value = "UPDATE `chariot` SET `ETAT_CHAR`='occuper' WHERE `NUM_CHAR` LIKE %:numChar% ", nativeQuery = true)
-    public void ChangeChariotEtat(long numChar);
+    public void ChangeChariotEtatOccuper(long numChar);
     @Modifying
     @Query(value = "UPDATE `chariot` SET `ETAT_CHAR`='en_attente' WHERE `NUM_CHAR` LIKE %:numChar% ", nativeQuery = true)
     public void ChangeChariotEtatEnAttent(long numChar);

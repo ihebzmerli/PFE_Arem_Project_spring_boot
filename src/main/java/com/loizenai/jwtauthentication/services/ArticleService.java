@@ -64,6 +64,13 @@ public class ArticleService {
     public List<Article> getAllArticleBydateBetweenDAT_PACH(String startDate,String endDate){
         return repository.getAllArticleBydateBetweenDAT_PACH(startDate,endDate);
     }
+
+
+
+    public Article getArticlePublicité(){
+        return repository.getArticlePublicité();
+    }
+    
 /** end drop down list */
 public List<Article> getArticleFromStock(String codArticle){
     return repository.getArticleFromStock(codArticle);

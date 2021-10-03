@@ -1,10 +1,11 @@
 package com.loizenai.jwtauthentication.controller;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Set;
 import javax.servlet.ServletContext;
-
+import com.loizenai.jwtauthentication.model.RoleName;
 import org.springframework.transaction.annotation.Transactional;
 import com.loizenai.jwtauthentication.model.Role;
 import com.loizenai.jwtauthentication.model.User;
@@ -25,11 +26,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.loizenai.jwtauthentication.repository.RoleRepository;
 import java.io.File;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,6 +56,9 @@ public class UserController {
     UserRepository userRepository;
 	@Autowired
 	PasswordEncoder encoder;
+
+	@Autowired
+	RoleRepository roleRepository;
 
     @Autowired
     ServletContext context;
@@ -92,6 +100,106 @@ public class UserController {
       }
     }
 
+
+    /**DATE FILTER  */
+
+    @GetMapping(value = "/utilisateurs/datffacBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<User>> getAllUserdatffacBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<User> BonLivByDateBetween = service.getAllUserdatffacBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(value = "/utilisateurs/date_contratBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<User>> getAllUserdate_contratBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<User> BonLivByDateBetween = service.getAllUserdate_contratBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(value = "/utilisateurs/date_de_naissanceBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<User>> getAllUserdate_de_naissanceBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<User> BonLivByDateBetween = service.getAllUserdate_de_naissanceBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(value = "/utilisateurs/date_debut_congeBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<User>> getAllUserdate_debut_congeBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<User> BonLivByDateBetween = service.getAllUserdate_debut_congeBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(value = "/utilisateurs/date_fin_congeBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<User>> getAllUserdate_fin_congeBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<User> BonLivByDateBetween = service.getAllUserdate_fin_congeBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(value = "/utilisateurs/date_recBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<User>> getAllUserdate_recBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<User> BonLivByDateBetween = service.getAllUserdate_recBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(value = "/utilisateurs/der_mvtBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<User>> getAllUserder_mvtBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<User> BonLivByDateBetween = service.getAllUserder_mvtBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
         /*****************post User upload image */
 
 @PostMapping(value = "/utilisateursTest")
@@ -100,14 +208,15 @@ throws JsonParseException , JsonMappingException , Exception
 {
     System.out.println("OK............");
     User use =  new ObjectMapper().readValue(user,User.class);
+
     boolean isExist = new File(context.getRealPath("/imgUsers/Images/")+use.getCodUser()+"/").exists();
     if(!isExist){
         new File (context.getRealPath("/imgUsers/Images/")+use.getCodUser()+"/").mkdir();
         System.out.println("mk dir............");
     }
-
+    Integer i=0;
     String filename = file.getOriginalFilename();
-    String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+    String newFileName = FilenameUtils.getBaseName(String.valueOf(use.getCodUser())+'_'+i)+"."+FilenameUtils.getExtension(filename);
     File serverFile = new File (context.getRealPath("/imgUsers/Images/"+use.getCodUser()+"/"+File.separator+newFileName));
     try {
         System.out.println("Image"); 
@@ -116,7 +225,145 @@ throws JsonParseException , JsonMappingException , Exception
         e.printStackTrace();
     }
     use.setFileName(newFileName);
+    use.setConnected(0);
+    use.setAuthorisation(User.Authorisation.Allow);
+    use.setShowPassword(use.getPassword());
+    use.setPassword(encoder.encode(use.getPassword()));
 
+    Set<Role> roles = new HashSet<>(); 
+    if(use.getRoles() != null) {
+        Set<String> strRoles = new HashSet<String>(Arrays.asList(use.getRoles().toString()));
+
+        strRoles.forEach(role -> {
+            switch (role) {
+            case "admin":
+                Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(adminRole);
+
+            break;
+            case "acheteur":
+                Role acheteurRole = roleRepository.findByName(RoleName.ROLE_ACHETEUR)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(acheteurRole);
+
+                break;
+            case "transitaire":
+                Role transitaireRole = roleRepository.findByName(RoleName.ROLE_TRANSITAIRE)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(transitaireRole);
+
+            break;
+            case "client":
+                Role clientRole = roleRepository.findByName(RoleName.ROLE_CLIENT)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(clientRole);
+
+            break;
+            case "vendeur":
+                Role vendeurRole = roleRepository.findByName(RoleName.ROLE_VENDEUR)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(vendeurRole);
+
+            break;	
+            case "decideur_bp":
+                Role decideur_bpRole = roleRepository.findByName(RoleName.ROLE_DECIDEUR_BP)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(decideur_bpRole);
+
+            break;
+            case "agent_cab":
+                Role agent_cabRole = roleRepository.findByName(RoleName.ROLE_AGENT_CAB)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(agent_cabRole);
+
+            break;	
+            case "preparateur_br":
+                Role preparateur_brRole = roleRepository.findByName(RoleName.ROLE_PREPARATEUR_BR)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(preparateur_brRole);
+
+            break;
+            case "responsable_dispatching_bp":
+                Role responsable_dispatching_bpRole = roleRepository.findByName(RoleName.ROLE_RESPONSABLE_DISPATCHING_BP)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(responsable_dispatching_bpRole);
+
+            break;	
+            case "preparateur":
+                Role preparateurRole = roleRepository.findByName(RoleName.ROLE_PREPARATEUR)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(preparateurRole);
+
+            break;
+            case "validateur_de_chariot":
+                Role validateur_de_chariotRole = roleRepository.findByName(RoleName.ROLE_VALIDATEUR_DE_CHARIOT)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(validateur_de_chariotRole);
+
+            break;	
+            case "responsable_pointage":
+                Role responsable_pointageRole = roleRepository.findByName(RoleName.ROLE_RESPONSABLE_POINTAGE)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(responsable_pointageRole);
+
+            break;
+            case "emballeur":
+                Role emballeurRole = roleRepository.findByName(RoleName.ROLE_EMBALLEUR)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(emballeurRole);
+
+            break;
+            case "expediteur":
+                Role expediteurRole = roleRepository.findByName(RoleName.ROLE_EXPEDITEUR)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(expediteurRole);
+
+            break;
+            case "agent_saisie_reg":
+                Role agent_saisie_regRole = roleRepository.findByName(RoleName.ROLE_AGENT_SAISIE_REG)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(agent_saisie_regRole);
+
+            break;						
+            case "caissier":
+                Role caissierRole = roleRepository.findByName(RoleName.ROLE_CAISSIER)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(caissierRole);
+
+            break;
+            case "responsable_service_frs_etranger":
+                Role responsable_service_frs_etrangerRole = roleRepository.findByName(RoleName.ROLE_RESPONSABLE_SERVICE_FRS_ETRANGER)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(responsable_service_frs_etrangerRole);
+
+            break;
+            case "responsable_service_frs_local":
+                Role responsable_service_frs_localRole = roleRepository.findByName(RoleName.ROLE_RESPONSABLE_SERVICE_FRS_LOCAL)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(responsable_service_frs_localRole);
+
+            break;
+            case "livreur":
+            Role livreur = roleRepository.findByName(RoleName.ROLE_LIVREUR)
+                    .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+            roles.add(livreur);
+
+            break;
+            default:
+                Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                roles.add(userRole);
+            }
+        });
+    } else {
+        // default mode : User register 
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        roles.add(userRole);			
+    }
+    
+    use.setRoles(roles);
     try {
         service.addUser(use);
         return new ResponseEntity<>(use, HttpStatus.CREATED);
@@ -128,6 +375,7 @@ throws JsonParseException , JsonMappingException , Exception
 @GetMapping(path="/Imgusers/{id}")
 public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
     User User = userRepository.findById(id).get();
+    System.out.println("OK............"+User.getCodUser()+"/"+User.getFileName());
     return Files.readAllBytes(Paths.get(context.getRealPath("/imgUsers/Images/")+User.getCodUser()+"/"+User.getFileName()));
 
 }
@@ -137,7 +385,28 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
     @DeleteMapping("/utilisateurs/{id}")
     public ResponseEntity<HttpStatus> deleteUtilisateur(@PathVariable("id") long id) {
       try {
-        service.deleteUser(id);
+        
+        User use =  userRepository.findById(id).get();
+        System.out.println("OK............"+use);
+        File folder = new File(context.getRealPath("/imgUsers/Images/")+use.getCodUser()+"/");
+        boolean isExist = new File(context.getRealPath("/imgUsers/Images/")+use.getCodUser()+"/").exists();
+        boolean isDirectory= new File(context.getRealPath("/imgUsers/Images/")+use.getCodUser()+"/").isDirectory();
+        System.out.println("after............"+isExist+"and"+isDirectory);
+        if(isExist && isDirectory){
+            for (File f : folder.listFiles()) {
+				if(f.delete()){
+					System.out.println("'"+f.getName()+"' deleted successfully");
+				}else{
+					System.out.println("Fail to delete '"+f.getName()+"'");
+				}
+			}
+            if(folder.delete()){
+				System.out.println("Folder deleted successfully");
+                service.deleteUser(id);
+			}else{
+				System.out.println("Fail to delete folder");
+			}
+        }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       } catch (Exception e) {
         return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
@@ -151,6 +420,36 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
    
       if (userData.isPresent()) {
         User _user = userData.get();
+
+        /**update file name from code user */
+        if(_user.getCodUser() != user.getCodUser()){
+            File folder = new File(context.getRealPath("/imgUsers/Images/")+_user.getCodUser());
+            boolean isExist = new File(context.getRealPath("/imgUsers/Images/")+_user.getCodUser()+"/").exists();
+            boolean isDirectory= new File(context.getRealPath("/imgUsers/Images/")+_user.getCodUser()+"/").isDirectory();
+            System.out.println("after............"+isExist+"and"+isDirectory);
+            if(isExist && isDirectory){
+                if(folder.renameTo(new File(context.getRealPath("/imgUsers/Images/")+user.getCodUser()))){
+                    System.out.println("Folder renamed successfully");
+                }else{
+                    System.out.println("Fail to rename folder");
+                }
+                Integer i=0;
+                
+                for (File f : new File(context.getRealPath("/imgUsers/Images/")+user.getCodUser()+'/').listFiles()) {
+                    String mimeType= f.getName().substring(f.getName().indexOf('.'), f.getName().length());
+                    System.out.println("see me"+mimeType);
+                    if(f.renameTo(new File(context.getRealPath("/imgUsers/Images/")+user.getCodUser()+'/'+user.getCodUser()+'_'+i+mimeType))){
+                        _user.setFileName(user.getCodUser()+" "+i+mimeType);
+                        System.out.println("'"+f.getName()+"' renamed successfully");
+                    }else{
+                        System.out.println("Fail to rename file '"+f.getName()+"'");
+                    }
+                    i = i+1;
+                }
+            }
+        }
+        /**update file name from code user */
+
         _user.setUsername(user.getUsername());
         _user.setPassword(encoder.encode(user.getPassword()));
         _user.setShowPassword(user.getShowPassword());
@@ -329,6 +628,288 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
         _user.setTauxMarge(user.getTauxMarge());
         _user.setAuthorisation(user.getAuthorisation());
         _user.setRoles(user.getRoles());
+        _user.setConnected(user.getConnected());
+
+        return new ResponseEntity<>(service.updateUser(_user), HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+    }
+
+
+    /*****************post article upload image */
+    @PutMapping("/utilisateurs/Update/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestParam("file") MultipartFile file,@RequestParam("user") String user)
+    throws JsonParseException , JsonMappingException , Exception {
+        Optional<User> userData = userRepository.findById(id);
+
+        if (userData.isPresent()) {
+            User _user = userData.get();
+
+            System.out.println("OK............");
+            User marqu =  new ObjectMapper().readValue(user,User.class);
+            boolean isExist = new File(context.getRealPath("/imgUsers/Images/")+marqu.getCodUser()+"/").exists();
+            if(!isExist){
+
+                File folder =new File (context.getRealPath("/imgUsers/Images/")+_user.getCodUser()+"/");
+
+                if(folder.listFiles()!=null){
+                    for (File f : folder.listFiles()) {
+                        if(f.delete()){
+                            System.out.println("'"+f.getName()+"' deleted successfully");
+                        }else{
+                            System.out.println("Fail to delete '"+f.getName()+"'");
+                        }
+                    }
+                }
+                if(folder.delete()){
+                    System.out.println("Folder deleted successfully");
+                }else{
+                    System.out.println("Fail to delete folder");
+                }
+                new File (context.getRealPath("/imgUsers/Images/")+marqu.getCodUser()+"/").mkdir();
+                System.out.println("mk dir............");
+            }else{        
+
+                File folder = new File(context.getRealPath("/imgUsers/Images/")+marqu.getCodUser()+"/");
+                boolean isExist2 = new File(context.getRealPath("/imgUsers/Images/")+marqu.getCodUser()+"/").exists();
+                boolean isDirectory= new File(context.getRealPath("/imgUsers/Images/")+marqu.getCodUser()+"/").isDirectory();
+                if(isExist2 && isDirectory){
+                    for (File f : folder.listFiles()) {
+                        if(f.delete()){
+                            System.out.println("'"+f.getName()+"' deleted successfully");
+                        }else{
+                            System.out.println("Fail to delete '"+f.getName()+"'");
+                        }
+                    }
+                }else{
+                    System.out.println("something wrong with the folder");
+                }
+            }
+
+            String filename = file.getOriginalFilename();
+            String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+            File serverFile = new File (context.getRealPath("/imgUsers/Images/"+marqu.getCodUser()+"/"+File.separator+newFileName));
+            try {
+                System.out.println("Image"); 
+                org.apache.commons.io.FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            Integer i =0;
+            String mimeType= newFileName.substring(newFileName.indexOf('.'), newFileName.length());
+            boolean hasRename = serverFile.renameTo(new File(context.getRealPath("/imgUsers/Images/"+marqu.getCodUser()+"/"+marqu.getCodUser()+'_'+i+mimeType)));
+            if (hasRename) {
+                System.out.println("File rename successful");
+            } else {
+                System.out.println("File reanme failed");
+            }
+
+
+
+            _user.setUsername(marqu.getUsername());
+            _user.setPassword(encoder.encode(marqu.getPassword()));
+            _user.setShowPassword(marqu.getShowPassword());
+            _user.setLastname(marqu.getLastname());
+            _user.setFirstname(marqu.getFirstname());
+            _user.setEmail(marqu.getEmail());
+            _user.setDateDeNaissance(marqu.getDateDeNaissance());
+            _user.setCin(marqu.getCin());
+            _user.setTelephone(marqu.getTelephone());
+            _user.setAddress(marqu.getAddress());
+            _user.setCps(marqu.getCps());
+            _user.setPseudo(marqu.getPseudo());
+            _user.setDateRec(marqu.getDateRec());
+            _user.setTypeContrat(marqu.getTypeContrat());
+            _user.setDateContrat(marqu.getDateContrat());
+            _user.setRoles(marqu.getRoles());
+            _user.setFamille(marqu.getFamille());
+            _user.setSalaire(marqu.getSalaire());
+            _user.setBank1(marqu.getBank1());
+            _user.setAgence1(marqu.getAgence1());
+            _user.setPrimeDeRendement(marqu.getPrimeDeRendement());
+            _user.setHeuresDeTravail(marqu.getHeuresDeTravail());
+            _user.setVenteParHeure(marqu.getVenteParHeure());
+            _user.setObjectifParJour(marqu.getObjectifParJour());
+            _user.setObjectifParMois(marqu.getObjectifParMois());
+            _user.setDateDebutConge(marqu.getDateDebutConge());
+            _user.setDateFinConge(marqu.getDateFinConge());
+            _user.setTypeConge(marqu.getTypeConge());
+            _user.setPrimeGlobal(marqu.getPrimeGlobal());
+            _user.setPrimeParClient(marqu.getPrimeParClient());
+            _user.setPrimeStock(marqu.getPrimeStock());
+            _user.setPostV(marqu.getPostV());
+            _user.setCodUser(marqu.getCodUser());
+            _user.setRaison(marqu.getRaison());
+            _user.setRc(marqu.getRc());
+            _user.setRespon1(marqu.getRespon1());
+            _user.setFonction1(marqu.getFonction1());
+            _user.setFaxs(marqu.getFaxs());
+            _user.setAdrSiege(marqu.getAdrSiege());
+            _user.setRuel(marqu.getRuel());
+            _user.setNumRuel(marqu.getNumRuel());
+            _user.setCpl(marqu.getCpl());
+            _user.setVillel(marqu.getVillel());
+            _user.setRegionl(marqu.getRegionl());
+            _user.setTell(marqu.getTell());
+            _user.setFaxl(marqu.getFaxl());
+            _user.setAdrLiv(marqu.getAdrLiv());
+            _user.setRegion(marqu.getRegion());
+            _user.setModReg(marqu.getModReg());
+            _user.setDomBan(marqu.getDomBan());
+            _user.setEcheance(marqu.getEcheance());
+            _user.setCrMax(marqu.getCrMax());
+            _user.setDerMvt(marqu.getDerMvt());
+            _user.setCredit(marqu.getCredit());
+            _user.setPreVen(marqu.getPreVen());
+            _user.setCumulAch(marqu.getCumulAch());
+            _user.setChifAff1(marqu.getChifAff1());
+            _user.setChifAff2(marqu.getChifAff2());
+            _user.setChifAff3(marqu.getChifAff3());
+            _user.setTauxRem(marqu.getTauxRem());
+            _user.setTauxCom(marqu.getTauxCom());
+            _user.setReste(marqu.getReste());
+            _user.setTauxRes(marqu.getTauxRes());
+            _user.setValRes(marqu.getValRes());
+            _user.setPatron(marqu.getPatron());
+            _user.setRang(marqu.getRang());
+            _user.setImpaye(marqu.getImpaye());
+            _user.setChqImpaye(marqu.getChqImpaye());
+            _user.setEfPort(marqu.getEfPort());
+            _user.setEfBanque(marqu.getEfBanque());
+            _user.setEfNrecu(marqu.getEfNrecu());
+            _user.setAvCom(marqu.getAvCom());
+            _user.setCaution(marqu.getCaution());
+            _user.setBenefice(marqu.getBenefice());
+            _user.setTauxBene(marqu.getTauxBene());
+            _user.setRecFff(marqu.getRecFff());
+            _user.setTva(marqu.getTva());
+            _user.setCle(marqu.getCle());
+            _user.setSoldDep(marqu.getSoldDep());
+            _user.setInteret(marqu.getInteret());
+            _user.setRegChq(marqu.getRegChq());
+            _user.setRegEff(marqu.getRegEff());
+            _user.setRegEsp(marqu.getRegEsp());
+            _user.setFacInst(marqu.getFacInst());
+            _user.setAvoir(marqu.getAvoir());
+            _user.setEffInst(marqu.getEffInst());
+            _user.setSoldeBq(marqu.getSoldeBq());
+            _user.setCreance(marqu.getCreance());
+            _user.setEffEnc(marqu.getEffEnc());
+            _user.setEffEsc(marqu.getEffEsc());
+            _user.setComission(marqu.getComission());
+            _user.setBloc(marqu.getBloc());
+            _user.setCodeTva(marqu.getCodeTva());
+            _user.setRemOrg(marqu.getRemOrg());
+            _user.setAvance(marqu.getAvance());
+            _user.setChqPf(marqu.getChqPf());
+            _user.setRetenue(marqu.getRetenue());
+            _user.setRegVir(marqu.getRegVir());
+            _user.setAvN1(marqu.getAvN1());
+            _user.setClasse(marqu.getClasse());
+            _user.setRistourne(marqu.getRistourne());
+            _user.setCaPrev(marqu.getCaPrev());
+            _user.setSoldeCpf(marqu.getSoldeCpf());
+            _user.setSoldeImp(marqu.getSoldeImp());
+            _user.setSoldeEpf(marqu.getSoldeEpf());
+            _user.setDatFFac(marqu.getDatFFac());
+            _user.setDatGFac(marqu.getDatGFac());
+            _user.setCaMens(marqu.getCaMens());
+            _user.setCrImax(marqu.getCrImax());
+            _user.setFcreN1(marqu.getFcreN1());
+            _user.setFcreN2(marqu.getFcreN2());
+            _user.setFreglN1(marqu.getFreglN1());
+            _user.setFreglN2(marqu.getFreglN2());
+            _user.setFescN2(marqu.getFescN2());
+            _user.setFbkN1(marqu.getFbkN1());
+            _user.setFbkN2(marqu.getFbkN2());
+            _user.setFefpN1(marqu.getFefpN1());
+            _user.setFefpN2(marqu.getFefpN2());
+            _user.setFchpN1(marqu.getFchpN1());
+            _user.setFchpN2(marqu.getFchpN2());
+            _user.setFefnrN1(marqu.getFefnrN1());
+            _user.setFefnrN2(marqu.getFefnrN2());
+            _user.setIcreN1(marqu.getIcreN1());
+            _user.setIcreN2(marqu.getIcreN2());
+            _user.setIreglN1(marqu.getIreglN1());
+            _user.setIreglN2(marqu.getIreglN2());
+            _user.setIescN1(marqu.getIescN1());
+            _user.setIescN2(marqu.getIescN2());
+            _user.setIbkN1(marqu.getIbkN1());
+            _user.setIbkN2(marqu.getIbkN2());
+            _user.setIefpN1(marqu.getIefpN1());
+            _user.setIefpN2(marqu.getIefpN2());
+            _user.setIchpN1(marqu.getIchpN1());
+            _user.setIchpN2(marqu.getIchpN2());
+            _user.setIefnrN1(marqu.getIefnrN1());
+            _user.setIefnrN2(marqu.getIefnrN2());
+            _user.setDatOuvr(marqu.getDatOuvr());
+            _user.setCommand(marqu.getCommand());
+            _user.setRemExp(marqu.getRemExp());
+            _user.setChefMag(marqu.getChefMag());
+            _user.setJourVisit(marqu.getJourVisit());
+            _user.setInstance(marqu.getInstance());
+            _user.setComptant(marqu.getComptant());
+            _user.setBl(marqu.getBl());
+            _user.setNatLiv(marqu.getNatLiv());
+            _user.setMois1(marqu.getMois1());
+            _user.setMois2(marqu.getMois2());
+            _user.setMois3(marqu.getMois3());
+            _user.setMois4(marqu.getMois4());
+            _user.setMois5(marqu.getMois5());
+            _user.setMois6(marqu.getMois6());
+            _user.setMois7(marqu.getMois7());
+            _user.setMois8(marqu.getMois8());
+            _user.setMois9(marqu.getMois9());
+            _user.setMois10(marqu.getMois10());
+            _user.setMois11(marqu.getMois11());
+            _user.setMois12(marqu.getMois12());
+            _user.setDatDerLi(marqu.getDatDerLi());
+            _user.setMargePour(marqu.getMargePour());
+            _user.setMargeVal(marqu.getMargeVal());
+            _user.setCredblEnc(marqu.getCredblEnc());
+            _user.setCredinstec(marqu.getCredinstec());
+            _user.setObservatio(marqu.getObservatio());
+            _user.setObserv(marqu.getObserv());
+            _user.setGouv1(marqu.getGouv1());
+            _user.setGouv2(marqu.getGouv2());
+            _user.setCriRef(marqu.getCriRef());
+            _user.setRemFam(marqu.getRemFam());
+            _user.setReglement(marqu.getReglement());
+            _user.setDelai(marqu.getDelai());
+            _user.setNbTranche(marqu.getNbTranche());
+            _user.setCodSteq(marqu.getCodSteq());
+            _user.setReference(marqu.getReference());
+            _user.setSansRet(marqu.getSansRet());
+            _user.setCliGroup(marqu.getCliGroup());
+            _user.setTauxMarge(marqu.getTauxMarge());
+            _user.setAuthorisation(marqu.getAuthorisation());
+            _user.setRoles(marqu.getRoles());
+            _user.setConnected(marqu.getConnected());
+
+            System.out.println("shoooo"+marqu.getCodUser()+"pfff"+mimeType);
+            _user.setFileName(marqu.getCodUser()+'_'+i+mimeType);
+            //userRepository.ChangeFileName(marqu.getCodUser()+'_'+i+mimeType,id);
+            service.updateUser(_user);
+            System.out.println(_user); 
+            return new ResponseEntity<>(_user, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+        
+    }
+
+    /*****************post article upload image */
+
+
+    @PutMapping("/utilisateurs/connected/{id}")
+    public ResponseEntity<User> updateConnectedUser(@PathVariable("id") long id, @RequestBody User user) {
+      Optional<User> userData = userRepository.findById(id);
+   
+      if (userData.isPresent()) {
+        User _user = userData.get();
+        _user.setConnected(user.getConnected());
+
         return new ResponseEntity<>(service.updateUser(_user), HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -430,7 +1011,11 @@ public void ChangeRoleToRESPONSABLE_SERVICE_FRS_ETRANGER(@PathVariable("id") Lon
 public void ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(@PathVariable("id") Long id) {
     service.ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(id); 
 }
-
+@Transactional
+@GetMapping("/utilisateurs/RoleToLIVREUR/{id}")
+public void ChangeRoleToLIVREUR(@PathVariable("id") Long id) {
+    service.ChangeRoleToLIVREUR(id); 
+}
 
 
 
@@ -707,5 +1292,24 @@ public void ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(@PathVariable("id") Long i
           } catch (Exception e) {
               return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
           }
-      }       
+      }  
+      
+      
+
+      /***end here */
+
+
+      @GetMapping("/utilisateurs/LastUtilisateur")
+      public ResponseEntity<Optional<Long>> getLastIdUser() {
+          try {
+              Optional<Long> LastChariot = service.getLastIdUser();  /** pour get getLastIdUser*/
+  
+              if (LastChariot.isEmpty()) {
+                  return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+              }
+              return new ResponseEntity<>(LastChariot, HttpStatus.OK);
+          } catch (Exception e) {
+              return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+          }
+      }
 }

@@ -68,10 +68,10 @@ public class AffaireController {
         }
     }
 /**select list add */
-@GetMapping(value = "/affaires/dateBetween/{startDate}to{endDate}")
-public ResponseEntity<List<Affaire>> getAllAffaireBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+@GetMapping(value = "/affaires/DAT_AFFdateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Affaire>> getAllAffaireDAT_AFFBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
     try {
-        List<Affaire> AffaireByDateBetween= service.getAllAffaireBydateBetween(startDate,endDate);
+        List<Affaire> AffaireByDateBetween= service.getAllAffaireDAT_AFFBydateBetween(startDate,endDate);
 
         if (AffaireByDateBetween.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
@@ -82,11 +82,71 @@ public ResponseEntity<List<Affaire>> getAllAffaireBydateBetween(@PathVariable St
     }
 }
 
+@GetMapping(value = "/affaires/DAT_PROFdateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Affaire>> getAllAffaireDAT_PROFBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Affaire> AffaireByDateBetween= service.getAllAffaireDAT_PROFBydateBetween(startDate,endDate);
 
+        if (AffaireByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(AffaireByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
+@GetMapping(value = "/affaires/DAT_CONFdateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Affaire>> getAllAffaireDAT_CONFBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Affaire> AffaireByDateBetween= service.getAllAffaireDAT_CONFBydateBetween(startDate,endDate);
 
+        if (AffaireByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(AffaireByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
+@GetMapping(value = "/affaires/DAT_TRANSFdateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Affaire>> getAllAffaireDAT_TRANSFBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Affaire> AffaireByDateBetween= service.getAllAffaireDAT_TRANSFBydateBetween(startDate,endDate);
 
+        if (AffaireByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(AffaireByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
+@GetMapping(value = "/affaires/DAT_ANALdateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Affaire>> getAllAffaireDAT_ANALBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Affaire> AffaireByDateBetween= service.getAllAffaireDAT_ANALBydateBetween(startDate,endDate);
 
+        if (AffaireByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(AffaireByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
+@GetMapping(value = "/affaires/DAT_FACdateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Affaire>> getAllAffaireDAT_FACBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Affaire> AffaireByDateBetween= service.getAllAffaireDAT_FACBydateBetween(startDate,endDate);
 
+        if (AffaireByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les bon preparation entre 2 date */
+        }
+        return new ResponseEntity<>(AffaireByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
 
 
             /**  statistique  Bar affaires */ 

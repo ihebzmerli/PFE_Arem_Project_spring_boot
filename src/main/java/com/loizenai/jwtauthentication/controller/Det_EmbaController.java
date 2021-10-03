@@ -134,8 +134,12 @@ public ResponseEntity<List<DetEmba>> getAllDetEmbaByArtLiv(@PathVariable String 
         if (detEmbaData.isPresent()) {
             DetEmba _detEmba = detEmbaData.get();
 
-            _detEmba.setNum(detemba.getNum());
+            _detEmba.setTypEmba(detemba.getTypEmba());
             _detEmba.setQut(detemba.getQut());
+            _detEmba.setBonprep_detEmbas(detemba.getBonprep_detEmbas());
+            _detEmba.setUser(detemba.getUser());
+
+            System.out.println(detemba.getBonprep_detEmbas());
             return new ResponseEntity<>(service.updateDetEmba(_detEmba), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

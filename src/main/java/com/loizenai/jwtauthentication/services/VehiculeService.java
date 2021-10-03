@@ -41,4 +41,28 @@ public class VehiculeService {
         return repository.getCouleurVehicule();
     }
 /** end drop down list */
+
+
+    /**FILTER DATE */
+
+    public List<Vehicule> getAllVehiculeDT_ACQBydateBetween(String startDate, String endDate){
+        return repository.getAllVehiculeDT_ACQBydateBetween(startDate,endDate);
+    }
+
+    public List<Vehicule> getAllVehiculedt1mc2BydateBetween(String startDate, String endDate){
+        return repository.getAllVehiculedt1mc2BydateBetween(startDate,endDate);
+    }
+
+    public List<Vehicule> getAllVehiculedt1mcBydateBetween(String startDate, String endDate){
+        return repository.getAllVehiculedt1mcBydateBetween(startDate,endDate);
+    }
+
+    public List<Vehicule> getAllVehiculedtfassBydateBetween(String startDate, String endDate){
+        return repository.getAllVehiculedtfassBydateBetween(startDate,endDate);
+    }
+
+    public List<Vehicule> getAllVehiculedtfvisitBydateBetween(String startDate, String endDate){
+        return repository.getAllVehiculedtfvisitBydateBetween(startDate,endDate);
+    }
+    /**end filter date */
 }

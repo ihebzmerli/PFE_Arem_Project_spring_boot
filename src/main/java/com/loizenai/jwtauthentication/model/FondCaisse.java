@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "fond_caisse", schema = "seratest")
+@Table(name = "fond_caisse", schema = "testbd")
 public class FondCaisse {
     private long id;
     private Date date;

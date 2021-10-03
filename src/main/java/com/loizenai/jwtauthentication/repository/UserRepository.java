@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.loizenai.jwtauthentication.model.User;
@@ -24,6 +25,34 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT id FROM `users` WHERE `username` LIKE %:username%", nativeQuery = true)
     public Integer getUserByUsername(String username);
+
+
+/**FILTER DATE */
+
+    @Query(value = "SELECT * FROM `users` WHERE datffac  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<User> getAllUserdatffacBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Query(value = "SELECT * FROM `users` WHERE date_contrat  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<User> getAllUserdate_contratBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Query(value = "SELECT * FROM `users` WHERE date_de_naissance  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<User> getAllUserdate_de_naissanceBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Query(value = "SELECT * FROM `users` WHERE date_debut_conge  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<User> getAllUserdate_debut_congeBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Query(value = "SELECT * FROM `users` WHERE date_fin_conge  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<User> getAllUserdate_fin_congeBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
+    @Query(value = "SELECT * FROM `users` WHERE date_rec  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<User> getAllUserdate_recBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+        
+    @Query(value = "SELECT * FROM `users` WHERE der_mvt  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<User> getAllUserder_mvtBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
+    
+    
+/**FILTER DATE */
 
     /**statistique pie */
 @Query(value = "SELECT COUNT(*) FROM `user_roles` WHERE `role_id` like 1", nativeQuery = true)
@@ -148,4 +177,16 @@ public void ChangeRoleToRESPONSABLE_SERVICE_FRS_LOCAL(long id);
 @Modifying
 @Query(value = "UPDATE `user_roles` SET `role_id`=20 WHERE `user_id` LIKE %:id% ", nativeQuery = true)
 public void ChangeRoleToLIVREUR(long id);
+
+/**end here */
+
+
+@Query(value = "SELECT MAX(user_id) FROM `user_roles`", nativeQuery = true)
+public Optional<Long> getLastIdUser();
+
+
+
+@Modifying
+@Query(value = "UPDATE `users` SET `file_name`=%:getfile% WHERE `id` LIKE %:id% ", nativeQuery = true)
+public void ChangeFileName(@Param("getfile") String getfile, @Param("id") Long id);
 }

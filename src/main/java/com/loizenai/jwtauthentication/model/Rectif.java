@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "rectif", schema = "seratest")
+@Table(name = "rectif", schema = "testbd")
 public class Rectif implements Serializable{
 
     @Id

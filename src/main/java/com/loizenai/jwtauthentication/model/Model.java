@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "model", schema = "seratest")
+@Table(name = "model", schema = "testbd")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Model {
     

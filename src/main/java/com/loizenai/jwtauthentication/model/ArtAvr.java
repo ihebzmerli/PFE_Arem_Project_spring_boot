@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "art_avr", schema = "seratest")
+@Table(name = "art_avr", schema = "testbd")
 public class ArtAvr {
     private long numAvr;
     private Date datAvr;

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "nature_note_credit", schema = "seratest")
+@Table(name = "nature_note_credit", schema = "testbd")
 public class NatureNoteCredit {
     private long id;
     private String libelle;

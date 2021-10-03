@@ -36,6 +36,11 @@ public List<Long> getLivs_PrimesOfAdd(){
     return repository.getLivs_PrimesOfAdd();
 }
 
+public List<Prime> getAllPrimeDER_MVTBydateBetween(String startDate, String endDate){
+    return repository.getAllPrimeDER_MVTBydateBetween(startDate,endDate);
+}
+
+
 /** end drop down list */
 
         /** start les searsh from repository */

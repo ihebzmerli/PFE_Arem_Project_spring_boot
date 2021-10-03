@@ -87,9 +87,9 @@ public class ArticleController {
             new File (context.getRealPath("/imgArticles/Images/")+arti.getCodArt()+"/").mkdir();
             System.out.println("mk dir............");
         }
-
+        Integer i = 0;
         String filename = file.getOriginalFilename();
-        String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+        String newFileName = FilenameUtils.getBaseName(arti.getCodArt()+'_'+i)+"."+FilenameUtils.getExtension(filename);
         File serverFile = new File (context.getRealPath("/imgArticles/Images/"+arti.getCodArt()+"/"+File.separator+newFileName));
         try {
             System.out.println("Image"); 
@@ -100,6 +100,7 @@ public class ArticleController {
         arti.setFileName(newFileName);
 
         try {
+            arti.setCodArt(arti.getCodArt());
             service.addArticle(arti);
             return new ResponseEntity<>(arti, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -834,8 +835,19 @@ public ResponseEntity<List<String>> getZoneArticle(@PathVariable("centre") Strin
                 
 
 
-
-
+                @GetMapping(value = "/articles/ArticlePublicité")
+                public ResponseEntity<Article> getArticlePublicité() {
+                    try {
+                        Article ArticlePublicite= service.getArticlePublicité();
+                
+                        if (ArticlePublicite==null) {
+                            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                        }
+                        return new ResponseEntity<>(ArticlePublicite, HttpStatus.OK);
+                    } catch (Exception e) {
+                        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+                    }
+                }
 
 
    /**  statistique Articles */ 

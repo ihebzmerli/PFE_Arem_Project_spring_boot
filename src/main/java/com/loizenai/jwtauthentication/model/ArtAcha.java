@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "achatss_articles", schema = "seratest")
+@Table(name = "achatss_articles", schema = "testbd")
 public class ArtAcha implements Serializable{
 
     @Id
@@ -28,6 +28,8 @@ public class ArtAcha implements Serializable{
 
     @Column(name = "num_doc")
     private long num_doc;
+
+    private long qutNonTrouver;
     /**FK start */
 
     
@@ -142,6 +144,15 @@ public class ArtAcha implements Serializable{
 
     public void setNum_doc(long num_doc) {
         this.num_doc = num_doc;
+    }
+
+    
+    public long getQutNonTrouver() {
+        return qutNonTrouver;
+    }
+
+    public void setQutNonTrouver(long qutNonTrouver) {
+        this.qutNonTrouver = qutNonTrouver;
     }
 
     @Override

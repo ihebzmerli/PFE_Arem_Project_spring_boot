@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "marque", schema = "seratest")
+@Table(name = "marque", schema = "testbd")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Marque implements Serializable{
     @Id

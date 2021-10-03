@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "art_term", schema = "seratest")
+@Table(name = "art_term", schema = "testbd")
 public class ArtTerm implements Serializable{
 
     @Id

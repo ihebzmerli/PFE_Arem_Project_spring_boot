@@ -20,6 +20,7 @@ public class Fournis implements Serializable{
     private String tel;
     private String fax;
     private String paye;
+    private String matFisc;
     private String modReg;
     private BigDecimal creance;
     private BigDecimal cumulAch;
@@ -84,7 +85,7 @@ public class Fournis implements Serializable{
     private List<Article> articles;
 */
     //END FK_KEYS************************
-    public Fournis(String raison, String respon1, String respon2, String adresse, String tel, String fax, String paye, String modReg, BigDecimal creance, BigDecimal cumulAch, BigDecimal affCours, BigDecimal ristourne, BigDecimal cumulRis, BigDecimal cumulVen, Byte marge, BigDecimal remise, BigDecimal fodec, BigDecimal remTarif,
+    public Fournis(String raison, String respon1, String respon2, String adresse, String tel, String fax, String paye,String matFisc, String modReg, BigDecimal creance, BigDecimal cumulAch, BigDecimal affCours, BigDecimal ristourne, BigDecimal cumulRis, BigDecimal cumulVen, Byte marge, BigDecimal remise, BigDecimal fodec, BigDecimal remTarif,
      Short delLiv, BigDecimal avoir, BigDecimal cumTva, BigDecimal cumulBl, BigDecimal echeance, BigDecimal chifAff, BigDecimal facInst, BigDecimal effNrec, 
      BigDecimal obligation, BigDecimal regEsp, BigDecimal regChq, BigDecimal regEff, BigDecimal effNech, BigDecimal chqCir, BigDecimal credDoc, BigDecimal contAcc, 
      BigDecimal virement, BigDecimal contDoc, BigDecimal soldeDep, BigDecimal payement, BigDecimal escompte, BigDecimal espece, BigDecimal solde, BigDecimal effEch, 
@@ -96,6 +97,7 @@ public class Fournis implements Serializable{
         this.tel = tel;
         this.fax = fax;
         this.paye = paye;
+        this.matFisc = matFisc; 
         this.modReg = modReg;
         this.creance = creance;
         this.cumulAch = cumulAch;
@@ -219,6 +221,16 @@ public class Fournis implements Serializable{
 
     public void setPaye(String paye) {
         this.paye = paye;
+    }
+
+    @Basic
+    @Column(name = "Mat_Fisc")
+    public String getMatFisc() {
+        return matFisc;
+    }
+
+    public void setMatFisc(String matFisc) {
+        this.matFisc = matFisc;
     }
 
     @Basic

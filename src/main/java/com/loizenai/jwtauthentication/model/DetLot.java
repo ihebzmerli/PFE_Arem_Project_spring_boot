@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "det_lot", schema = "seratest")
+@Table(name = "det_lot", schema = "testbd")
 public class DetLot {
     
     private long id;

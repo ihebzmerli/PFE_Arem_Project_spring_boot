@@ -38,4 +38,7 @@ public interface PrimeRepository extends JpaRepository<Prime, Long> {
     public List<Prime> getAllPrimeByDerMvt(@Param("d_mvt") String d_mvt);
 
     //** les query de filtrage */
+
+    @Query(value = "SELECT * FROM `prime` WHERE DER_MVT  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Prime> getAllPrimeDER_MVTBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
 }

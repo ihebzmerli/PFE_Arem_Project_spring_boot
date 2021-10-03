@@ -86,6 +86,8 @@ public interface ArticleRepository extends JpaRepository<Article, String> {
     public List<Article> getAllArticleBydateBetweenDAT_PACH(@Param("startDate") String startDate, @Param("endDate") String endDate);
     
 
+    @Query(value = "SELECT * FROM `article` WHERE (`REMISE` = (SELECT MAX(`REMISE`) FROM `article`)) AND (QUT_STK >= 0 OR QUT_STK2 >= 0 OR STK_GAR >= 0 OR STK_INI >= 0 OR ANAL_STK >= 0 OR NBJ_STK >= 0 OR V_SSTK >= 0 OR COM_STK >= 0 OR XANAL_STK >= 0 OR STK_ATRSF >= 0 OR STK_TRSF >= 0 OR STK_REEL >= 0 OR STK_RES >= 0 OR STK_NP >= 0)", nativeQuery = true)
+    public Article getArticlePublicité();
 
 /**statistique Article stk */
 @Query(value = "SELECT SUM(`QUT_STK`) FROM `article`", nativeQuery = true)

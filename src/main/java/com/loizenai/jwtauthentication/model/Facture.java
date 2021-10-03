@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@Table(name = "facture", schema = "seratest")
+@Table(name = "facture", schema = "testbd")
 public class Facture implements Serializable{
 
     

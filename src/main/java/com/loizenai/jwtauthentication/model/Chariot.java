@@ -15,7 +15,6 @@ public class Chariot implements Serializable{
 
     @Id
     @Column(name = "NUM_CHAR")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long numChar;
     
     @Basic
@@ -66,14 +65,10 @@ public class Chariot implements Serializable{
     }
 
 
-    public Chariot(long numChar, Timestamp datchariot, Timestamp callChariot, List<User> Users,
-            List<ArtPrep> artPreps, List<ArtSort> artSorts, ETAT_CHAR etat_char) {
+    public Chariot(long numChar, Timestamp datchariot, Timestamp callChariot, ETAT_CHAR etat_char) {
         this.numChar = numChar;
         this.datchariot = datchariot;
         this.callChariot = callChariot;
-        this.Users = Users;
-        this.artPreps = artPreps;
-        this.artSorts = artSorts;
         this.etat_char = etat_char;
     }
 

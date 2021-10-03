@@ -72,10 +72,20 @@ public class Livreur_ExpideController {
         }
     }
 
+    @GetMapping(value = "/Livreur_Expides/DeleteAllExpideID/{id_expide}")
+    public ResponseEntity<HttpStatus> deleteAllByExpidition(@PathVariable Long id_expide) {
+    try {
+        service.deleteAllByExpidition(id_expide);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+}
 // end for the searsh of FK_Keys*******************
 
 @GetMapping("/expides/LivreurBonliv/{id_expide}")
-public ResponseEntity<List<Livreur_Expide>> getAllLivreursAndBonliv(@PathVariable String id_expide) {
+public ResponseEntity<List<Livreur_Expide>> getAllLivreursAndBonliv(@PathVariable Long id_expide) {
     try {
         List<Livreur_Expide> LivreurBonliv= service.getAllLivreursAndBonliv(id_expide);  /** pour afficher les bonLiv livreur */
 

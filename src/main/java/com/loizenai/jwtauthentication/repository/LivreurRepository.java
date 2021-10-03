@@ -35,8 +35,14 @@ public interface LivreurRepository extends JpaRepository<Livreur, Long> {
     public List<Livreur> getAllLivreurByExpide(@Param("expide") String expide);
 
 
+    @Query(value = "SELECT * FROM `livreur` WHERE dat_reclam  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Livreur> getAllEtatLivdat_reclamBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
+    @Query(value = "SELECT * FROM `livreur` WHERE dat_repon  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Livreur> getAllEtatLivdat_reponBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
+    @Query(value = "SELECT * FROM `livreur` WHERE date  BETWEEN :startDate AND :endDate", nativeQuery = true)
+    public List<Livreur> getAllEtatLivdateBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
 
 

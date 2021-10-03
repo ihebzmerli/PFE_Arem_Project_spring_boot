@@ -95,6 +95,48 @@ public class LivreurController {
         }
     }
 
+
+@GetMapping(value = "/livreurs/dat_reclamdateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Livreur>> getAllEtatLivdat_reclamBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Livreur> BonLivByDateBetween = service.getAllEtatLivdat_reclamBydateBetween(startDate,endDate);
+
+        if (BonLivByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+        }
+        return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
+
+@GetMapping(value = "/livreurs/dat_repondateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Livreur>> getAllEtatLivdat_reponBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Livreur> BonLivByDateBetween = service.getAllEtatLivdat_reponBydateBetween(startDate,endDate);
+
+        if (BonLivByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+        }
+        return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
+
+@GetMapping(value = "/livreurs/datedateBetween/{startDate}to{endDate}")
+public ResponseEntity<List<Livreur>> getAllEtatLivdateBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+    try {
+        List<Livreur> BonLivByDateBetween = service.getAllEtatLivdateBydateBetween(startDate,endDate);
+
+        if (BonLivByDateBetween.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+        }
+        return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    }
+}
 /**select list add */
 
 

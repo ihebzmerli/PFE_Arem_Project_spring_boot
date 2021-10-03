@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -89,4 +91,22 @@ public ResponseEntity<List<ArtAcha>> getArtAchaForAchats(@PathVariable String nu
 
 
 // end for the searsh of FK_Keys*******************
+
+
+
+    @PutMapping("/artachas/QutNonTrouver/{id}")
+    public ResponseEntity<ArtAcha> updateBonPrepPrix(@PathVariable("id") long id, @RequestBody ArtAcha artacha) {
+        System.out.println("faaaaaaaa");
+        Optional<ArtAcha> artAchaData = repository.findById(id);
+
+        if (artAchaData.isPresent()) {
+            ArtAcha _artacha = artAchaData.get();
+            
+            _artacha.setQutNonTrouver(artacha.getQutNonTrouver());
+            
+            return new ResponseEntity<>(service.updateArtAcha(_artacha), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }   
 }

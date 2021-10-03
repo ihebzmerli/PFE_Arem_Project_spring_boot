@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "suit_aff", schema = "seratest", catalog = "")
+@Table(name = "suit_aff", schema = "testbd", catalog = "")
 public class SuitAff implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -55,21 +55,23 @@ public class Bon_PrepController {
     @PostMapping(value = "/bonPreps")
     public ResponseEntity<BonPrep> postBonprep(@RequestBody BonPrep bonPrep) {
         try {
-            if(!bonPrep.getNomprenomCli().isEmpty()){
+
+            if(bonPrep.getNomprenomCli()!=null){
                 String NewNomprenomCli = bonPrep.getNomprenomCli();
                 String last_concat = NewNomprenomCli.concat(" : ").concat(Long.toString(RandomTest1()));
                 bonPrep.setNomprenomCli(last_concat);
                 
-            }else if (bonPrep.getNomprenomCli().isEmpty()){
+            }else {
                 bonPrep.setNomprenomCli("");
             }
-            System.out.println("test codfrs: " + bonPrep.getCodFrs());
+            
 
             Date date1 = new Date();
             Timestamp timestamp2 = new Timestamp(date1.getTime()+ (1*60*60*1000));
             bonPrep.setDatBon(timestamp2);
             System.out.println(timestamp2);
             
+            System.out.println("test codfrs: " + bonPrep.getCodFrs());
             service.addBonPrep(bonPrep);
             return new ResponseEntity<>(bonPrep, HttpStatus.CREATED);
 
@@ -254,7 +256,7 @@ public ResponseEntity<List<String>> getBonPrepOfAdd() {
 // end for the searsh of FK_Keys*******************
 
     @PutMapping("/bonPreps/{NUM_BON}")
-    public ResponseEntity<BonPrep> updateBonPrep(@PathVariable("NUM_BON") String numBon, @RequestBody BonPrep bonprep) {
+    public ResponseEntity<BonPrep> updateBonPrep(@PathVariable("NUM_BON") String numBon, @RequestBody BonPrep bonprep) throws InterruptedException {
         Optional<BonPrep> bonPrepData = repository.findById(numBon);
 
         if (bonPrepData.isPresent()) {
@@ -262,8 +264,16 @@ public ResponseEntity<List<String>> getBonPrepOfAdd() {
             
             _bonPrep.setDatBon(bonprep.getDatBon());
 
-            _bonPrep.setNomprenomCli(bonprep.getNomprenomCli());
 
+            if(bonprep.getNomprenomCli()!=null){
+                String NewNomprenomCli = bonprep.getNomprenomCli();
+                String last_concat = NewNomprenomCli.concat(" : ").concat(Long.toString(RandomTest1()));
+                _bonPrep.setNomprenomCli(last_concat);
+                
+            }else {
+                _bonPrep.setNomprenomCli("");
+            }
+            System.out.println(_bonPrep.getNomprenomCli());
             _bonPrep.setRaison(bonprep.getRaison());
             _bonPrep.setBrutHt(bonprep.getBrutHt());
             _bonPrep.setTauxRem(bonprep.getTauxRem());
@@ -317,6 +327,7 @@ public ResponseEntity<List<String>> getBonPrepOfAdd() {
             _bonPrep.setXtva7A(bonprep.getXtva7A());
             _bonPrep.setAven_tage(bonprep.getAven_tage());
             _bonPrep.setUser(bonprep.getUser());
+            _bonPrep.setCodFrs(bonprep.getCodFrs());
 
             return new ResponseEntity<>(service.updateBonPrep(_bonPrep), HttpStatus.OK);
         } else {

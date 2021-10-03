@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-@Table(name = "rem_cli", schema = "seratest")
+@Table(name = "rem_cli", schema = "testbd")
 public class RemCli {
     private long id;
     private String codArt;

@@ -2,6 +2,8 @@ package com.loizenai.jwtauthentication.model;
 
 import javax.persistence.*;
 
+import lombok.Builder;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -10,6 +12,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Builder
+@Table(name = "achats", schema = "testbd")
 public class Achats implements Serializable{
 
     @Id 

@@ -9,7 +9,7 @@ import javax.persistence.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-@Table(name = "det_emba", schema = "seratest")
+@Table(name = "det_emba", schema = "testbd")
 public class DetEmba implements Serializable{
 
     @Id
@@ -19,12 +19,12 @@ public class DetEmba implements Serializable{
 
     @Basic
     //@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "CALL_CHARIOT", nullable = false)
+    @Column(name = "DATE_EMBA", nullable = false)
     @LastModifiedDate
     private Timestamp dateEmba;
 
-
-    private Integer num;
+    @Column(name = "type_Emba")
+    private String typEmba;
     private Integer qut;
     //FK_KEYS***********************
     
@@ -36,19 +36,22 @@ public class DetEmba implements Serializable{
     cascade = CascadeType.ALL)
     private List<Article> articles;
 */
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "id_user", nullable = true)
+    private User user;
     //END FK_KEYS************************    
-    public DetEmba(Integer num, Integer qut) {
-        this.num = num;
+    public DetEmba(String typEmba, Integer qut) {
+        this.typEmba = typEmba;
         this.qut = qut;
     }
 
-    public DetEmba(long id, Integer num, Integer qut) {
+    public DetEmba(long id, String typEmba, Integer qut) {
         this.id = id;
-        this.num = num;
+        this.typEmba = typEmba;
         this.qut = qut;
     }
-    public DetEmba(Integer num, Integer qut, BonPrep bonprep_detEmbas) {
-        this.num = num;
+    public DetEmba(String typEmba, Integer qut, BonPrep bonprep_detEmbas) {
+        this.typEmba = typEmba;
         this.qut = qut;
         this.bonprep_detEmbas = bonprep_detEmbas;
     }
@@ -59,10 +62,10 @@ public class DetEmba implements Serializable{
 
 
     
-    public DetEmba(long id, Timestamp dateEmba, Integer num, Integer qut, BonPrep bonprep_detEmbas) {
+    public DetEmba(long id, Timestamp dateEmba, String typEmba, Integer qut, BonPrep bonprep_detEmbas) {
         this.id = id;
         this.dateEmba = dateEmba;
-        this.num = num;
+        this.typEmba = typEmba;
         this.qut = qut;
         this.bonprep_detEmbas = bonprep_detEmbas;
     }
@@ -75,14 +78,14 @@ public class DetEmba implements Serializable{
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "NUM")
-    public Integer getNum() {
-        return num;
+
+
+    public String getTypEmba() {
+        return typEmba;
     }
 
-    public void setNum(Integer num) {
-        this.num = num;
+    public void setTypEmba(String typEmba) {
+        this.typEmba = typEmba;
     }
 
     @Basic
@@ -110,7 +113,17 @@ public class DetEmba implements Serializable{
     public void setDateEmba(Timestamp dateEmba) {
         this.dateEmba = dateEmba;
     }
-/*
+
+    
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    /*
     public List<Article> getArticles() {
         return articles;
     }
@@ -125,7 +138,6 @@ public class DetEmba implements Serializable{
         int result = 1;
         result = prime * result + ((bonprep_detEmbas == null) ? 0 : bonprep_detEmbas.hashCode());
         result = prime * result + (int) (id ^ (id >>> 32));
-        result = prime * result + ((num == null) ? 0 : num.hashCode());
         result = prime * result + ((qut == null) ? 0 : qut.hashCode());
         return result;
     }
@@ -146,11 +158,6 @@ public class DetEmba implements Serializable{
             return false;
         if (id != other.id)
             return false;
-        if (num == null) {
-            if (other.num != null)
-                return false;
-        } else if (!num.equals(other.num))
-            return false;
         if (qut == null) {
             if (other.qut != null)
                 return false;
@@ -161,7 +168,7 @@ public class DetEmba implements Serializable{
 
     @Override
     public String toString() {
-        return "DetEmba [artprep_detEmbas=" + bonprep_detEmbas + ", id=" + id + ", num=" + num + ", qut=" + qut + "]";
+        return "DetEmba [artprep_detEmbas=" + bonprep_detEmbas + ", id=" + id + ", typEmba=" + typEmba + ", qut=" + qut + "]";
     }
 
 }

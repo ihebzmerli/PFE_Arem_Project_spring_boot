@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.GenerationType;
 
 @Entity
-@Table(name = "livreurs_expides", schema = "seratest")
+@Table(name = "livreurs_expides", schema = "testbd")
 public class Livreur_Expide implements Serializable {
     
     @Id

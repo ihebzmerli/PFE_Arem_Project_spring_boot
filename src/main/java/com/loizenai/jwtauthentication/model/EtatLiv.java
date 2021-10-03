@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "etat_liv", schema = "seratest")
+@Table(name = "etat_liv", schema = "testbd")
 public class EtatLiv implements Serializable{
 
     @Id

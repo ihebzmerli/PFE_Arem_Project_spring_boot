@@ -39,6 +39,23 @@ public class PrimeController {
         }
     }
 
+
+    @GetMapping(value = "/primes/dat_reclamDER_MVTBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<Prime>> getAllPrimeDER_MVTBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<Prime> BonLivByDateBetween = service.getAllPrimeDER_MVTBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+    
+
+
     @GetMapping("/primes/{id}")
     public ResponseEntity<Prime> getPrimeById(@PathVariable("id") long id) {
         Optional<Prime> primeData = repository.findById(id);

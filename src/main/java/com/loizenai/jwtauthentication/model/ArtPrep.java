@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "bon_preps_articles", schema = "seratest")
+@Table(name = "bon_preps_articles", schema = "testbd")
 public class ArtPrep implements Serializable{
 
     @Id
@@ -50,13 +50,24 @@ public class ArtPrep implements Serializable{
     //@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CHRONO")
     @LastModifiedDate
-    private Timestamp chrono;
+    private String chrono;
     
-    private String prep;
-    private String prepara;
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "prep_chariot", nullable = true)
+    private User prep;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "prepara", nullable = true)
+    private User prepara;
+
     private String avPrep;
     private Integer qutPoint;
+
+    @Column(name = "Qut_Valider")
+    private Integer qutValider;
+
     private String poste;
+
     private String centre;
     @Column(name = "TYP_ART")
     private String typArt;
@@ -125,8 +136,8 @@ public class ArtPrep implements Serializable{
     }
     public ArtPrep(String typArt,BigDecimal qutLiv, BigDecimal remise, BigDecimal prixHt, BigDecimal tva, BigDecimal totHt,
             BigDecimal marge, Integer cumulRet, BigDecimal prixAch, Integer qutPrep, Boolean nonTrouve, Timestamp datPrep,
-            BigDecimal remExp, String etage2, String numCas, String heure, String heure1, String prep, String prepara,
-            String avPrep, Integer qutPoint, String poste, String centre) {
+            BigDecimal remExp, String etage2, String numCas, String heure, String heure1, User prep, User prepara,
+            String avPrep, Integer qutPoint, String poste, String centre,Integer qutValider) {
         this.typArt = typArt;
         this.qutLiv = qutLiv;
         this.remise = remise;
@@ -148,6 +159,7 @@ public class ArtPrep implements Serializable{
         this.qutPoint = qutPoint;
         this.poste = poste;
         this.centre = centre;
+        this.qutValider = qutValider;
     }
     
 
@@ -155,11 +167,11 @@ public class ArtPrep implements Serializable{
     public ArtPrep(long id, String numBon, String codArt, BigDecimal qutLiv, BigDecimal remise, BigDecimal prixHt,
             BigDecimal prixArem, BigDecimal tva, BigDecimal totHt, BigDecimal marge, Integer cumulRet,
             BigDecimal prixAch, Integer qutPrep, Boolean nonTrouve, Timestamp datPrep, BigDecimal remExp, String etage2,
-            String numCas, Timestamp chrono, String prep, String prepara, String avPrep, Integer qutPoint, String poste,
+            String numCas, String chrono, User prep, User prepara, String avPrep, Integer qutPoint, String poste,
             String centre, String typArt, Timestamp poitageChariot, ArtTerm artPrep_artTerm, Chariot artprep_chariot,
             Integer qutStk, Integer qutStk2, Integer stkGar, Integer stkIni, Integer analStk, Integer nbjStk,
             Integer vSstk, Integer comStk, Integer xanalStk, Integer stkAtrsf, Integer stkTrsf, Integer stkReel,
-            Integer stkRes, Integer stkNp) {
+            Integer stkRes, Integer stkNp,Integer qutValider) {
         this.id = id;
         this.numBon = numBon;
         this.codArt = codArt;
@@ -203,6 +215,7 @@ public class ArtPrep implements Serializable{
         this.stkReel = stkReel;
         this.stkRes = stkRes;
         this.stkNp = stkNp;
+        this.qutValider = qutValider;
     }
     public long getId() {
         return id;
@@ -361,21 +374,21 @@ public class ArtPrep implements Serializable{
 
     @Basic
     @Column(name = "PREP")
-    public String getPrep() {
+    public User getPrep() {
         return prep;
     }
 
-    public void setPrep(String prep) {
+    public void setPrep(User prep) {
         this.prep = prep;
     }
 
     @Basic
     @Column(name = "PREPARA")
-    public String getPrepara() {
+    public User getPrepara() {
         return prepara;
     }
 
-    public void setPrepara(String prepara) {
+    public void setPrepara(User prepara) {
         this.prepara = prepara;
     }
 
@@ -419,6 +432,12 @@ public class ArtPrep implements Serializable{
         this.centre = centre;
     }
 
+    public Integer getQutValider() {
+        return qutValider;
+    }
+    public void setQutValider(Integer qutValider) {
+        this.qutValider = qutValider;
+    }
     public Chariot getArtprep_chariot() {
         return artprep_chariot;
     }
@@ -430,11 +449,11 @@ public class ArtPrep implements Serializable{
         this.artPrep_artTerm = artPrep_artTerm;
     }
 
-    public Timestamp getChrono() {
+    public String getChrono() {
         return chrono;
     }
 
-    public void setChrono(Timestamp chrono) {
+    public void setChrono(String chrono) {
         this.chrono = chrono;
     }
 

@@ -18,6 +18,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -142,20 +143,24 @@ public class Etat_LivController {
 
         if (etatLivData.isPresent()) {
             EtatLiv _etatLiv = etatLivData.get();
-
+            System.out.println("bababa1");
             _etatLiv.setRegion(etatliv.getRegion());
             if(_etatLiv.getConfirmation()!=etatliv.getConfirmation()){
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                timestamp=new Timestamp(timestamp.getTime()+ (1000 * 60 * 60 * 1));
                 _etatLiv.setDate(timestamp); 
+                System.out.println("bababa2");
             }
             _etatLiv.setConfirmation(etatliv.getConfirmation());
 
-            _etatLiv.setBonLiv(etatliv.getBonLiv());
             CONFIRMATION test=etatliv.getConfirmation();
             if(test==EtatLiv.CONFIRMATION.recu_est_verifier){
                 Timestamp timestamp2 = new Timestamp(System.currentTimeMillis());
+                timestamp2=new Timestamp(timestamp2.getTime()+ (1000 * 60 * 60 * 1));
                 BonLiv bonliv = etatliv.getBonLiv();
                 bonliv.setCronoTime(timestamp2);
+                _etatLiv.setBonLiv(etatliv.getBonLiv());
+                
                 serviceBonLiv.updateBonLiv(bonliv);
             }
 
@@ -166,15 +171,24 @@ public class Etat_LivController {
     }
 
 
-    @GetMapping("/etatLivs/chronometre/{endDate}")
-    public ResponseEntity<Optional<Integer>> getEtatCronometre(@PathVariable("endDate") String endDate,Timestamp timestawa ) {
+    @GetMapping("/etatLivs/chronometre/{startDate}")
+    public ResponseEntity<Long> getEtatCronometre(@PathVariable("startDate") Timestamp startDate) {
         try {
-            Optional<Integer> chronometre= service.getEtatCronometre(endDate,timestawa.toString()); 
+            Timestamp timestawa = new Timestamp(System.currentTimeMillis());
+            timestawa=new Timestamp(timestawa.getTime()+ (1000 * 60 * 60 * 1));
 
-            if (chronometre.isEmpty()) {
+            long diff = timestawa.getTime()- startDate.getTime();
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(diff);
+      /*      
+            System.out.println("plp"+' '+startDate);
+            System.out.println("bababa1"+' '+timestawa);
+            Optional<Timestamp> chronometre= service.getEtatCronometre(timestawa.toString(),startDate); 
+            System.out.println("bababa1"+' '+service.getEtatCronometre(timestawa.toString(),startDate));
+            */
+            if (seconds==0) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(chronometre, HttpStatus.OK);
+            return new ResponseEntity<>(seconds, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }

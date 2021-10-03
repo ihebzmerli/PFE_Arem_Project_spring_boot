@@ -6,6 +6,7 @@ import com.loizenai.jwtauthentication.model.Xcommand;
 import com.loizenai.jwtauthentication.repository.Bon_LivRepository;
 import com.loizenai.jwtauthentication.services.Bon_LivService;
 import com.loizenai.jwtauthentication.services.Etat_LivService;
+import com.loizenai.jwtauthentication.services.XcommandService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,12 @@ public class Bon_LivController {
 
     @Autowired
     Bon_LivRepository repository;
+
+    @Autowired
+    private XcommandController XcommandC;
+
+    @Autowired
+    private XcommandService serviceXC;
 
     @GetMapping("/bonLivs")
     public ResponseEntity<List<BonLiv>> getAllBonlivs() {
@@ -61,13 +68,14 @@ public class Bon_LivController {
     @PostMapping(value = "/bonLivs")
     public ResponseEntity<BonLiv> addBonLiv(@RequestBody BonLiv bonliv) {
         try {
-            if(!bonliv.getNomprenomCli().isEmpty() && !bonliv.getAdresseCli().isEmpty()){
+            System.out.println(bonliv.getNomprenomCli());
+            if(bonliv.getNomprenomCli()!=null && bonliv.getAdresseCli()!=null){
+                System.out.println("zzzzzzzzzzzzz");
                 String NewNomprenomCli = bonliv.getNomprenomCli();
                 String last_concat = NewNomprenomCli.concat(" : ").concat(Long.toString(RandomTest1()));
                 bonliv.setNomprenomCli(last_concat);
-            }else if (bonliv.getNomprenomCli().isEmpty() && bonliv.getAdresseCli().isEmpty()){
-                bonliv.setNomprenomCli("");
-                bonliv.setAdresseCli("");
+            }else {
+                System.out.println("wwwwwwwwwwwww");
             }
             Date date1 = new Date();
             Timestamp timestamp2 = new Timestamp(date1.getTime()+ (1*60*60*1000));
@@ -75,10 +83,20 @@ public class Bon_LivController {
             System.out.println(timestamp2);
 
 
+            Optional<Xcommand> xcommandData = serviceXC.getXcommand(bonliv.getNumCom().getNumCom());
+            System.out.println("test"+xcommandData);
+            if (xcommandData.isPresent()) {
+                Xcommand _xcommand = xcommandData.get();
+                _xcommand.setTraite("YES");
+                XcommandC.updateXcommands(bonliv.getNumCom().getNumCom(), bonliv.getNumCom());
+            }
+            
+            System.out.println("test codfrs: " + bonliv.getFournis());
             service.addBonLiv(bonliv);
             EtatLiv etatLiv = new EtatLiv();
 
-            if(!bonliv.getAdresseCli().isEmpty() && bonliv.getTrans_action().toString() == "envoyer"){
+            if((bonliv.getAdresseCli()!=null && bonliv.getTrans_action().toString() == "envoyer") || (bonliv.getFournis()==null && bonliv.getTrans_action().toString() == "envoyer")){
+                System.out.println("chose1");
                     etatLiv.setRegion(bonliv.getAdresseCli());
                     
 
@@ -89,7 +107,8 @@ public class Bon_LivController {
                     serviceEtat.addEtatLiv(etatLiv);
             }
 
-            if(bonliv.getAdresseCli().isEmpty() && bonliv.getTrans_action().toString() == "envoyer" ){
+            if((bonliv.getAdresseCli()==null && bonliv.getTrans_action().toString() == "envoyer") || (bonliv.getFournis()!=null && bonliv.getTrans_action().toString() == "envoyer")){
+                System.out.println("chose2");
                 etatLiv.setRegion(bonliv.getFournis().getAdresse());
 
                 etatLiv.setDate(bonliv.getDatBon());
@@ -98,7 +117,18 @@ public class Bon_LivController {
                  
                 serviceEtat.addEtatLiv(etatLiv);
             }
-            if(!bonliv.getAdresseCli().isEmpty() && bonliv.getTrans_action().toString() == "recu"){
+            if(bonliv.getAdresseCli()!=null && bonliv.getTrans_action().toString() == "recu" || (bonliv.getFournis()==null && bonliv.getTrans_action().toString() == "envoyer")){
+                System.out.println("chose3");
+                etatLiv.setRegion(bonliv.getAdresseCli());
+
+                etatLiv.setDate(bonliv.getDatBon());
+                etatLiv.setConfirmation(EtatLiv.CONFIRMATION.recu_non_verifier);
+                etatLiv.setBonLiv(bonliv);
+                 
+                serviceEtat.addEtatLiv(etatLiv);
+            }
+            if((bonliv.getAdresseCli()==null && bonliv.getTrans_action().toString() == "recu") || (bonliv.getFournis()!=null && bonliv.getTrans_action().toString() == "envoyer")){
+                System.out.println("chose4");
                 etatLiv.setRegion(bonliv.getFournis().getAdresse());
 
                 etatLiv.setDate(bonliv.getDatBon());
@@ -107,16 +137,6 @@ public class Bon_LivController {
                  
                 serviceEtat.addEtatLiv(etatLiv);
             }
-            if(bonliv.getAdresseCli().isEmpty() && bonliv.getTrans_action().toString() == "recu"){
-                etatLiv.setRegion(bonliv.getFournis().getAdresse());
-
-                etatLiv.setDate(bonliv.getDatBon());
-                etatLiv.setConfirmation(EtatLiv.CONFIRMATION.recu_non_verifier);
-                etatLiv.setBonLiv(bonliv);
-                 
-                serviceEtat.addEtatLiv(etatLiv);
-            }
-
             return new ResponseEntity<>(bonliv, HttpStatus.CREATED);            
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
@@ -413,7 +433,6 @@ public ResponseEntity<List<BonLiv>> getAllBonLivByCommand(@PathVariable String c
                     _bonLiv.setTauxRes(bonliv.getTauxRes());
                     _bonLiv.setMontTrs(bonliv.getMontTrs());
                     _bonLiv.setLiv(bonliv.getLiv());
-                    _bonLiv.setCommand(bonliv.getCommand());
                     _bonLiv.setPointage(bonliv.getPointage());
                     _bonLiv.setMontIrpp(bonliv.getMontIrpp());
                     _bonLiv.setPoste(bonliv.getPoste());
@@ -425,6 +444,7 @@ public ResponseEntity<List<BonLiv>> getAllBonLivByCommand(@PathVariable String c
                     _bonLiv.setXbase7A(bonliv.getXbase7A());
                     _bonLiv.setXtva7A(bonliv.getXtva7A());
                     _bonLiv.setCodeTva(bonliv.getCodeTva());
+                    _bonLiv.setNumCom(bonliv.getNumCom());
                     //_bonLiv.setExpide(bonliv.getExpide());
                     _bonLiv.setUser(bonliv.getUser());
                     
@@ -435,7 +455,20 @@ public ResponseEntity<List<BonLiv>> getAllBonLivByCommand(@PathVariable String c
                 }
         }
     }
+    @PutMapping("/bonLivs/ResetLivreur/{NUM_BON}")
+    public ResponseEntity<BonLiv> updateBonLivResetLivreur(@PathVariable("NUM_BON") String numBon, @RequestBody BonLiv bonliv) {
+        Optional<BonLiv> bonLivData = repository.findById(numBon);
+        System.out.println(bonliv.getLivreur());
+            if (bonLivData.isPresent()) {
+                BonLiv _bonLiv = bonLivData.get();
 
+                _bonLiv.setLivreur(null);                    
+                    System.out.println(_bonLiv.getLivreur());
+            return new ResponseEntity<>(service.updateBonLiv(_bonLiv), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+    }
 
 
 /**select list add */

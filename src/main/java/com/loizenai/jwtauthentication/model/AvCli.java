@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-@Table(name = "av_cli", schema = "seratest")
+@Table(name = "av_cli", schema = "testbd")
 public class AvCli {
     private long id;
     private long codUser;

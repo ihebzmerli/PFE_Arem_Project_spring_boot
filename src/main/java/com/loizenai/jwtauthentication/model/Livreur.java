@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "livreur", schema = "seratest")
+@Table(name = "livreur", schema = "testbd")
 public class Livreur implements Serializable {
 
     @Id

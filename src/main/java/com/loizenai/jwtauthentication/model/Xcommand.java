@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "xcommand", schema = "testbd")
 public class Xcommand implements Serializable{
 
     @Id
@@ -24,8 +25,9 @@ public class Xcommand implements Serializable{
 
     //FK_KEYS***********************
 
-    @OneToOne(fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "NUM_BON_LIV", nullable = true)
+    
+    @OneToOne(mappedBy = "numCom", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
     private BonLiv bonliv_xcommand;
     
     @ManyToOne(fetch = FetchType.EAGER, optional = true)

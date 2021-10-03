@@ -1,6 +1,7 @@
 package com.loizenai.jwtauthentication.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.loizenai.jwtauthentication.model.Marque;
 import com.loizenai.jwtauthentication.repository.MarqueRepository;
@@ -30,5 +31,11 @@ public class MarqueService {
 
     public void deleteMarque(Long id){
         repository.deleteById(id);
+    }
+    public void getAllModelByMarque(long marque_id){
+        repository.getAllModelByMarque(marque_id);
+    }
+    public Optional<String> getTestMarque(long marque_id){
+        return repository.getTestMarque(marque_id);
     }
 }

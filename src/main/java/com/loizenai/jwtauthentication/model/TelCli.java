@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tel_cli", schema = "seratest", catalog = "")
+@Table(name = "tel_cli", schema = "testbd", catalog = "")
 public class TelCli {
     private long id;
     private String codCli;

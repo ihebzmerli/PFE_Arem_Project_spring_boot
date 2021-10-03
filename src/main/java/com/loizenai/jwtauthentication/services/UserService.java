@@ -45,6 +45,35 @@ public class UserService {
     }
     
     
+    /**FILTER DATE */
+
+    public List<User> getAllUserdatffacBydateBetween(String startDate, String endDate){
+        return repository.getAllUserdatffacBydateBetween(startDate,endDate);
+    }
+
+    public List<User> getAllUserdate_contratBydateBetween(String startDate, String endDate){
+        return repository.getAllUserdate_contratBydateBetween(startDate,endDate);
+    }
+
+    public List<User> getAllUserdate_de_naissanceBydateBetween(String startDate, String endDate){
+        return repository.getAllUserdate_de_naissanceBydateBetween(startDate,endDate);
+    }
+
+    public List<User> getAllUserdate_debut_congeBydateBetween(String startDate, String endDate){
+        return repository.getAllUserdate_debut_congeBydateBetween(startDate,endDate);
+    }
+
+    public List<User> getAllUserdate_fin_congeBydateBetween(String startDate, String endDate){
+        return repository.getAllUserdate_fin_congeBydateBetween(startDate,endDate);
+    }
+    
+    public List<User> getAllUserdate_recBydateBetween(String startDate, String endDate){
+        return repository.getAllUserdate_recBydateBetween(startDate,endDate);
+    }
+
+    public List<User> getAllUserder_mvtBydateBetween(String startDate, String endDate){
+        return repository.getAllUserder_mvtBydateBetween(startDate,endDate);
+    }
     /**statistique Pie Bon Liv  */
 
     public Optional<Integer> getSumROLE_USER(){
@@ -170,5 +199,12 @@ public class UserService {
     }
     public void ChangeRoleToLIVREUR(long id){
         repository.ChangeRoleToLIVREUR(id);
+    }
+
+
+
+    /***end here */
+    public Optional<Long> getLastIdUser(){
+        return repository.getLastIdUser();
     }
 }

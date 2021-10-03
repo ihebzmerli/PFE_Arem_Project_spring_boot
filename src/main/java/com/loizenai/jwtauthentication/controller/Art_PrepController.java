@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
 import com.loizenai.jwtauthentication.model.ArtPrep;
+import com.loizenai.jwtauthentication.model.Chariot;
 import com.loizenai.jwtauthentication.repository.Art_PrepRepository;
 import com.loizenai.jwtauthentication.services.Art_PrepService;
 import com.loizenai.jwtauthentication.services.ChariotService;
@@ -21,7 +22,7 @@ public class Art_PrepController {
   
     @Autowired
     private Art_PrepService service;
-
+    
     @Autowired
     private ChariotService chariotService;
 
@@ -58,7 +59,6 @@ public class Art_PrepController {
     public ResponseEntity<ArtPrep> postArtprep(@RequestBody ArtPrep artPrep) {
         try {
             service.addArtPrep(artPrep);
-            ChangeChariotEtat(artPrep.getArtprep_chariot().getNumChar());
             return new ResponseEntity<>(artPrep, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
@@ -116,11 +116,11 @@ public class Art_PrepController {
         }
     } 
 // end for the searsh of FK_Keys*******************
-
+    @Transactional
     @PutMapping("/artPreps/{id}")
     public ResponseEntity<ArtPrep> updateArtPrep(@PathVariable("id") long id, @RequestBody ArtPrep artprep) {
         Optional<ArtPrep> artPrepData = repository.findById(id);
-
+        System.out.println("pfffffffff");
         if (artPrepData.isPresent()) {
             ArtPrep _artPrep = artPrepData.get();
             
@@ -136,7 +136,17 @@ public class Art_PrepController {
             _artPrep.setPrepara(artprep.getPrepara());
             _artPrep.setPoitageChariot(artprep.getPoitageChariot());
             _artPrep.setTypArt(artprep.getTypArt());
+            _artPrep.setQutPoint(artprep.getQutPoint());
+            _artPrep.setPrep(artprep.getPrep());
+            _artPrep.setNonTrouve(artprep.getNonTrouve());
+            _artPrep.setRemExp(artprep.getRemExp());
+            _artPrep.setEtage2(artprep.getEtage2());
+            _artPrep.setQutValider(artprep.getQutValider());
             //_artPrep.setBonPrep(artprep.getBonPrep());
+            if(artprep.getArtprep_chariot()!=null){
+                chariotService.ChangeChariotEtatOccuper(artprep.getArtprep_chariot().getNumChar());
+                System.out.println("te5dem"+artprep.getArtprep_chariot());
+            }
                 return new ResponseEntity<>(service.updateArtPrep(_artPrep), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -145,6 +155,8 @@ public class Art_PrepController {
 
         @PutMapping("/artPreps/{numBon}And{COD_ART}")
         public ResponseEntity<ArtPrep> getArtPrepBP_CA(@PathVariable("numBon") String numBon,@PathVariable("COD_ART") String codArt, @RequestBody ArtPrep artPrep) {
+            
+            System.out.println("pfffffffffaaa");
             Optional<ArtPrep> artPrepData = repository.getArtPrepBP_CA(numBon,codArt);
     
             if (artPrepData.isPresent()) {
@@ -153,7 +165,8 @@ public class Art_PrepController {
                 _artPrep.setPrepara(artPrep.getPrepara());
                 _artPrep.setArtprep_chariot(artPrep.getArtprep_chariot());
                 _artPrep.setPoitageChariot(artPrep.getPoitageChariot());
-                    
+                _artPrep.setQutPoint(artPrep.getQutPoint());
+                
                     return new ResponseEntity<>(service.updateArtPrep(_artPrep), HttpStatus.OK);
                 } else {
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -202,10 +215,7 @@ public class Art_PrepController {
 
 
 
-@Transactional
-public void ChangeChariotEtat(Long numChar) {
-    chariotService.ChangeChariotEtat(numChar); 
-}
+
 
 
 @Transactional

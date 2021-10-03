@@ -14,6 +14,13 @@ import org.springframework.data.jpa.repository.Modifying;
 @Repository
 public interface AchatsRepository extends JpaRepository<Achats, Long> {
     /**drop down list start add */
+
+
+/*    @Query(value = "SELECT * FROM `achats` WHERE DOC_REG LIKE %:docReg%", nativeQuery = true)
+    public Optional<Achats> findByDocReg(String docReg);
+  */  
+  
+    Optional<Achats> findByDocReg(String docReg);
     
         @Query(value = "SELECT * FROM `achats` WHERE NUM_DOC IS NOT NULL AND TYP_DOC = 'BON LIV.' AND PRET = 'payer' ", nativeQuery = true)
         public List<Achats> getAchatsOfAddPrep();

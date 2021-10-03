@@ -1,5 +1,6 @@
 package com.loizenai.jwtauthentication.services;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public class Etat_LivService {
         return repository.getAllEtatLivByBL(bon_liv);
     }
 
-    public Optional<Integer> getEtatCronometre(String endDate,String startDate){
+    public Optional<Timestamp> getEtatCronometre(String endDate,String startDate){
         return repository.getEtatCronometre(endDate,startDate);
     }
 

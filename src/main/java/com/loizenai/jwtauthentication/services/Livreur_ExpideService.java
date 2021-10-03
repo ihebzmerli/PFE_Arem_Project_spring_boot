@@ -31,10 +31,14 @@ public class Livreur_ExpideService {
         repository.deleteById(id_livreur_expide);
     }
 
-    public List<Livreur_Expide>getAllLivreursAndBonliv(String id_expide){
+    public List<Livreur_Expide>getAllLivreursAndBonliv(Long id_expide){
         return repository.getAllLivreursAndBonliv(id_expide);
     }
     public Optional<Livreur_Expide> getAllLivreursAndBonliv2(String id_expide){
         return repository.getAllLivreursAndBonliv2(id_expide);
+    }
+
+    public void deleteAllByExpidition(long id_expide){
+        repository.deleteAllByExpidition(id_expide);
     }
 }

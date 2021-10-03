@@ -43,7 +43,7 @@ public class ChariotController {
 
     @GetMapping("/chariots/{id}")
     public ResponseEntity<Chariot> getChariotById(@PathVariable("id") long id) {
-        Optional<Chariot> chariotData = repository.findById(id);
+        Optional<Chariot> chariotData = service.getChariot(id);
 
         if (chariotData.isPresent()) {
             return new ResponseEntity<>(chariotData.get(), HttpStatus.OK);
@@ -55,8 +55,8 @@ public class ChariotController {
     @PostMapping(value = "/chariots")
     public ResponseEntity<Chariot> postChariot(@RequestBody Chariot chariot) {
         try {
-            service.addChariot(chariot);
-            return new ResponseEntity<>(chariot, HttpStatus.CREATED);
+            Chariot chariote  = service.addChariot(chariot);
+            return new ResponseEntity<>(chariote, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
@@ -188,6 +188,11 @@ public ResponseEntity<List<Chariot>> getChariotOfAddForBonPrep() {
         service.ChangeChariotEtatEnAttent(numChar); 
     }
 
+    @Transactional
+    @GetMapping("/chariots/chariotChangeEtatOccuper/{numChar}")
+    public void ChangeChariotEtatOccuper(@PathVariable("numChar") Long numChar) {
+        service.ChangeChariotEtatOccuper(numChar); 
+    }
 
 
           /**  statistique  Pie Chariot*/ 

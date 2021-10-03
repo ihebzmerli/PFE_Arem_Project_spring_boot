@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "lign_pro", schema = "seratest")
+@Table(name = "lign_pro", schema = "testbd")
 public class LignPro {
     private long id;
     private String libelle;

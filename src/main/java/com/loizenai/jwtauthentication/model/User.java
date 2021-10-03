@@ -78,7 +78,6 @@ public class User{
     private Set<Role> roles = new HashSet<>();
 
 
-
     @Column(name = "file_name")
     private String fileName;
 
@@ -363,6 +362,9 @@ public class User{
     private String cliGroup;
     private BigDecimal tauxMarge;
 
+    @Column(name = "connected")
+    private Integer connected;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "Authorisation")
     private Authorisation authorisation;
@@ -410,17 +412,30 @@ public class User{
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
     cascade = CascadeType.ALL)
     private List<Gallery> galleries;
+
+    @OneToMany(mappedBy = "prepara", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<ArtPrep> artPreps;
+
+    @OneToMany(mappedBy = "prep", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<ArtPrep> artPreps2;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private List<DetEmba> detEmbas;
     //END FK_KEYS************************
     
     public User() {}
 
     public User(String firstname, String lastname, 
-    				String username, String email, String password) {
+    				String username, String email, String password,Integer connected) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.connected = connected;
     }
 
 
@@ -2214,6 +2229,14 @@ public class User{
 
     public void setDateLastForgot(Timestamp dateLastForgot) {
         this.dateLastForgot = dateLastForgot;
+    }
+
+    public Integer getConnected() {
+        return connected;
+    }
+
+    public void setConnected(Integer connected) {
+        this.connected = connected;
     }
 
     @Override

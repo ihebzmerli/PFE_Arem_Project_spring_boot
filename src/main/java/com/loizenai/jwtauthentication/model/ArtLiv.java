@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "bonLivs_articles", schema = "seratest")
+@Table(name = "bonLivs_articles", schema = "testbd")
 public class ArtLiv implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

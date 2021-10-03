@@ -31,5 +31,10 @@ public class Art_AchaService {
     public List<ArtAcha> getArtAchaForAchats(String num_doc_achat){
         return repository.getArtAchaForAchats(num_doc_achat);
     }
+
+
+    public ArtAcha updateArtAcha(ArtAcha artAcha){
+        return repository.save(artAcha);
+    }
     
 }

@@ -24,10 +24,28 @@ public class AffaireService {
         return repository.getAffairesOfAddPrep();
     }
 
-    public List<Affaire> getAllAffaireBydateBetween(String startDate,String endDate){
-        return repository.getAllAffaireBydateBetween(startDate,endDate);
-    }
+    /**date filter start */
 
+    public List<Affaire> getAllAffaireDAT_AFFBydateBetween(String startDate,String endDate){
+        return repository.getAllAffaireDAT_AFFBydateBetween(startDate,endDate);
+    }
+    public List<Affaire> getAllAffaireDAT_PROFBydateBetween(String startDate,String endDate){
+        return repository.getAllAffaireDAT_PROFBydateBetween(startDate,endDate);
+    }
+    public List<Affaire> getAllAffaireDAT_CONFBydateBetween(String startDate,String endDate){
+        return repository.getAllAffaireDAT_CONFBydateBetween(startDate,endDate);
+    }
+    public List<Affaire> getAllAffaireDAT_TRANSFBydateBetween(String startDate,String endDate){
+        return repository.getAllAffaireDAT_TRANSFBydateBetween(startDate,endDate);
+    }
+    public List<Affaire> getAllAffaireDAT_ANALBydateBetween(String startDate,String endDate){
+        return repository.getAllAffaireDAT_ANALBydateBetween(startDate,endDate);
+    }
+    public List<Affaire> getAllAffaireDAT_FACBydateBetween(String startDate,String endDate){
+        return repository.getAllAffaireDAT_FACBydateBetween(startDate,endDate);
+    }
+    
+    /**date filter end */
 /**statistique Bar Article stk */
 public List<Long> getSumAvg1(){
     return repository.getSumAvg1();

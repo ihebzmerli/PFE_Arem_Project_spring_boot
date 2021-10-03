@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "reg_imp1", schema = "seratest")
+@Table(name = "reg_imp1", schema = "testbd")
 public class RegImp1 {
     private int id;
     private long codFrs;

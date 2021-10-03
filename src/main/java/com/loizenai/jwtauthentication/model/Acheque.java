@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "acheque", schema = "seratest")
+@Table(name = "acheque", schema = "testbd")
 public class Acheque {
 
     @Id

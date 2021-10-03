@@ -60,7 +60,76 @@ public class VehiculeController {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
+    /**DATE FILTER  */
 
+    @GetMapping(value = "/vehicules/DT_ACQBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<Vehicule>> getAllVehiculeDT_ACQBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<Vehicule> BonLivByDateBetween = service.getAllVehiculeDT_ACQBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(value = "/vehicules/t1mc2Between/{startDate}to{endDate}")
+    public ResponseEntity<List<Vehicule>> getAllVehiculedt1mc2BydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<Vehicule> BonLivByDateBetween = service.getAllVehiculedt1mc2BydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+    @GetMapping(value = "/vehicules/dt1mcBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<Vehicule>> getAllVehiculedt1mcBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<Vehicule> BonLivByDateBetween = service.getAllVehiculedt1mcBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+    @GetMapping(value = "/vehicules/dtfassBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<Vehicule>> getAllVehiculedtfassBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<Vehicule> BonLivByDateBetween = service.getAllVehiculedtfassBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+    @GetMapping(value = "/vehicules/dtfvisitBetween/{startDate}to{endDate}")
+    public ResponseEntity<List<Vehicule>> getAllVehiculedtfvisitBydateBetween(@PathVariable String startDate,@PathVariable String endDate) {
+        try {
+            List<Vehicule> BonLivByDateBetween = service.getAllVehiculedtfvisitBydateBetween(startDate,endDate);
+    
+            if (BonLivByDateBetween.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);   /** pour afficher les bon livraison entre 2 date */
+            }
+            return new ResponseEntity<>(BonLivByDateBetween, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    /**end filter date */
     @DeleteMapping("/vehicules/{matricule}")
     public ResponseEntity<HttpStatus> deleteVehicule(@PathVariable("matricule") String matricule) {
         try {

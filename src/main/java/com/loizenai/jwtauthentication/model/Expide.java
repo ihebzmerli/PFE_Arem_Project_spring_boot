@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "expide", schema = "seratest")
+@Table(name = "expide", schema = "testbd")
 public class Expide implements Serializable{
 
     @Id

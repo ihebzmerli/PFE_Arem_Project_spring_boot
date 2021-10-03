@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "det_prep", schema = "seratest")
+@Table(name = "det_prep", schema = "testbd")
 public class DetPrep implements Serializable{
 
     @Id

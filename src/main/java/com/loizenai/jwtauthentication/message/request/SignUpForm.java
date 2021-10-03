@@ -38,9 +38,6 @@ public class SignUpForm {
     private String password;
 
 
-
-
-
     private Timestamp dateDeNaissance;
     private int cin;
     private String address;
@@ -92,6 +89,8 @@ public class SignUpForm {
     @Basic
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Timestamp dateFinConge;
+    
+    private String fileName;
 
     @Enumerated(EnumType.STRING)
     private TypeConge typeConge;
@@ -286,6 +285,7 @@ public class SignUpForm {
         Allow,
         Block;
     }
+    private Integer connected;
 
     @Nullable
     private Timestamp dateLastForgot;
@@ -1828,7 +1828,21 @@ public class SignUpForm {
         ShowPassword = showPassword;
     }
 
+    public Integer getConnected() {
+        return connected;
+    }
 
+    public void setConnected(Integer connected) {
+        this.connected = connected;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
 
     

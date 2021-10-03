@@ -205,6 +205,7 @@ public ResponseEntity<List<BonSort>> getAllBonSortByUser(@PathVariable long user
             _bonSort.setXtva4(bonsort.getXtva4());
             _bonSort.setCentre(bonsort.getCentre());
             _bonSort.setObserv(bonsort.getObserv());
+            _bonSort.setPoste(bonsort.getPoste());
             _bonSort.setVehicule(bonsort.getVehicule());
             
             //_bonSort.setBonprep_bonsort(bonsort.getBonprep_bonsort());

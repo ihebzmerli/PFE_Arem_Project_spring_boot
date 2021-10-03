@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public interface Etat_LivRepository extends JpaRepository<EtatLiv, Long> {
        public List<EtatLiv> getAllEtatLivBydateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
        @Query(value = "SELECT TIMEDIFF('%:endDate%','%:startDate%')", nativeQuery = true)
-       public Optional<Integer> getEtatCronometre(@Param("endDate") String endDate,@Param("startDate") String startDate);
+       public Optional<Timestamp> getEtatCronometre(@Param("endDate") String endDate,@Param("startDate") String startDate);
            /** end searsh */
 
 
