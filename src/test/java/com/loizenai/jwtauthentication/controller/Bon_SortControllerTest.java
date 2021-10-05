@@ -54,7 +54,7 @@ public class Bon_SortControllerTest{
     @Test
     @Order(2)
     @Rollback(value = false)
-    public void testGetAllEmployees() {
+    public void testGetAllBonSorties() {
     HttpHeaders headers = new HttpHeaders();
        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
        ResponseEntity<String> response = restTemplate.exchange(getRootUrl() + "/bonSorts",
@@ -65,30 +65,30 @@ public class Bon_SortControllerTest{
    @Test
    @Order(3)
    @Rollback(value = false)
-   public void testGetEmployeeById() {
-    BonSort employee = restTemplate.getForObject(getRootUrl() + "/bonSorts/NNNNNnnnnNN10", BonSort.class);
-       System.out.println(employee.getNumBon());
-       assertNotNull(employee);
+   public void testGetBonSortieById() {
+    BonSort bonSort = restTemplate.getForObject(getRootUrl() + "/bonSorts/NNNNNnnnnNN10", BonSort.class);
+       System.out.println(bonSort.getNumBon());
+       assertNotNull(bonSort);
    }
 
    @Test
    @Order(4)
    @Rollback(value = false)
-   public void testCreateEmployee() {
+   public void testCreateBonSortie() {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     timestamp=new Timestamp(timestamp.getTime()+ (1000 * 60 * 60 * 1));
    
    
-	BonSort employee = new BonSort();
-       employee.setNumBon("NNNNNnnnnNN10");
-       employee.setDatBon(timestamp);
-       employee.setRaison("adresse client work here");
-       employee.setPoste("poste work here");
-       employee.setNetHt(new BigDecimal(11));
-       employee.setBrutHt(new BigDecimal(11));
-       employee.setTotTtc(new BigDecimal(11));
+	BonSort bonSort = new BonSort();
+    bonSort.setNumBon("NNNNNnnnnNN10");
+    bonSort.setDatBon(timestamp);
+       bonSort.setRaison("adresse client work here");
+       bonSort.setPoste("poste work here");
+       bonSort.setNetHt(new BigDecimal(11));
+       bonSort.setBrutHt(new BigDecimal(11));
+       bonSort.setTotTtc(new BigDecimal(11));
 
-       ResponseEntity<BonSort> postResponse = restTemplate.postForEntity(getRootUrl() + "/bonSorts", employee, BonSort.class);
+       ResponseEntity<BonSort> postResponse = restTemplate.postForEntity(getRootUrl() + "/bonSorts", bonSort, BonSort.class);
        assertNotNull(postResponse);
        assertNotNull(postResponse.getBody());
    }
@@ -96,9 +96,9 @@ public class Bon_SortControllerTest{
    @Test
    @Order(5)
    @Rollback(value = false)
-   public void testUpdateEmployee() {
+   public void testUpdateBonSortie() {
        String id = "NNNNNnnnnNN1010";
-       BonSort employee = restTemplate.getForObject(getRootUrl() + "/bonSorts/" + id, BonSort.class);
+       BonSort bonSort = restTemplate.getForObject(getRootUrl() + "/bonSorts/" + id, BonSort.class);
 /*
        <dependency>
        <groupId>org.apache.httpcomponents</groupId>
@@ -111,30 +111,30 @@ public class Bon_SortControllerTest{
        timestamp=new Timestamp(timestamp.getTime()+ (1000 * 60 * 60 * 1));
    
    
-       employee.setNumBon("NNNNNnnnnNN10");
-       employee.setDatBon(timestamp);
+       bonSort.setNumBon("NNNNNnnnnNN10");
+       bonSort.setDatBon(timestamp);
  
-       employee.setRaison("adresse client work here");
-       employee.setPoste("poste work here");
-       employee.setNetHt(new BigDecimal(11));
-       employee.setBrutHt(new BigDecimal(11));
-       employee.setTotTtc(new BigDecimal(11));
+       bonSort.setRaison("adresse client work here");
+       bonSort.setPoste("poste work here");
+       bonSort.setNetHt(new BigDecimal(11));
+       bonSort.setBrutHt(new BigDecimal(11));
+       bonSort.setTotTtc(new BigDecimal(11));
 
-       restTemplate.put(getRootUrl() + "/bonSorts/" + id, employee);
-       BonSort updatedEmployee = restTemplate.getForObject(getRootUrl() + "/bonSorts/" + id, BonSort.class);
-       assertNotNull(updatedEmployee);
+       restTemplate.put(getRootUrl() + "/bonSorts/" + id, bonSort);
+       BonSort updatedbonSort = restTemplate.getForObject(getRootUrl() + "/bonSorts/" + id, BonSort.class);
+       assertNotNull(updatedbonSort);
    }
 
    @Test
    @Order(6)
    @Rollback(value = false)
-   public void testDeleteEmployee() {
+   public void testDeleteBonSortie() {
         String id = "NNNNNnnnnNN10";
-        BonSort employee = restTemplate.getForObject(getRootUrl() + "/bonSorts/" + id, BonSort.class);
-        assertNotNull(employee);
+        BonSort bonSort = restTemplate.getForObject(getRootUrl() + "/bonSorts/" + id, BonSort.class);
+        assertNotNull(bonSort);
         restTemplate.delete(getRootUrl() + "/bonSorts/" + id);
         try {
-             employee = restTemplate.getForObject(getRootUrl() + "/bonSorts/" + id, BonSort.class);
+            bonSort = restTemplate.getForObject(getRootUrl() + "/bonSorts/" + id, BonSort.class);
         } catch (final HttpClientErrorException e) {
              assertEquals(e.getStatusCode(), HttpStatus.NOT_FOUND);
         }

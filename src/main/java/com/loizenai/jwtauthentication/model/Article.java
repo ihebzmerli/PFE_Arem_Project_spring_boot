@@ -251,7 +251,7 @@ public class Article implements Serializable{
             Integer m12, Float prixCEur, Float prixIni, Integer cumulEnt, Integer cumulBs,
             Integer stkAtrsf, Integer stkTrsf, Integer consMoy, Integer qutRav, Integer qutDep1, Integer cumulConf,
             Long pointage, Long pointage1, Long pointage2, Long totalPoin, String etage2, String famille,
-            String sFamille, String centre, Integer stkReel, Integer stkRes, Integer stkNp, String galery) {
+            String sFamille, String centre, Integer stkReel, Integer stkRes, Integer stkNp, String galery,String zone) {
         this.codArt = codArt;
         this.desArt = desArt;
         this.refOrg = refOrg;
@@ -398,6 +398,7 @@ public class Article implements Serializable{
         this.stkRes = stkRes;
         this.stkNp = stkNp;
         this.galery = galery;
+        this.zone = zone;
     }
 
     

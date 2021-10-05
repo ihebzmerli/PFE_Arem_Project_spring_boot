@@ -57,11 +57,12 @@ public interface Bon_LivRepository extends JpaRepository<BonLiv, String> {
     List<BonLiv> findByNumCom(Xcommand numCom);
     List<BonLiv> findByNumFac(long numFac);
 
-    @Query(value = "SELECT * FROM `bon_liv` WHERE (`trans_action` LIKE 'envoyer' AND `id_livreur` is NULL)", nativeQuery = true)
+    @Query(value = "SELECT * FROM `bon_liv` WHERE (`trans_action` LIKE 'envoyer' AND `id_livreur` is NULL AND `LIV` LIKE 'livraison_voiture' AND `CRONO` is NULL)", nativeQuery = true)
     public List<BonLiv> getBLEnvoyer();
 
 
-
+    @Query(value = "SELECT * FROM `bon_liv` WHERE (`trans_action` LIKE 'envoyer' AND `id_livreur` is NULL AND `LIV` LIKE 'sur_comptoir' AND `CRONO` is NULL)", nativeQuery = true)
+    public List<BonLiv> getBLEnvoyerComptoir();
 
 
 

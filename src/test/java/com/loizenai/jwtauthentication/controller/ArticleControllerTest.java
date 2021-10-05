@@ -52,7 +52,7 @@ public class ArticleControllerTest {
     @Test
     @Order(2)
     @Rollback(value = false)
-    public void testGetAllEmployees() {
+    public void testGetAllArticles() {
     HttpHeaders headers = new HttpHeaders();
        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
        ResponseEntity<String> response = restTemplate.exchange(getRootUrl() + "/articles",
@@ -63,64 +63,64 @@ public class ArticleControllerTest {
    @Test
    @Order(3)
    @Rollback(value = false)
-   public void testGetEmployeeById() {
-       Article employee = restTemplate.getForObject(getRootUrl() + "/articles/NNNNNnnnnNN10", Article.class);
-       System.out.println(employee.getCodArt());
-       assertNotNull(employee);
+   public void testGetArticleById() {
+       Article article = restTemplate.getForObject(getRootUrl() + "/articles/NNNNNnnnnNN10", Article.class);
+       System.out.println(article.getCodArt());
+       assertNotNull(article);
    }
 
    @Test
    @Order(4)
    @Rollback(value = false)
-   public void testCreateEmployee() {
+   public void testCreateArticle() {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     timestamp=new Timestamp(timestamp.getTime()+ (1000 * 60 * 60 * 1));
    
    
-       Article employee = new Article();
-       employee.setCodArt("NNNNNnnnnNN10");
-       employee.setDesArt("Description de l article work here");
+       Article article = new Article();
+       article.setCodArt("NNNNNnnnnNN10");
+       article.setDesArt("Description de l article work here");
        
-       employee.setRefOrg("RefOrg de l article work here");
-       employee.setRefRem("RefRem de l article work here");
-       employee.setCodNgp("Description de l article work here");
-       employee.setCodFrs(111111);
-       employee.setQutStk(11);
-       employee.setQutStk2(11);
-       employee.setUnitVen((short) 11);
-       employee.setStkGar(11);
-       employee.setStkIni(11);
-       employee.setQutMax(11);
-       employee.setQutMin(11);
-       employee.setQutDep(11);
-       employee.setPrixMin(new BigDecimal(11));
-       employee.setCours(new BigDecimal(11));
-       employee.setCoef((short) 11);
-       employee.setDerPAch(new BigDecimal(11));
-       employee.setPrixAch((float) 11);
-       employee.setPrixVen((float) 11);
-       employee.setRemise(new BigDecimal(11));
-       employee.setPrixArem((float) 11);
-       employee.setTva(new BigDecimal(11));
-       employee.setCumulVen((long) 11);
-       employee.setCumulAch((long) 11);
-       employee.setDerAch(timestamp);
-       employee.setDerMvt(timestamp);
-       employee.setpValu(new BigDecimal(11));
-       employee.setUnitInv((long) 11);
-       employee.setQutV1(11);
-       employee.setQutV2(11);
-       employee.setQutV3(11);
+       article.setRefOrg("RefOrg de l article work here");
+       article.setRefRem("RefRem de l article work here");
+       article.setCodNgp("Description de l article work here");
+       article.setCodFrs(111111);
+       article.setQutStk(11);
+       article.setQutStk2(11);
+       article.setUnitVen((short) 11);
+       article.setStkGar(11);
+       article.setStkIni(11);
+       article.setQutMax(11);
+       article.setQutMin(11);
+       article.setQutDep(11);
+       article.setPrixMin(new BigDecimal(11));
+       article.setCours(new BigDecimal(11));
+       article.setCoef((short) 11);
+       article.setDerPAch(new BigDecimal(11));
+       article.setPrixAch((float) 11);
+       article.setPrixVen((float) 11);
+       article.setRemise(new BigDecimal(11));
+       article.setPrixArem((float) 11);
+       article.setTva(new BigDecimal(11));
+       article.setCumulVen((long) 11);
+       article.setCumulAch((long) 11);
+       article.setDerAch(timestamp);
+       article.setDerMvt(timestamp);
+       article.setpValu(new BigDecimal(11));
+       article.setUnitInv((long) 11);
+       article.setQutV1(11);
+       article.setQutV2(11);
+       article.setQutV3(11);
        
 
-       employee.setDatRup(timestamp);
-       employee.setDatPAch(timestamp);
-       employee.setDatCreat(timestamp);
+       article.setDatRup(timestamp);
+       article.setDatPAch(timestamp);
+       article.setDatCreat(timestamp);
 
 
 
 
-       ResponseEntity<Article> postResponse = restTemplate.postForEntity(getRootUrl() + "/articles", employee, Article.class);
+       ResponseEntity<Article> postResponse = restTemplate.postForEntity(getRootUrl() + "/articles", article, Article.class);
        assertNotNull(postResponse);
        assertNotNull(postResponse.getBody());
    }
@@ -128,9 +128,9 @@ public class ArticleControllerTest {
    @Test
    @Order(5)
    @Rollback(value = false)
-   public void testUpdateEmployee() {
+   public void testUpdateArticle() {
        String id = "NNNNNnnnnNN1010";
-       Article employee = restTemplate.getForObject(getRootUrl() + "/articles/" + id, Article.class);
+       Article article = restTemplate.getForObject(getRootUrl() + "/articles/" + id, Article.class);
 /*
        <dependency>
        <groupId>org.apache.httpcomponents</groupId>
@@ -143,61 +143,61 @@ public class ArticleControllerTest {
        timestamp=new Timestamp(timestamp.getTime()+ (1000 * 60 * 60 * 1));
    
    
-       employee.setCodArt("NNNNNnnnnNN1010");
-       employee.setDesArt("Description de l article work here");
+       article.setCodArt("NNNNNnnnnNN1010");
+       article.setDesArt("Description de l article work here");
        
-       employee.setRefOrg("RefOrg de l article work here");
-       employee.setRefRem("RefRem de l article work here");
-       employee.setCodNgp("Description de l article work here");
-       employee.setCodFrs(111111);
-       employee.setQutStk(11);
-       employee.setQutStk2(11);
-       employee.setUnitVen((short) 11);
-       employee.setStkGar(11);
-       employee.setStkIni(11);
-       employee.setQutMax(11);
-       employee.setQutMin(11);
-       employee.setQutDep(11);
-       employee.setPrixMin(new BigDecimal(11));
-       employee.setCours(new BigDecimal(11));
-       employee.setCoef((short) 11);
-       employee.setDerPAch(new BigDecimal(11));
-       employee.setPrixAch((float) 11);
-       employee.setPrixVen((float) 11);
-       employee.setRemise(new BigDecimal(11));
-       employee.setPrixArem((float) 11);
-       employee.setTva(new BigDecimal(11));
-       employee.setCumulVen((long) 11);
-       employee.setCumulAch((long) 11);
-       employee.setDerAch(timestamp);
-       employee.setDerMvt(timestamp);
-       employee.setpValu(new BigDecimal(11));
-       employee.setUnitInv((long) 11);
-       employee.setQutV1(11);
-       employee.setQutV2(11);
-       employee.setQutV3(11);
+       article.setRefOrg("RefOrg de l article work here");
+       article.setRefRem("RefRem de l article work here");
+       article.setCodNgp("Description de l article work here");
+       article.setCodFrs(111111);
+       article.setQutStk(11);
+       article.setQutStk2(11);
+       article.setUnitVen((short) 11);
+       article.setStkGar(11);
+       article.setStkIni(11);
+       article.setQutMax(11);
+       article.setQutMin(11);
+       article.setQutDep(11);
+       article.setPrixMin(new BigDecimal(11));
+       article.setCours(new BigDecimal(11));
+       article.setCoef((short) 11);
+       article.setDerPAch(new BigDecimal(11));
+       article.setPrixAch((float) 11);
+       article.setPrixVen((float) 11);
+       article.setRemise(new BigDecimal(11));
+       article.setPrixArem((float) 11);
+       article.setTva(new BigDecimal(11));
+       article.setCumulVen((long) 11);
+       article.setCumulAch((long) 11);
+       article.setDerAch(timestamp);
+       article.setDerMvt(timestamp);
+       article.setpValu(new BigDecimal(11));
+       article.setUnitInv((long) 11);
+       article.setQutV1(11);
+       article.setQutV2(11);
+       article.setQutV3(11);
        
 
-       employee.setDatRup(timestamp);
-       employee.setDatPAch(timestamp);
-       employee.setDatCreat(timestamp);
+       article.setDatRup(timestamp);
+       article.setDatPAch(timestamp);
+       article.setDatCreat(timestamp);
 
 
-       restTemplate.put(getRootUrl() + "/articles/" + id, employee);
-       Article updatedEmployee = restTemplate.getForObject(getRootUrl() + "/articles/" + id, Article.class);
-       assertNotNull(updatedEmployee);
+       restTemplate.put(getRootUrl() + "/articles/" + id, article);
+       Article updatedArticle = restTemplate.getForObject(getRootUrl() + "/articles/" + id, Article.class);
+       assertNotNull(updatedArticle);
    }
 
    @Test
    @Order(6)
    @Rollback(value = false)
-   public void testDeleteEmployee() {
+   public void testDeleteArticle() {
         String id = "NNNNNnnnnNN10";
-        Article employee = restTemplate.getForObject(getRootUrl() + "/articles/" + id, Article.class);
-        assertNotNull(employee);
+        Article article = restTemplate.getForObject(getRootUrl() + "/articles/" + id, Article.class);
+        assertNotNull(article);
         restTemplate.delete(getRootUrl() + "/articles/" + id);
         try {
-             employee = restTemplate.getForObject(getRootUrl() + "/articles/" + id, Article.class);
+             article = restTemplate.getForObject(getRootUrl() + "/articles/" + id, Article.class);
         } catch (final HttpClientErrorException e) {
              assertEquals(e.getStatusCode(), HttpStatus.NOT_FOUND);
         }

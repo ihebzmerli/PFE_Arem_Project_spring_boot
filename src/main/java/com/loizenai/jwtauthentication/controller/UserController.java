@@ -646,7 +646,7 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
         if (userData.isPresent()) {
             User _user = userData.get();
 
-            System.out.println("OK............");
+            System.out.println("OK............"+_user);
             User marqu =  new ObjectMapper().readValue(user,User.class);
             boolean isExist = new File(context.getRealPath("/imgUsers/Images/")+marqu.getCodUser()+"/").exists();
             if(!isExist){
@@ -696,7 +696,7 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
             }catch(Exception e){
                 e.printStackTrace();
             }
-            Integer i =0;
+            String i ="0";
             String mimeType= newFileName.substring(newFileName.indexOf('.'), newFileName.length());
             boolean hasRename = serverFile.renameTo(new File(context.getRealPath("/imgUsers/Images/"+marqu.getCodUser()+"/"+marqu.getCodUser()+'_'+i+mimeType)));
             if (hasRename) {
@@ -888,10 +888,9 @@ public byte[] getPhoto(@PathVariable("id") Long id) throws Exception {
             _user.setConnected(marqu.getConnected());
 
             System.out.println("shoooo"+marqu.getCodUser()+"pfff"+mimeType);
-            _user.setFileName(marqu.getCodUser()+'_'+i+mimeType);
+            _user.setFileName(Long.toString(marqu.getCodUser())+"_"+i+mimeType);
             //userRepository.ChangeFileName(marqu.getCodUser()+'_'+i+mimeType,id);
             service.updateUser(_user);
-            System.out.println(_user); 
             return new ResponseEntity<>(_user, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);

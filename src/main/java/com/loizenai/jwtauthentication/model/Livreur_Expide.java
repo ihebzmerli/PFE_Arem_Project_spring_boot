@@ -46,6 +46,10 @@ public class Livreur_Expide implements Serializable {
         this.matricule = matricule;
     }
 
+    public Livreur_Expide(long id_expide, BonLiv bonLiv) {
+        this.id_expide = id_expide;
+        this.bonLiv = bonLiv;
+    }
     public long getId_Livreur_Expide() {
         return id_livreur_expide;
     }

@@ -4,6 +4,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -52,7 +54,14 @@ public class Affaire implements Serializable{
     private String listDem;
     private BigDecimal coef;
 
-
+    @Enumerated(EnumType.STRING)
+    @Column(name = "etat_affaire")
+    private EtatAffaire etat_affaire;
+    public enum EtatAffaire{
+        affaire_encore_pas_sortie_de_fournisseur,
+        affaire_arriver_a_la_diwan,
+        affaire_reçu_et_verifier;
+    }
         //FK_KEYS***********************
 
         @OneToOne(fetch = FetchType.EAGER, optional = true)
@@ -405,6 +414,14 @@ public class Affaire implements Serializable{
     }
     public void setAchats(Achats achats) {
         this.achats = achats;
+    }
+
+    public EtatAffaire getEtat_affaire() {
+        return etat_affaire;
+    }
+
+    public void setEtat_affaire(EtatAffaire etat_affaire) {
+        this.etat_affaire = etat_affaire;
     }
 
     @Override

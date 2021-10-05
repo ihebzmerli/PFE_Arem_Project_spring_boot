@@ -65,6 +65,10 @@ public class Bon_LivService {
     public List<BonLiv> getBLEnvoyer(){
         return repository.getBLEnvoyer();
     }
+    public List<BonLiv> getBLEnvoyerComptoir(){
+        return repository.getBLEnvoyerComptoir();
+    }
+    
 /** end drop down list */
 
     public List<BonLiv> getBonLivOfAdd(){

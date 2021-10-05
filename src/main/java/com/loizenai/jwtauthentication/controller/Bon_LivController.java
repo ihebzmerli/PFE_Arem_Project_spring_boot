@@ -368,6 +368,20 @@ public ResponseEntity<List<BonLiv>> getAllBonLivByCommand(@PathVariable String c
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
+    @GetMapping(value = "/bonLivs/AllListCompoir")
+    public ResponseEntity<List<BonLiv>> getBLEnvoyerComptoir() {
+        try {
+            List<BonLiv> BLListCompoir = service.getBLEnvoyerComptoir();
+
+            if (BLListCompoir.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);     /** pour afficher les BL Compoir */
+            }
+            return new ResponseEntity<>(BLListCompoir, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+    
 // end for the searsh of FK_Keys*******************
 
     @PutMapping("/bonLivs/{NUM_BON}")
@@ -464,6 +478,20 @@ public ResponseEntity<List<BonLiv>> getAllBonLivByCommand(@PathVariable String c
 
                 _bonLiv.setLivreur(null);                    
                     System.out.println(_bonLiv.getLivreur());
+            return new ResponseEntity<>(service.updateBonLiv(_bonLiv), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+    }
+
+    @PutMapping("/bonLivs/LivComptoir/{NUM_BON}")
+    public ResponseEntity<BonLiv> updateBonLivComptoir(@PathVariable("NUM_BON") String numBon, @RequestBody BonLiv bonliv) {
+        Optional<BonLiv> bonLivData = repository.findById(numBon);
+            if (bonLivData.isPresent()) {
+                BonLiv _bonLiv = bonLivData.get();
+
+                _bonLiv.setCronoTime(bonliv.getCronoTime());                    
+                    System.out.println(_bonLiv.getCronoTime());
             return new ResponseEntity<>(service.updateBonLiv(_bonLiv), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
